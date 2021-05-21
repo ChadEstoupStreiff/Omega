@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="omegaapi">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../servers/Bungee/plugins/omegaapi.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

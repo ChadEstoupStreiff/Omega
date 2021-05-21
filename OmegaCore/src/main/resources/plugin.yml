@@ -1,0 +1,32 @@
+name: OmegaCore
+version: 1.0
+main: fr.ChadOW.omegacore.P
+author: ChadOW
+depend: [OmegaAPI]
+api-version: 1.13
+commands:
+  money:
+    description: ""
+  pay:
+    description: ""
+  eco:
+    description: ""
+  rtp:
+    description: ""
+  monde:
+    description: ""
+    aliases: m
+  setrank:
+    description: ""
+  account:
+    description: ""
+  job:
+    description: ""
+  bank:
+    description: ""
+  claim:
+    description: ""
+  unclaim:
+    description: ""
+  group:
+    description: ""

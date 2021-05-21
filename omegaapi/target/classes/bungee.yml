@@ -1,0 +1,5 @@
+name: OmegaAPI
+version: 1.0
+main: fr.ChadOW.api.bungee.BungeeAPI
+author: ChadOW
+load: STARTUP

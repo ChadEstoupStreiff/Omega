@@ -1,0 +1,75 @@
+CREATE TABLE IF NOT EXISTS BANKS (
+	bankID VARCHAR(37),
+	amount DOUBLE,
+	name VARCHAR(37),
+	CONSTRAINT pk_bankID_banks PRIMARY KEY (bankID)
+);
+
+CREATE TABLE IF NOT EXISTS JOBS (
+	jobID VARCHAR(37),
+	type VARCHAR(10),
+	level INT,
+	exp DOUBLE,
+	CONSTRAINT pk_jobID_jobs PRIMARY KEY (jobID)
+);
+
+CREATE TABLE IF NOT EXISTS GROUPS (
+	groupID VARCHAR(37),
+	name VARCHAR(37),
+	bankID VARCHAR(37),
+	chef TEXT,
+	members TEXT,
+	CONSTRAINT pk_groupID_groups PRIMARY KEY (groupID)
+);
+
+
+CREATE TABLE IF NOT EXISTS USERS (
+	uuid CHAR(36),
+	rank VARCHAR(10),
+	credits DOUBLE,
+	bankID VARCHAR(37),
+	jobID VARCHAR(37),
+	groupID VARCHAR(37),
+	CONSTRAINT pk_uuid_users PRIMARY KEY (uuid)
+);
+
+CREATE TABLE IF NOT EXISTS DATAS (
+	uuid CHAR(36),
+	firstConnection TEXT,
+	lastConnection TEXT,
+	lastName VARCHAR(16),
+	lastIP VARCHAR(16),
+	listNames TEXT,
+	listIPs TEXT
+);
+
+CREATE TABLE IF NOT EXISTS CLAIMS (
+    server TEXT,
+    world TEXT,
+    x INT,
+    y INT,
+    ownerID TEXT
+);
+
+CREATE TABLE IF NOT EXISTS BILLS (
+	date TEXT,
+	amount DOUBLE,
+	payerID VARCHAR(37),
+	receiverID VARCHAR(37),
+	newSoldPayer DOUBLE,
+	newSoldReceiver DOUBLE
+);
+
+CREATE TABLE IF NOT EXISTS GLOBALDATAS (
+	data TEXT,
+	value TEXT
+);
+
+
+DROP TABLE BILLS;
+DROP TABLE CLAIMS_SERVER;
+DROP TABLE USERS;
+DROP TABLE GROUPS;
+DROP TABLE JOBS;
+DROP TABLE BANKS;
+DROP TABLE DATAS;

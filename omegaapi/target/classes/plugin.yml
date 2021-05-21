@@ -1,0 +1,6 @@
+name: OmegaAPI
+version: 1.0
+main: fr.ChadOW.api.bukkit.BukkitAPI
+author: ChadOW
+load: STARTUP
+api-version: 1.13

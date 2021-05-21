@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<fx:root stylesheets="@Style.css" alignment="CENTER" hgap="100" styleClass="root" type="javafx.scene.layout.GridPane" vgap="20" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <Text text="SQL database" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+   <Text text="Redis database" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+
+   <Label text="HostName:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+   <Label text="Port:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+   <Label text="User:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+   <Label text="DataBase:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+
+   <Label text="HostName:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+   <Label text="Port:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+
+   <TextField fx:id="sqlHost" text="78.199.141.134" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   <TextField fx:id="sqlPort" text="3306" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   <TextField fx:id="sqlUser" text="OmegaGames" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   <PasswordField fx:id="sqlPassword" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+   <TextField fx:id="sqlDatabase" text="mc_omega" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+   <TextField fx:id="redisHost" text="78.199.141.134" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+   <TextField fx:id="redisPort" text="6379" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+   <PasswordField fx:id="redisPassword" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+   <HBox alignment="CENTER" spacing="20" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="2">
+      <Button text="Close" onAction="#close"/>
+      <Button text="Connect" onAction="#connectClick"/>
+   </HBox>
+
+   <columnConstraints>
+      <ColumnConstraints maxWidth="103.0" minWidth="63.0" prefWidth="83.0" />
+      <ColumnConstraints maxWidth="143.0" minWidth="103.0" prefWidth="123.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" />
+   </padding>
+</fx:root>
