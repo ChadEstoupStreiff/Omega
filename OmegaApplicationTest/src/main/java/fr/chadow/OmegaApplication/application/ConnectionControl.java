@@ -1,8 +1,7 @@
 package fr.chadow.OmegaApplication.application;
 
-import fr.chadow.OmegaApplication.AppMain;
-import fr.chadow.OmegaApplication.utils.JedisManager;
-import fr.chadow.OmegaApplication.utils.SQLManager;
+import fr.ChadOW.api.managers.JedisManager;
+import fr.ChadOW.api.managers.SQLManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

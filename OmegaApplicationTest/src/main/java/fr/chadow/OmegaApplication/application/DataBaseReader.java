@@ -1,6 +1,6 @@
 package fr.chadow.OmegaApplication.application;
 
-import fr.chadow.OmegaApplication.utils.SQLManager;
+import fr.ChadOW.api.managers.SQLManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
