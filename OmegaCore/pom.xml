@@ -17,6 +17,10 @@
             <id>Files</id>
             <url>https://raw.github.com/ChadOWGit/Dependencies/Plugin/</url>
         </repository>
+        <repository>
+            <id>Files</id>
+            <url>https://raw.github.com/ChadOWGit/Omega/main/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -39,6 +43,11 @@
             <artifactId>spigot-api</artifactId>
             <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>Dependencies</groupId>
+            <artifactId>OmegaAPI</artifactId>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>Plugin</groupId>
