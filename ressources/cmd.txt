@@ -1,0 +1,1 @@
+mvn install:install-file -DgroupId=Dependencies -DartifactId=OmegaAPI -Dversion=0.1-SNAPSHOT -Dfile=omegaapi\out\artifacts\omegaapi_jar\omegaapi.jar -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=.  -DcreateChecksum=true
