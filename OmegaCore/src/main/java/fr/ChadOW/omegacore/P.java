@@ -6,6 +6,7 @@ import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
+import fr.ChadOW.omegacore.utils.ServerType;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,7 +36,8 @@ public class P extends JavaPlugin {
         WorldManager.init(this);
         Global.init(this);
         JobManager.init(this);
-        Claim.init(this);
+        if (ServerType.equals(ServerType.NORMAL))
+            Claim.init(this);
         GroupManager.init(this);
 
         System.out.println(name + ver + " Launched ...");

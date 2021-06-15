@@ -17,7 +17,7 @@ public class WorldManager {
     public static final String prefix = "§6[Worlds] §f";
 
     public static void init(P i) {
-        createWorlds(i);
+        //createWorlds(i);
         Spawn.updateLocation();
         createWorldGUI();
 
