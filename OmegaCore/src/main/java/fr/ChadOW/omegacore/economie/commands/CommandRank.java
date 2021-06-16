@@ -69,6 +69,27 @@ public class CommandRank implements CommandExecutor {
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des $."
                 ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.MYTH, 2000, 2000000, clickContext)).setSlot(15));
+
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(0));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(1));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(2));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(3));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(4));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(5));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(6));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(7));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(8));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(9));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(17));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(18));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(19));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(20));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(21));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(22));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(23));
+        rankInv.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(24));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(25));
+        rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(26));
     }
 
     private void buyGrade(Player player, Rank rank, int creditPrice, int coinPrice, ClickContext clickContext) {
