@@ -1,7 +1,10 @@
 package fr.ChadOW.omegacore.economie;
 
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.economie.commands.*;
+import fr.ChadOW.omegacore.economie.commands.CommandBank;
+import fr.ChadOW.omegacore.economie.commands.CommandEco;
+import fr.ChadOW.omegacore.economie.commands.CommandMoney;
+import fr.ChadOW.omegacore.economie.commands.CommandPay;
 
 public class Eco {
 
@@ -14,7 +17,5 @@ public class Eco {
         i.getCommand("money").setExecutor(new CommandMoney());
         i.getCommand("pay").setExecutor(new CommandPay());
         i.getCommand("bank").setExecutor(new CommandBank());
-        i.getCommand("hologram").setExecutor(new CommandHologram());
-
     }
 }

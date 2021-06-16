@@ -7,6 +7,7 @@ import fr.ChadOW.cinventory.events.ItemClickEvent;
 import fr.ChadOW.omegacore.global.Global;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -64,5 +65,10 @@ public class OmegaUtils {
 
     public static void sendBarMessage(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+    }
+
+    public static void broadcastServerMessage(String message) {
+        //TODO BroadCastServerMessage
+        Bukkit.broadcastMessage(message);
     }
 }

@@ -3,10 +3,10 @@ package fr.ChadOW.api.enums;
 import java.util.UUID;
 
 public enum Rank {
-    DEFAULT("§7", "§7[J] §f", "§4§lSALE PUTE >> §7", " §8> §f", 0, 0),
-    LEGEND("§e", "§e[L] §f", "§e[Legend] §f", " §8> §f", 1, 0),
-    MYTH("§6", "§6[M] §f", "§6[Mythique] §f", " §8> §f", 2, 0),
-    OLAF("§5", "§5[O] §f", "§5[Olaf] §f", " §8> §f", 3, 0),
+    DEFAULT("§7", "§7[J] §f", "§7", " §8> §f", 0, 0),
+    OLD("§e", "§e[L] §f", "§e[Ancêtre] §f", " §8> §f", 1, 0),
+    LEGEND("§6", "§6[M] §f", "§6[Legend] §f", " §8> §f", 2, 0),
+    MYTH("§5", "§5[O] §f", "§5[Mythique] §f", " §8> §f", 3, 0),
     HELPER("§a", "§a[H] §f", "§a[Helpeur] §f", " §8> §f", 1, 1),
     MOD("§b", "§b[M] §f", "§b[Modérateur] §f", " §8> §f", 1, 2),
     BUILDER("§a", "§a[B] §f", "§a[Buildeur] §f", " §8> §f", 1, 1),
