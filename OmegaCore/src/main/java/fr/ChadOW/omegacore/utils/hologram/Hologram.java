@@ -90,12 +90,16 @@ public class Hologram {
             return hologram;
         }));
         final Hologram hologram = newLine.entrySet().stream().collect(Collectors.toList()).get(0).getKey();
-        hologram.getHologramLineListener()
+        hologram.spawn(newLine.entrySet()
+                .stream()
+                .collect(Collectors.toList())
+                .get(0).getValue());
+        /*hologram.getHologramLineListener()
                 .onAdd(hologram)
                 .spawn(newLine.entrySet()
                         .stream()
                         .collect(Collectors.toList())
-                        .get(0).getValue());
+                        .get(0).getValue());*/
         
         return this;
     }
