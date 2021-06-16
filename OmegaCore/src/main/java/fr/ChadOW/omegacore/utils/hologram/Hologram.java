@@ -56,9 +56,9 @@ public class Hologram {
         switch (lineDirection){
             default:
             case UP:
-                adjustLocation.setY(originalLocation.getY() + 1);
+                adjustLocation.setY(originalLocation.getY() + armorStands.size());
             case DOWN:
-                adjustLocation.setY(originalLocation.getY() - 1);
+                adjustLocation.setY(originalLocation.getY() - armorStands.size());
         }
 
         final Map<Hologram, Location> map = Maps.newHashMap();
@@ -78,6 +78,7 @@ public class Hologram {
         }));
         final Hologram hologram = newLine.entrySet().stream().collect(Collectors.toList()).get(0).getKey();
         hologram.hologramLineListener.onAdd(hologram).spawn(newLine.entrySet().stream().collect(Collectors.toList()).get(0).getValue());
+        
         return this;
     }
 

@@ -24,8 +24,9 @@ public class CommandHologram  implements CommandExecutor {
                         .setArms(false)
                         .setBaseplate(false)
                         .setVisible(false)
-                        .setMarker(false)
-                        .addSimpleLine("line 2", Hologram.LineDirection.UP)
+                        .setMarker(false);
+                originalHologram.spawn(player.getLocation());
+                originalHologram.addSimpleLine("line 2", Hologram.LineDirection.UP)
                         .addSimpleLine("line 3", Hologram.LineDirection.DOWN)
                         .addSimpleLine("line 4", Hologram.LineDirection.UP)
                         .addSimpleLine("line 5", Hologram.LineDirection.UP);
