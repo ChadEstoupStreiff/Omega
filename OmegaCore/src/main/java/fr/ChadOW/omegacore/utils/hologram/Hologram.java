@@ -39,7 +39,7 @@ public class Hologram {
         this.armorStands = new LinkedList<>();
         this.hologramLineListener = null;
     }
-    
+
     public enum LineDirection {
         UP,
         DOWN;
@@ -64,6 +64,7 @@ public class Hologram {
             case DOWN:
                 adjustLocation.setY(originalLocation.getY() - armorStands.size());
         }
+        this.hologramLineListener = hologramLineListener;
 
         final Map<Hologram, Location> map = Maps.newHashMap();
         map.put(hologramLineListener.onAdd(new Hologram(line)), adjustLocation);
@@ -89,7 +90,7 @@ public class Hologram {
             return hologram;
         }));
         final Hologram hologram = newLine.entrySet().stream().collect(Collectors.toList()).get(0).getKey();
-        hologram.hologramLineListener
+        hologram.getHologramLineListener()
                 .onAdd(hologram)
                 .spawn(newLine.entrySet()
                         .stream()
