@@ -108,11 +108,11 @@ public class Hologram {
         final Location originalLocation = mainArmorStand.getLocation();
         final Location adjustLocation = armorStands.get(armorStands.size() - 1).getLocation();
         switch (lineDirection){
-            default:
+            //default:
             case UP:
-                adjustLocation.setY(originalLocation.getY() + (armorStands.size() - 0.5));
+                adjustLocation.setY(originalLocation.getY() + (armorStands.size() - 0.8));
             case DOWN:
-                adjustLocation.setY(originalLocation.getY() - (armorStands.size() - 0.5));
+                adjustLocation.setY(originalLocation.getY() - (armorStands.size() - 0.8));
         }
         spawnHologram(new Hologram(line), adjustLocation);
         return this;
