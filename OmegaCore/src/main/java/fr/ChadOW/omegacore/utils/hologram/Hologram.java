@@ -129,12 +129,12 @@ public class Hologram {
     public ArmorStand spawn(final Location loc){
         final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
 
-        armorStand.setCustomName(customName);
+        armorStand.setCustomName("for fuck's sake work please");
         armorStand.setSmall(small);
         armorStand.setMarker(marker);
         armorStand.setArms(arms);
         armorStand.setBasePlate(baseplate);
-        armorStand.setVisible(visible);
+        armorStand.setVisible(true);
         armorStand.setGravity(false);
 
         this.mainArmorStand = armorStand;

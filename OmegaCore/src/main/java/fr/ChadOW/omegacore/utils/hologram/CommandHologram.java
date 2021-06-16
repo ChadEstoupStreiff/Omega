@@ -21,10 +21,10 @@ public class CommandHologram  implements CommandExecutor {
                 final String lineName = args[0];
                 final Hologram originalHologram = new Hologram(lineName);
                 originalHologram.spawn(player.getLocation());
-                originalHologram.addNormalLines("line 2", Hologram.LineDirection.UP)
+                /*originalHologram.addNormalLines("line 2", Hologram.LineDirection.UP)
                         .addNormalLines("line 3", Hologram.LineDirection.DOWN)
                         .addNormalLines("line 4", Hologram.LineDirection.UP)
-                        .addNormalLines("line 5", Hologram.LineDirection.DOWN);
+                        .addNormalLines("line 5", Hologram.LineDirection.DOWN);*/
                 player.sendMessage("§aResults: ");
                 player.sendMessage("§bArmorStand List: " + originalHologram.getArmorStands().size());
                 player.sendMessage("§bHas Spawned: " + (originalHologram.getMainArmorStand() != null));
