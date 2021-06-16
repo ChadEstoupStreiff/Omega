@@ -16,7 +16,7 @@ public class Hologram {
         p.getCommand("hologram").setExecutor(new CommandHologram());
     }
 
-    private LinkedList<ArmorStand> armorStands;
+    private static LinkedList<ArmorStand> armorStands;
     private ArmorStand mainArmorStand;
     private String customName;
     private boolean small, marker, arms, baseplate, visible;
@@ -104,6 +104,20 @@ public class Hologram {
         return this;
     }
 
+    public Hologram addNormalLines(final String line, final LineDirection lineDirection){
+        final Location originalLocation = mainArmorStand.getLocation();
+        final Location adjustLocation = armorStands.get(armorStands.size() - 1).getLocation();
+        switch (lineDirection){
+            default:
+            case UP:
+                adjustLocation.setY(originalLocation.getY() + armorStands.size());
+            case DOWN:
+                adjustLocation.setY(originalLocation.getY() - armorStands.size());
+        }
+        spawnHologram(new Hologram(line), adjustLocation);
+        return this;
+    }
+
     /**
      *
      * Create the ArmorStand
@@ -127,6 +141,30 @@ public class Hologram {
         this.armorStands.add(armorStand);
         return armorStand;
     }
+
+    /**
+     *
+     * Create the ArmorStand
+     * (Don't add lines if it's not spawned)
+     *
+     * @param loc
+     * @return new instance of {@link ArmorStand}
+     */
+    public ArmorStand spawnHologram(final Hologram hologram, final Location loc){
+        final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
+
+        armorStand.setCustomName(hologram.getCustomName());
+        armorStand.setSmall(hologram.isSmall());
+        armorStand.setMarker(hologram.hasMarker());
+        armorStand.setArms(hologram.hasArms());
+        armorStand.setBasePlate(hologram.hasBaseplate());
+        armorStand.setVisible(hologram.isVisible());
+        armorStand.setGravity(false);
+
+        this.armorStands.add(armorStand);
+        return armorStand;
+    }
+
 
     /**
      * GETTERS
