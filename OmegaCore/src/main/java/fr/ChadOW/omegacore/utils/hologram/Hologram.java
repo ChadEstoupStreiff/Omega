@@ -39,8 +39,7 @@ public class Hologram {
         this.armorStands = new LinkedList<>();
         this.hologramLineListener = null;
     }
-
-
+    
     public enum LineDirection {
         UP,
         DOWN;
@@ -72,6 +71,14 @@ public class Hologram {
         return map;
     }
 
+    /**
+     *
+     * Uses addLine function to make it easier
+     *
+     * @param line
+     * @param lineDirection
+     * @return this
+     */
     public Hologram addSimpleLine(final String line, final LineDirection lineDirection){
         final Map<Hologram, Location> newLine = this.addLine(line, lineDirection, (hologram -> {
             hologram.setVisible(false)
@@ -82,7 +89,12 @@ public class Hologram {
             return hologram;
         }));
         final Hologram hologram = newLine.entrySet().stream().collect(Collectors.toList()).get(0).getKey();
-        hologram.hologramLineListener.onAdd(hologram).spawn(newLine.entrySet().stream().collect(Collectors.toList()).get(0).getValue());
+        hologram.hologramLineListener
+                .onAdd(hologram)
+                .spawn(newLine.entrySet()
+                        .stream()
+                        .collect(Collectors.toList())
+                        .get(0).getValue());
         
         return this;
     }
@@ -113,6 +125,10 @@ public class Hologram {
     /**
      * GETTERS
      */
+    public HologramLineListener getHologramLineListener() {
+        return hologramLineListener;
+    }
+
     public ArmorStand getMainArmorStand() {
         return mainArmorStand;
     }
