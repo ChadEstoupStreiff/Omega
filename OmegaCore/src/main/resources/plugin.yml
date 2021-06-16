@@ -32,3 +32,6 @@ commands:
     description: ""
   hologram:
     description: ""
+  rank:
+    description: ""
+    aliases: [grade, ranks, grades]

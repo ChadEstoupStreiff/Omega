@@ -7,6 +7,7 @@ import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
 import fr.ChadOW.omegacore.utils.ServerType;
+import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +40,7 @@ public class P extends JavaPlugin {
         if (ServerType.equals(ServerType.NORMAL))
             Claim.init(this);
         GroupManager.init(this);
+        Hologram.init(this);
 
         System.out.println(name + ver + " Launched ...");
     }

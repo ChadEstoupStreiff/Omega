@@ -17,22 +17,22 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 
 public class CommandRank implements CommandExecutor {
-    private CInventory rankInv;
+    private final CInventory rankInv;
 
     public CommandRank() {
-        rankInv = new CInventory(21, "§6Grades");
+        rankInv = new CInventory(27, "§6Grades");
 
         rankInv.addElement(new CItem(new ItemCreator(Material.BLAZE_ROD, 0)
                 .setName(Rank.OLD.getPrefix())
                 .setLores(Arrays.asList(
-                        "§rPrix : §a500 crédits §rou §a100 000$§r.",
+                        "§fPrix : §a500 crédits §fou §a100 000$§f.",
                         "§f",
                         "§bAvantages :",
-                        "§b- §rCooldown du RTP mondes libres : §d5 minutes",
-                        "§b- §rCooldown du RTP mondes ressources : §d30s",
-                        "§b- §rNombre de claims : §d20",
-                        "§b- §rNombre de personnes max dans un claim : §d6",
-                        "§b- §rNombre de personnes max dans un groupe : §d6",
+                        "§b- §fCooldown du RTP mondes libres : §d5 minutes",
+                        "§b- §fCooldown du RTP mondes ressources : §d30s",
+                        "§b- §fNombre de claims : §d20",
+                        "§b- §fNombre de personnes max dans un claim : §d6",
+                        "§b- §fNombre de personnes max dans un groupe : §d6",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des $."
@@ -41,14 +41,14 @@ public class CommandRank implements CommandExecutor {
         rankInv.addElement(new CItem(new ItemCreator(Material.GLISTERING_MELON_SLICE, 0)
                 .setName(Rank.LEGEND.getPrefix())
                 .setLores(Arrays.asList(
-                        "§rPrix : §a1000 crédits §rou §a500 000$§r.",
+                        "§fPrix : §a1000 crédits §fou §a500 000$§f.",
                         "§f",
                         "§bAvantages :",
-                        "§b- §rCooldown du RTP mondes libres : §d2 minutes",
-                        "§b- §rCooldown du RTP mondes ressources : §d15s",
-                        "§b- §rNombre de claims : §d30",
-                        "§b- §rNombre de personnes max dans un claim : §d11",
-                        "§b- §rNombre de personnes max dans un groupe : §d11",
+                        "§b- §fCooldown du RTP mondes libres : §d2 minutes",
+                        "§b- §fCooldown du RTP mondes ressources : §d15s",
+                        "§b- §fNombre de claims : §d30",
+                        "§b- §fNombre de personnes max dans un claim : §d11",
+                        "§b- §fNombre de personnes max dans un groupe : §d11",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des $."
@@ -57,14 +57,14 @@ public class CommandRank implements CommandExecutor {
         rankInv.addElement(new CItem(new ItemCreator(Material.GOLDEN_APPLE, 0)
                 .setName(Rank.MYTH.getPrefix())
                 .setLores(Arrays.asList(
-                        "§rPrix : §a2000 crédits §rou §a2 000 000$§r.",
+                        "§fPrix : §a2000 crédits §fou §a2 000 000$§f.",
                         "§f",
                         "§bAvantages :",
-                        "§b- §rCooldown du RTP mondes libres : §d30s",
-                        "§b- §rCooldown du RTP mondes ressources : §d5s",
-                        "§b- §rNombre de claims : §d50",
-                        "§b- §rNombre de personnes max dans un claim : §d26",
-                        "§b- §rNombre de personnes max dans un groupe : §d26",
+                        "§b- §fCooldown du RTP mondes libres : §d30s",
+                        "§b- §fCooldown du RTP mondes ressources : §d5s",
+                        "§b- §fNombre de claims : §d50",
+                        "§b- §fNombre de personnes max dans un claim : §d26",
+                        "§b- §fNombre de personnes max dans un groupe : §d26",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des $."
@@ -100,6 +100,8 @@ public class CommandRank implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player)
+            rankInv.open((Player) sender);
         return true;
     }
 }

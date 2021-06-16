@@ -1,4 +1,4 @@
-package fr.ChadOW.omegacore.economie.commands;
+package fr.ChadOW.omegacore.utils.hologram;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.omegacore.economie.Eco;

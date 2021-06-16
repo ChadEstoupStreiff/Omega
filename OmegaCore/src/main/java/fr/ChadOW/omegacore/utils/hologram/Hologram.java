@@ -1,6 +1,7 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
 import com.google.common.collect.Maps;
+import fr.ChadOW.omegacore.P;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 
@@ -10,6 +11,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Hologram {
+
+    public static void init(P p) {
+        p.getCommand("hologram").setExecutor(new CommandHologram());
+    }
 
     private LinkedList<ArmorStand> armorStands;
     private ArmorStand mainArmorStand;
