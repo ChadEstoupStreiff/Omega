@@ -33,8 +33,8 @@ public class Hologram {
         this.small = false;
         this.marker = false;
         this.arms = false;
-        this.baseplate = true;
-        this.visible = true;
+        this.baseplate = false;
+        this.visible = false;
         this.mainArmorStand = null;
         this.armorStands = new LinkedList<>();
         this.hologramLineListener = null;
@@ -121,6 +121,7 @@ public class Hologram {
         armorStand.setArms(arms);
         armorStand.setBasePlate(baseplate);
         armorStand.setVisible(visible);
+        armorStand.setGravity(false);
 
         this.mainArmorStand = armorStand;
         this.armorStands.add(armorStand);
@@ -132,6 +133,10 @@ public class Hologram {
      */
     public HologramLineListener getHologramLineListener() {
         return hologramLineListener;
+    }
+
+    public LinkedList<ArmorStand> getArmorStands() {
+        return armorStands;
     }
 
     public ArmorStand getMainArmorStand() {

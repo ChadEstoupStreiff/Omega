@@ -19,17 +19,15 @@ public class CommandHologram  implements CommandExecutor {
             Player player = (Player) sender;
             if (args.length > 0){
                 final String lineName = args[0];
-                final Hologram originalHologram = new Hologram(lineName)
-                        .setSmall(false)
-                        .setArms(false)
-                        .setBaseplate(false)
-                        .setVisible(false)
-                        .setMarker(false);
+                final Hologram originalHologram = new Hologram(lineName);
                 originalHologram.spawn(player.getLocation());
                 originalHologram.addSimpleLine("line 2", Hologram.LineDirection.UP)
                         .addSimpleLine("line 3", Hologram.LineDirection.DOWN)
                         .addSimpleLine("line 4", Hologram.LineDirection.UP)
-                        .addSimpleLine("line 5", Hologram.LineDirection.UP);
+                        .addSimpleLine("line 5", Hologram.LineDirection.DOWN);
+                player.sendMessage("§aResults: ");
+                player.sendMessage("§bArmorStand List: " + originalHologram.getArmorStands().size());
+                player.sendMessage("§bHas Spawned: " + (originalHologram.getMainArmorStand() != null));
             }
         }
         return true;
