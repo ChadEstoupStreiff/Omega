@@ -110,9 +110,9 @@ public class Hologram {
         switch (lineDirection){
             default:
             case UP:
-                adjustLocation.setY(originalLocation.getY() + armorStands.size());
+                adjustLocation.setY(originalLocation.getY() + (armorStands.size() - 0.5));
             case DOWN:
-                adjustLocation.setY(originalLocation.getY() - armorStands.size());
+                adjustLocation.setY(originalLocation.getY() - (armorStands.size() - 0.5));
         }
         spawnHologram(new Hologram(line), adjustLocation);
         return this;
@@ -154,6 +154,7 @@ public class Hologram {
     public ArmorStand spawnHologram(final Hologram hologram, final Location loc){
         final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
 
+        armorStand.setCustomNameVisible(true);
         armorStand.setCustomName(hologram.getCustomName());
         armorStand.setSmall(hologram.isSmall());
         armorStand.setMarker(hologram.hasMarker());
