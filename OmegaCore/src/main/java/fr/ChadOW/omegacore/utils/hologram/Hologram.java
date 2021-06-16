@@ -16,7 +16,7 @@ public class Hologram {
         p.getCommand("hologram").setExecutor(new CommandHologram());
     }
 
-    private static LinkedList<ArmorStand> armorStands;
+    private LinkedList<ArmorStand> armorStands;
     private ArmorStand mainArmorStand;
     private String customName;
     private boolean small, marker, arms, baseplate, visible;
@@ -29,6 +29,7 @@ public class Hologram {
      * @param customName
      */
     public Hologram(final String customName){
+        this.armorStands = new LinkedList<>();
         this.customName = customName.replace("&", "§");
         this.small = false;
         this.marker = false;
@@ -36,7 +37,6 @@ public class Hologram {
         this.baseplate = false;
         this.visible = false;
         this.mainArmorStand = null;
-        this.armorStands = new LinkedList<>();
         this.hologramLineListener = null;
     }
 
@@ -129,12 +129,13 @@ public class Hologram {
     public ArmorStand spawn(final Location loc){
         final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
 
-        armorStand.setCustomName("for fuck's sake work please");
+        armorStand.setCustomNameVisible(true);
+        armorStand.setCustomName(customName);
         armorStand.setSmall(small);
         armorStand.setMarker(marker);
         armorStand.setArms(arms);
         armorStand.setBasePlate(baseplate);
-        armorStand.setVisible(true);
+        armorStand.setVisible(visible);
         armorStand.setGravity(false);
 
         this.mainArmorStand = armorStand;
