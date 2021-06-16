@@ -75,7 +75,7 @@ public class CommandRank implements CommandExecutor {
         UserAccount account = UserAccount.getAccount(player.getUniqueId());
         if (account.getRank().getPower() < rank.getPower() && account.getRank().getStaffPower() <= 0) {
             if (clickContext.getClickType().isLeftClick() && UserAccount.getAccount(player.getUniqueId()).getCredits() >= creditPrice) {
-                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat du grade " + rank.getPrefix() + " pour " + creditPrice + " crédits ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
+                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat (" + creditPrice + " crédits) ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
                     UserAccount userAccount = UserAccount.getAccount(player.getUniqueId());
                     userAccount.setRank(rank);
                     userAccount.setCredits(userAccount.getCredits() - creditPrice);
@@ -83,7 +83,7 @@ public class CommandRank implements CommandExecutor {
                     OmegaUtils.broadcastServerMessage("§6[Annonce] §d" + player.getName() + "§r vient d'acheter le grade " + rank.getPrefix() + "§r ! ★★★");
                 });
             } else if (clickContext.getClickType().isRightClick() && UserAccount.getAccount(player.getUniqueId()).getBankAccount().getAmount() >= coinPrice) {
-                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat du grade " + rank.getPrefix() + " pour " + coinPrice + "$  ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
+                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat (" + coinPrice + "$) ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
                     UserAccount userAccount = UserAccount.getAccount(player.getUniqueId());
                     BankAccount bankAccount = userAccount.getBankAccount();
                     userAccount.setRank(rank);

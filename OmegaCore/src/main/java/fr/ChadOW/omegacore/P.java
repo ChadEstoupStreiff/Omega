@@ -28,10 +28,13 @@ public class P extends JavaPlugin {
     public void onEnable() {
         System.out.println(name + ver + " Launching ...");
 
+        saveDefaultConfig();
+
         INSTANCE = this;
         sender = getServer().getConsoleSender();
         random = new Random();
 
+        ServerType.init(this);
         CUtils.init(this);
         Eco.init(this);
         WorldManager.init(this);
@@ -47,5 +50,13 @@ public class P extends JavaPlugin {
 
     public static P getInstance() {
         return INSTANCE;
+    }
+
+    public static ConsoleCommandSender getSender() {
+        return sender;
+    }
+
+    public static Random getRandom() {
+        return random;
     }
 }

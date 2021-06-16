@@ -1,6 +1,6 @@
 package fr.ChadOW.omegacore.utils;
 
-import org.bukkit.Bukkit;
+import fr.ChadOW.omegacore.P;
 
 public enum ServerType {
     NORMAL("normal"),
@@ -8,7 +8,12 @@ public enum ServerType {
     WORLDS("worlds"),
     EVENT("event");
 
-    private String type;
+    public static void init(P p) {
+        serverType = p.getConfig().getString("server.type");
+        P.getSender().sendMessage("Server type: " + serverType);
+    }
+
+    private final String type;
 
     ServerType(String type) {
         this.type = type;
@@ -17,8 +22,6 @@ public enum ServerType {
     public static String serverType;
 
     public static boolean equals(String type) {
-        if (serverType == null)
-            serverType = Bukkit.getServer().getName();
         return serverType.equals(type);
     }
 
