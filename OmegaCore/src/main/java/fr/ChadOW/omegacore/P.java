@@ -45,7 +45,16 @@ public class P extends JavaPlugin {
         GroupManager.init(this);
         Hologram.init(this);
 
-        System.out.println(name + ver + " Launched ...");
+        System.out.println(name + ver + " Launched");
+    }
+
+    @Override
+    public void onDisable() {
+        System.out.println(name + ver + " Disabling ...");
+
+        Hologram.disable(this);
+
+        System.out.println(name + ver + " Disabled");
     }
 
     public static P getInstance() {

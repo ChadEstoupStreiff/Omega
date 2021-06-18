@@ -12,11 +12,19 @@ import java.util.List;
 public class Hologram {
 
     public static void init(P p) {
+        //TODO load
+
         p.getCommand("hologram").setExecutor(new CommandHologram());
         Bukkit.getScheduler().runTaskTimer(P.getInstance(), () -> {
             for (Hologram hologram : holograms)
                 hologram.update();
         }, 20, 20);
+    }
+
+    public static void disable(P p) {
+        for (Hologram hologram : holograms) {
+            hologram.saveAndDelete();
+        }
     }
 
     private static final List<Hologram> holograms = new ArrayList<>();
@@ -109,8 +117,20 @@ public class Hologram {
         }
     }
 
+    public void delete() {
+        for (ArmorStand armorStand : lines) {
+            armorStand.remove();
+        }
+        holograms.remove(this);
+    }
+
     private void update() {
         //TODO placeholders
+    }
+
+    private void saveAndDelete() {
+        //TODO save
+        delete();
     }
 
 
