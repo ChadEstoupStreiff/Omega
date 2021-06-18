@@ -15,12 +15,12 @@ public class CommandMoney implements CommandExecutor {
             Player player = (Player) sender;
             if (args.length < 1) {
                 UserAccount account = UserAccount.getAccount(player.getUniqueId());
-                player.sendMessage(Eco.prefix + "Vous possédez §a" + account.getBankAccount().getAmount() + Eco.devise + "§f.");
+                player.sendMessage(Eco.prefix + "Vous possédez §a" + account.getBankAccount().getAmount() + Eco.devise + "§f et §b" + account.getCredits() + " crédits§f.");
             } else {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 if (target != null) {
                     UserAccount account = UserAccount.getAccount(target.getUniqueId());
-                    sender.sendMessage(Eco.prefix + "§b" + target.getName() + "§f possède " + account.getBankAccount().getAmount() + Eco.devise + "§f.");
+                    sender.sendMessage(Eco.prefix + "§b" + target.getName() + "§f possède " + account.getBankAccount().getAmount() + Eco.devise + "§f et §b" + account.getCredits() + " crédits§f.");
                 } else {
                     sender.sendMessage(Eco.prefix + "Joueur introuvable.");
                 }

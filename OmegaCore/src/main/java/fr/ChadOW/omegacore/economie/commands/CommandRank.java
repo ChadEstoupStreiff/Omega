@@ -7,6 +7,7 @@ import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.cinventory.events.clickContent.ClickContext;
+import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.utils.OmegaUtils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ public class CommandRank implements CommandExecutor {
         rankInv.addElement(new CItem(new ItemCreator(Material.BLAZE_ROD, 0)
                 .setName(Rank.OLD.getPrefix())
                 .setLores(Arrays.asList(
-                        "§fPrix : §a500 crédits §fou §a100 000$§f.",
+                        "§fPrix : §a500 crédits §fou §a100 000" + Eco.devise + "§f.",
                         "§f",
                         "§bAvantages :",
                         "§b- §fCooldown du RTP mondes libres : §d5 minutes",
@@ -35,13 +36,13 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de personnes max dans un groupe : §d6",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
-                        "§e§o► Clic droit pour acheter le grade avec des $."
+                        "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."
         ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.OLD, 500, 100000, clickContext)).setSlot(11));
 
         rankInv.addElement(new CItem(new ItemCreator(Material.GLISTERING_MELON_SLICE, 0)
                 .setName(Rank.LEGEND.getPrefix())
                 .setLores(Arrays.asList(
-                        "§fPrix : §a1000 crédits §fou §a500 000$§f.",
+                        "§fPrix : §a1000 crédits §fou §a500 000" + Eco.devise + "§f.",
                         "§f",
                         "§bAvantages :",
                         "§b- §fCooldown du RTP mondes libres : §d2 minutes",
@@ -51,13 +52,13 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de personnes max dans un groupe : §d11",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
-                        "§e§o► Clic droit pour acheter le grade avec des $."
+                        "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."
                 ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.LEGEND, 1000, 500000, clickContext)).setSlot(13));
 
         rankInv.addElement(new CItem(new ItemCreator(Material.GOLDEN_APPLE, 0)
                 .setName(Rank.MYTH.getPrefix())
                 .setLores(Arrays.asList(
-                        "§fPrix : §a2000 crédits §fou §a2 000 000$§f.",
+                        "§fPrix : §a2000 crédits §fou §a2 000 000" + Eco.devise + "§f.",
                         "§f",
                         "§bAvantages :",
                         "§b- §fCooldown du RTP mondes libres : §d30s",
@@ -67,7 +68,7 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de personnes max dans un groupe : §d26",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
-                        "§e§o► Clic droit pour acheter le grade avec des $."
+                        "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."
                 ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.MYTH, 2000, 2000000, clickContext)).setSlot(15));
 
         rankInv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(0));
@@ -104,7 +105,7 @@ public class CommandRank implements CommandExecutor {
                     OmegaUtils.broadcastServerMessage("§6[Annonce] §d" + player.getName() + "§r vient d'acheter le grade " + rank.getPrefix() + "§r ! ★★★");
                 });
             } else if (clickContext.getClickType().isRightClick() && UserAccount.getAccount(player.getUniqueId()).getBankAccount().getAmount() >= coinPrice) {
-                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat (" + coinPrice + "$) ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
+                OmegaUtils.confirmBeforeExecute(player, "§aConfirmer l'achat (" + coinPrice + Eco.devise + ") ?", null, null, null, (inventoryRepresentation1, itemRepresentation1, player1, clickContext1) -> {
                     UserAccount userAccount = UserAccount.getAccount(player.getUniqueId());
                     BankAccount bankAccount = userAccount.getBankAccount();
                     userAccount.setRank(rank);

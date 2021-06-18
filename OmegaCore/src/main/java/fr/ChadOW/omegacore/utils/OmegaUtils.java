@@ -30,7 +30,7 @@ public class OmegaUtils {
      * @param confirmEvent
      */
     public static void confirmBeforeExecute(Player player, String title, List<String> cancelLore, List<String> confirmLore, ItemClickEvent cancelEvent, ItemClickEvent confirmEvent) {
-        CInventory inv = new CInventory(9, Global.prefix + title);
+        CInventory inv = new CInventory(9, title);
         inv.setClosable(false);
 
         CItem item = new CItem(new ItemCreator(Material.RED_WOOL, 0).setName("§4ANNULER")).setSlot(3);

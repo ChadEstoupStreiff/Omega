@@ -20,6 +20,7 @@ public class CommandAccount implements CommandExecutor {
 
             player.sendMessage(Global.prefix + "Vos informations de compte:");
             player.sendMessage("§eUUID Compte: §f" + userAccount.getUUID());
+            player.sendMessage("§eCrédits: §f" + userAccount.getCredits());
             player.sendMessage("§eID Bancaire: §f" + userAccount.getBankID());
             player.sendMessage("§e   Nom: §f" + bankAccount.getName());
             player.sendMessage("§e   Fonds: §f" + bankAccount.getAmount());
