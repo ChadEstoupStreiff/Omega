@@ -89,7 +89,7 @@ public class Hologram {
     }
 
     private ArmorStand initArmorStand(String line) {
-        final ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+        final ArmorStand armorStand = location.getWorld().spawn(new Location(location.getWorld(), location.getX(), location.getY() - lines.size()*.25, location.getZ()), ArmorStand.class);
 
         armorStand.setCustomNameVisible(true);
         armorStand.setCustomName(line);
@@ -105,7 +105,7 @@ public class Hologram {
 
     private void updateLocation() {
         for (int i = 0; i < lines.size(); i++) {
-            lines.get(i).teleport(new Location(location.getWorld(), location.getX(), location.getY() - i * .4, location.getZ()));
+            lines.get(i).teleport(new Location(location.getWorld(), location.getX(), location.getY() - i * .25, location.getZ()));
         }
     }
 

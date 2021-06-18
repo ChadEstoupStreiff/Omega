@@ -14,6 +14,8 @@ public class CommandHologram implements CommandExecutor {
             if (args.length == 0){
                 //TODO print DOC
                 Hologram hologram = new Hologram("test", player.getLocation(), Arrays.asList("§cPremière ligne", "§bSeconde ligne", "§aTo delete"));
+                hologram.insertLine("§dInsert", 1);
+                hologram.removeLine(3);
             }
         }
         return true;
