@@ -99,14 +99,18 @@ public class Hologram {
     private ArmorStand initArmorStand(String line) {
         final ArmorStand armorStand = location.getWorld().spawn(new Location(location.getWorld(), location.getX(), location.getY() - lines.size()*.25, location.getZ()), ArmorStand.class);
 
-        armorStand.setCustomNameVisible(true);
         armorStand.setCustomName(line);
+        armorStand.setCustomNameVisible(true);
         armorStand.setSmall(true);
+        armorStand.setInvulnerable(true);
         armorStand.setMarker(false);
         armorStand.setArms(false);
         armorStand.setBasePlate(false);
         armorStand.setVisible(false);
         armorStand.setGravity(false);
+        armorStand.setCanPickupItems(false);
+        armorStand.setSilent(true);
+        armorStand.setPersistent(true);
 
         return armorStand;
     }

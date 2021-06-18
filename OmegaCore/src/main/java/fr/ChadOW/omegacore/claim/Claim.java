@@ -110,7 +110,7 @@ public class Claim {
      */
     public static boolean checkPermission(Player player, Location location) {
         OmegaChunk chunk = OmegaChunk.getChunk(location);
-        return chunk.getOwnerID().equalsIgnoreCase(player.getUniqueId().toString());
+        return chunk.getOwnerID() != null && chunk.getOwnerID().equalsIgnoreCase(player.getUniqueId().toString());
     }
 
     public static void switchShow(Player player) {
