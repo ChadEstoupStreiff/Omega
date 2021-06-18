@@ -1,242 +1,137 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
-import com.google.common.collect.Maps;
 import fr.ChadOW.omegacore.P;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Hologram {
 
     public static void init(P p) {
         p.getCommand("hologram").setExecutor(new CommandHologram());
+        Bukkit.getScheduler().runTaskTimer(P.getInstance(), () -> {
+            for (Hologram hologram : holograms)
+                hologram.update();
+        }, 20, 20);
     }
 
-    private LinkedList<ArmorStand> armorStands;
-    private ArmorStand mainArmorStand;
-    private String customName;
-    private boolean small, marker, arms, baseplate, visible;
-    private HologramLineListener hologramLineListener;
+    private static final List<Hologram> holograms = new ArrayList<>();
 
-    /**
-     *
-     * The Constructor of the class
-     *
-     * @param customName
-     */
-    public Hologram(final String customName){
-        this.armorStands = new LinkedList<>();
-        this.customName = customName.replace("&", "§");
-        this.small = false;
-        this.marker = false;
-        this.arms = false;
-        this.baseplate = false;
-        this.visible = false;
-        this.mainArmorStand = null;
-        this.hologramLineListener = null;
-    }
-
-    public enum LineDirection {
-        UP,
-        DOWN;
-    }
-
-    /**
-     *
-     * Basically add line depending on the position
-     * of another {@link Hologram}
-     *
-     * @param line
-     * @param lineDirection
-     * @return new instance of {@link Hologram}
-     */
-    public Map<Hologram, Location> addLine(final String line, final LineDirection lineDirection, final HologramLineListener hologramLineListener){
-        final Location originalLocation = mainArmorStand.getLocation();
-        final Location adjustLocation = armorStands.get(armorStands.size() - 1).getLocation();
-        switch (lineDirection){
-            default:
-            case UP:
-                adjustLocation.setY(originalLocation.getY() + armorStands.size());
-            case DOWN:
-                adjustLocation.setY(originalLocation.getY() - armorStands.size());
+    public static Hologram getHologram(String name) {
+        for (Hologram hologram : holograms) {
+            if (hologram.getName().equals(name))
+                return hologram;
         }
-        this.hologramLineListener = hologramLineListener;
-
-        final Map<Hologram, Location> map = Maps.newHashMap();
-        map.put(hologramLineListener.onAdd(new Hologram(line)), adjustLocation);
-
-        return map;
+        return null;
     }
 
-    /**
-     *
-     * Uses addLine function to make it easier
-     *
-     * @param line
-     * @param lineDirection
-     * @return this
-     */
-    public Hologram addSimpleLine(final String line, final LineDirection lineDirection){
-        final Map<Hologram, Location> newLine = this.addLine(line, lineDirection, (hologram -> {
-            hologram.setVisible(false)
-                    .setBaseplate(false)
-                    .setArms(false)
-                    .setMarker(false);
 
-            return hologram;
-        }));
-        final Hologram hologram = newLine.entrySet().stream().collect(Collectors.toList()).get(0).getKey();
-        hologram.spawn(newLine.entrySet()
-                .stream()
-                .collect(Collectors.toList())
-                .get(0).getValue());
-        /*hologram.getHologramLineListener()
-                .onAdd(hologram)
-                .spawn(newLine.entrySet()
-                        .stream()
-                        .collect(Collectors.toList())
-                        .get(0).getValue());*/
-        
+    private String name;
+    private Location location;
+    private final ArrayList<ArmorStand> lines = new ArrayList<>();
+
+    public Hologram(String name, Location location) {
+        this.name = name;
+        this.location = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
+        holograms.add(this);
+    }
+
+    public Hologram(String name, Location location, Collection<String> lines) {
+        this(name, location);
+        addLines(lines);
+    }
+
+    public Hologram removeLine(int i) {
+        if (i > 0 && i < lines.size()) {
+            lines.get(i).remove();
+            lines.remove(i);
+        }
+        updateLocation();
         return this;
     }
 
-    public Hologram addNormalLines(final String line, final LineDirection lineDirection){
-        final Location originalLocation = mainArmorStand.getLocation();
-        final Location adjustLocation = armorStands.get(armorStands.size() - 1).getLocation();
-        switch (lineDirection){
-            //default:
-            case UP:
-                adjustLocation.setY(originalLocation.getY() + (armorStands.size() - 0.8));
-            case DOWN:
-                adjustLocation.setY(originalLocation.getY() - (armorStands.size() - 0.8));
-        }
-        spawnHologram(new Hologram(line), adjustLocation);
+    public Hologram addLine(String line) {
+        setLineAtIndex(line, line.length());
         return this;
     }
 
-    /**
-     *
-     * Create the ArmorStand
-     * (Don't add lines if it's not spawned)
-     *
-     * @param loc
-     * @return new instance of {@link ArmorStand}
-     */
-    public ArmorStand spawn(final Location loc){
-        final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
+    public Hologram addLines(Collection<String> lines) {
+        for (String line : lines)
+            addLine(line);
+        return this;
+    }
+
+    public Hologram insertLine(String line, int i) {
+        if (i >= 0) {
+            if (i < lines.size()) {
+                ArmorStand armorStand = initArmorStand(line);
+                lines.add(i, armorStand);
+                updateLocation();
+            } else {
+                addLine(line);
+            }
+        }
+        return this;
+    }
+
+    public Hologram setLineAtIndex(String line, int i) {
+        if (i >= lines.size()) {
+            ArmorStand armorStand = initArmorStand(line);
+            lines.add(armorStand);
+            updateLocation();
+        } else if (i >= 0)
+            lines.get(i).setCustomName(line);
+        return this;
+    }
+
+    private ArmorStand initArmorStand(String line) {
+        final ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
 
         armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(customName);
-        armorStand.setSmall(small);
-        armorStand.setMarker(marker);
-        armorStand.setArms(arms);
-        armorStand.setBasePlate(baseplate);
-        armorStand.setVisible(visible);
+        armorStand.setCustomName(line);
+        armorStand.setSmall(true);
+        armorStand.setMarker(false);
+        armorStand.setArms(false);
+        armorStand.setBasePlate(false);
+        armorStand.setVisible(false);
         armorStand.setGravity(false);
 
-        this.mainArmorStand = armorStand;
-        this.armorStands.add(armorStand);
         return armorStand;
     }
 
-    /**
-     *
-     * Create the ArmorStand
-     * (Don't add lines if it's not spawned)
-     *
-     * @param loc
-     * @return new instance of {@link ArmorStand}
-     */
-    public ArmorStand spawnHologram(final Hologram hologram, final Location loc){
-        final ArmorStand armorStand = loc.getWorld().spawn(loc, ArmorStand.class);
+    private void updateLocation() {
+        for (int i = 0; i < lines.size(); i++) {
+            lines.get(i).teleport(new Location(location.getWorld(), location.getX(), location.getY() - i * .4, location.getZ()));
+        }
+    }
 
-        armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(hologram.getCustomName());
-        armorStand.setSmall(hologram.isSmall());
-        armorStand.setMarker(hologram.hasMarker());
-        armorStand.setArms(hologram.hasArms());
-        armorStand.setBasePlate(hologram.hasBaseplate());
-        armorStand.setVisible(hologram.isVisible());
-        armorStand.setGravity(false);
-
-        this.armorStands.add(armorStand);
-        return armorStand;
+    private void update() {
+        //TODO placeholders
     }
 
 
-    /**
-     * GETTERS
-     */
-    public HologramLineListener getHologramLineListener() {
-        return hologramLineListener;
+    public Location getLocation() {
+        return location;
     }
 
-    public LinkedList<ArmorStand> getArmorStands() {
-        return armorStands;
+    public void setLocation(Location location) {
+        this.location = location;
+        updateLocation();
     }
 
-    public ArmorStand getMainArmorStand() {
-        return mainArmorStand;
+    public String getName() {
+        return name;
     }
 
-    public String getCustomName() {
-        return customName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean isSmall() {
-        return small;
-    }
-
-    public boolean hasMarker() {
-        return marker;
-    }
-
-    public boolean hasArms() {
-        return arms;
-    }
-
-    public boolean hasBaseplate() {
-        return baseplate;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    /**
-     * SETTERS
-     */
-    public Hologram setCustomName(String customName) {
-        this.customName = customName;
-        return this;
-    }
-
-    public Hologram setSmall(boolean small) {
-        this.small = small;
-        return this;
-    }
-
-    public Hologram setMarker(boolean marker) {
-        this.marker = marker;
-        return this;
-    }
-
-    public Hologram setArms(boolean arms) {
-        this.arms = arms;
-        return this;
-    }
-
-    public Hologram setBaseplate(boolean baseplate) {
-        this.baseplate = baseplate;
-        return this;
-    }
-
-    public Hologram setVisible(boolean visible) {
-        this.visible = visible;
-        return this;
+    public ArrayList<ArmorStand> getLines() {
+        return lines;
     }
 }
