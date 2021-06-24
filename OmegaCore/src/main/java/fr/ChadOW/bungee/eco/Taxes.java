@@ -15,7 +15,7 @@ public class Taxes {
 
     private static LocalDate lastTaxes;
 
-    private static void init(Bungee bungee) {
+    public static void init(Bungee bungee) {
         bungee.getProxy().getScheduler().schedule(bungee, Taxes::launchTaxesCheck, 12, 12, TimeUnit.HOURS);
         Taxes.launchTaxesCheck();
     }

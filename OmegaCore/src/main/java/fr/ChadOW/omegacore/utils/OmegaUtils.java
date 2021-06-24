@@ -30,7 +30,6 @@ public class OmegaUtils {
      */
     public static void confirmBeforeExecute(Player player, String title, List<String> cancelLore, List<String> confirmLore, ItemClickEvent cancelEvent, ItemClickEvent confirmEvent) {
         CInventory inv = new CInventory(9, title);
-        inv.setClosable(false);
 
         CItem item = new CItem(new ItemCreator(Material.RED_WOOL, 0).setName("§4ANNULER")).setSlot(3);
         confirmBeforeExecuteItem(player, cancelLore, cancelEvent, inv, item);
@@ -54,7 +53,6 @@ public class OmegaUtils {
         if (cancelLore != null)
             item.setDescription(cancelLore);
         item.addEvent((cInventory, cItem, player1, clickContext) -> {
-            inv.setClosable(true);
             inv.close(player);
         });
         if (cancelEvent != null)

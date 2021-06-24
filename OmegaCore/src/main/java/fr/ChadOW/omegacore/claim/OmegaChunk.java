@@ -1,6 +1,8 @@
 package fr.ChadOW.omegacore.claim;
 
 import fr.ChadOW.api.managers.SQLManager;
+import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.utils.ServerType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -78,7 +80,8 @@ public class OmegaChunk {
 
 
     public static void getFromDb() {
-        SQLManager.getInstance().query("SELECT * FROM " + tableName + " WHERE server='" + Bukkit.getServer().getName() + "'", rs -> {
+        P.getSender().sendMessage("Loading claims ..");
+        SQLManager.getInstance().query("SELECT * FROM " + tableName + " WHERE server='" + ServerType.getServerType() + "'", rs -> {
             try {
                 chunks = new ArrayList<>();
                 while (rs.next()) {
@@ -100,17 +103,18 @@ public class OmegaChunk {
     public static void saveToDB() {
         SQLManager sql = SQLManager.getInstance();
         for (OmegaChunk chunk : chunks) {
-            sql.query("SELECT * FROM " + tableName + " WHERE server='" + Bukkit.getServer().getName() + "' AND world='" + chunk.getWorld().toString() + "' AND x=" + chunk.getX() + " AND y=" + chunk.getY(), rs -> {
-                try {
-                    if (rs.next()) {
-                        sql.update("UPDATE " + tableName + " SET ownerID='" + chunk.getOwnerID() + "' WHERE server='" + Bukkit.getServer().getName() + "' AND world='" + chunk.getWorld().getName() + "' AND x=" + chunk.getX() + " AND y=" + chunk.getY());
-                    } else {
-                        sql.update("INSERT INTO " + tableName + "(server, world, x, y, ownerID) VALUES ('" + Bukkit.getServer().getName() + "', '" + chunk.getWorld().getName() + "', " + chunk.getX() + ", " + chunk.getY() + ", '" + chunk.getOwnerID() + "')");
+            if (chunk.getOwnerID() != null)
+                sql.query("SELECT * FROM " + tableName + " WHERE server='" + ServerType.getServerType() + "' AND world='" + chunk.getWorld().toString() + "' AND x=" + chunk.getX() + " AND y=" + chunk.getY(), rs -> {
+                    try {
+                        if (rs.next()) {
+                            sql.update("UPDATE " + tableName + " SET ownerID='" + chunk.getOwnerID() + "' WHERE server='" + ServerType.getServerType() + "' AND world='" + chunk.getWorld().getName() + "' AND x=" + chunk.getX() + " AND y=" + chunk.getY());
+                        } else {
+                            sql.update("INSERT INTO " + tableName + "(server, world, x, y, ownerID) VALUES ('" + ServerType.getServerType() + "', '" + chunk.getWorld().getName() + "', " + chunk.getX() + ", " + chunk.getY() + ", '" + chunk.getOwnerID() + "')");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
                     }
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
+                });
         }
     }
 }
