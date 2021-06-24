@@ -1,0 +1,5 @@
+name: OmegaCore
+version: 1.0
+main: fr.ChadOW.bungee.Bungee
+author: ChadOW
+load: STARTUP

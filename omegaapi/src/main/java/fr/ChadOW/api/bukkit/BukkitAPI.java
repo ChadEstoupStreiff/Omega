@@ -3,7 +3,6 @@ package fr.ChadOW.api.bukkit;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.bukkit.OmegaChunk.OmegaChunk;
-import fr.ChadOW.api.bukkit.listeners.ListenerManager;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.api.managers.SQLManager;
@@ -27,7 +26,7 @@ public class BukkitAPI extends JavaPlugin {
 
     private void initGlobal() {
         OmegaChunk.getFromDb();
-        ListenerManager.init(this);
+        getServer().getPluginManager().registerEvents(new GlobalListener(), this);
         getServer().getScheduler().runTaskTimer(this, OmegaAPIUtils::getData, 1200, 1200);
         getServer().getScheduler().runTaskTimer(this, OmegaChunk::saveToDB, 6000, 6000);
     }

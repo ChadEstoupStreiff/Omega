@@ -4,10 +4,9 @@ import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.cinventory.events.ItemClickEvent;
-import fr.ChadOW.omegacore.global.Global;
+import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -68,7 +67,6 @@ public class OmegaUtils {
     }
 
     public static void broadcastServerMessage(String message) {
-        //TODO BroadCastServerMessage
-        Bukkit.broadcastMessage(message);
+        PluginMessage.sendGlobalMessage(message);
     }
 }

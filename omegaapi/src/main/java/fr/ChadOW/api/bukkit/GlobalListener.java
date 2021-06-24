@@ -1,4 +1,4 @@
-package fr.ChadOW.api.bukkit.listeners;
+package fr.ChadOW.api.bukkit;
 
 import fr.ChadOW.api.bukkit.BukkitAPI;
 import org.bukkit.event.EventHandler;

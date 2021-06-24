@@ -8,6 +8,7 @@ import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
 import fr.ChadOW.omegacore.utils.ServerType;
 import fr.ChadOW.omegacore.utils.hologram.Hologram;
+import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public class P extends JavaPlugin {
         sender = getServer().getConsoleSender();
         random = new Random();
 
+        PluginMessage.init(this);
         ServerType.init(this);
         CUtils.init(this);
         Eco.init(this);
