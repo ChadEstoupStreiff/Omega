@@ -29,6 +29,7 @@ commands:
     description: ""
   unclaim:
     description: ""
+    aliases: c
   group:
     description: ""
     aliases: g
@@ -37,3 +38,5 @@ commands:
   rank:
     description: ""
     aliases: [grade, ranks, grades]
+  stop:
+    description: ""

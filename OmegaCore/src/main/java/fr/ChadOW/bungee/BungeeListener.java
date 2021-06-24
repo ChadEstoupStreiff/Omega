@@ -45,6 +45,9 @@ public class BungeeListener implements Listener {
                             player.sendMessage(new TextComponent("§cErreur lors de la connexion au serveur ... veuillez réessayer"));
                     }
                     break;
+                case "StopEverythingRequest":
+                    Bungee.stop(in.readInt());
+                    break;
             }
         }
     }
