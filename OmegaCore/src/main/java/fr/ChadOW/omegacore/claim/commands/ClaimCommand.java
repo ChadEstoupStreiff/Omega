@@ -1,8 +1,8 @@
 package fr.ChadOW.omegacore.claim.commands;
 
-import fr.ChadOW.api.bukkit.OmegaChunk.OmegaChunk;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.omegacore.claim.Claim;
+import fr.ChadOW.omegacore.claim.OmegaChunk;
 import fr.ChadOW.omegacore.utils.OmegaUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

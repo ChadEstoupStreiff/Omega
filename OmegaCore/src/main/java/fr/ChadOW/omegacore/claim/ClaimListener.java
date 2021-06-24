@@ -1,6 +1,5 @@
 package fr.ChadOW.omegacore.claim;
 
-import fr.ChadOW.api.bukkit.OmegaChunk.OmegaChunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

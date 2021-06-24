@@ -5,7 +5,6 @@ import fr.ChadOW.api.accounts.JobAccount;
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.accounts.group.Group;
 import fr.ChadOW.api.accounts.group.Member;
-import fr.ChadOW.api.bungee.global.Taxes;
 import fr.ChadOW.api.bungee.listeners.PlayerJoinQuit;
 import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.api.managers.JedisManager;
@@ -127,11 +126,6 @@ public class BungeeAPI extends Plugin {
     }
 
     private void initGlobal() {
-        getProxy().getScheduler().schedule(this, Taxes::launchTaxesCheck, 12, 12, TimeUnit.HOURS);
-
-        Taxes.launchTaxesCheck();
-
-
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerJoinQuit(this));
         getProxy().getScheduler().schedule(this, () -> {
             System.out.println("Saving all accounts ...");
@@ -147,7 +141,7 @@ public class BungeeAPI extends Plugin {
             System.out.println("All accounts saved.");
             OmegaAPIUtils.getData();
             //TODO Save régulièrement tout les groupes
-        }, 2, 2, TimeUnit.MINUTES);
+        }, 5, 5, TimeUnit.MINUTES);
     }
 
     public void onDisable() {

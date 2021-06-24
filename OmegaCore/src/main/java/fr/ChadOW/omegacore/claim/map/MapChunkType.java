@@ -1,8 +1,7 @@
 package fr.ChadOW.omegacore.claim.map;
 
-import fr.ChadOW.api.bukkit.OmegaChunk.OmegaChunk;
+import fr.ChadOW.omegacore.claim.OmegaChunk;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Location;
 
 public enum MapChunkType {
 

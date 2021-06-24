@@ -1,4 +1,4 @@
-package fr.ChadOW.api.bukkit.OmegaChunk;
+package fr.ChadOW.omegacore.claim;
 
 import fr.ChadOW.api.managers.SQLManager;
 import org.bukkit.Bukkit;

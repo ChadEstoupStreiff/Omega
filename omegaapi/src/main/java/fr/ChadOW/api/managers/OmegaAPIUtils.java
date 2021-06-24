@@ -12,7 +12,6 @@ public class OmegaAPIUtils {
     }
 
     public static void getData() {
-        System.out.println("Updating data ...");
         userNames = new HashMap<>();
         SQLManager.getInstance().query("SELECT uuid, lastName FROM DATAS", rs -> {
             try {
@@ -45,7 +44,6 @@ public class OmegaAPIUtils {
                 throwables.printStackTrace();
             }
         });
-
         System.out.println("Data updated.");
     }
 

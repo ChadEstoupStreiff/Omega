@@ -1,7 +1,6 @@
 package fr.ChadOW.omegacore.claim;
 
 import com.google.common.collect.Lists;
-import fr.ChadOW.api.bukkit.OmegaChunk.OmegaChunk;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.claim.commands.ClaimCommand;
 import fr.ChadOW.omegacore.claim.commands.UnClaimCommand;
@@ -15,9 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +23,7 @@ public class Claim {
     private static final List<Player> showPlayers = new ArrayList<>();
 
     public static void init(P i) {
+        OmegaChunk.getFromDb();
         i.getCommand("claim").setExecutor(new ClaimCommand());
         i.getCommand("unclaim").setExecutor(new UnClaimCommand());
         i.getServer().getPluginManager().registerEvents(new ClaimListener(), i);

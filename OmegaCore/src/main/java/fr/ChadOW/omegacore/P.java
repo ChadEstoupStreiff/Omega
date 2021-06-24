@@ -2,6 +2,7 @@ package fr.ChadOW.omegacore;
 
 import fr.ChadOW.cinventory.CContent.CUtils;
 import fr.ChadOW.omegacore.claim.Claim;
+import fr.ChadOW.omegacore.claim.OmegaChunk;
 import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.group.GroupManager;
@@ -55,6 +56,7 @@ public class P extends JavaPlugin {
         System.out.println(name + ver + " Disabling ...");
 
         Hologram.disable(this);
+        OmegaChunk.saveToDB();
 
         System.out.println(name + ver + " Disabled");
     }
