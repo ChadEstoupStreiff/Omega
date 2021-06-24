@@ -4,12 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public enum Spawn {
-    LIBRE("libre", 0, 100, 0),
-    LIBRE_NETHER("libre_nether", 0, 100, 0),
-    LIBRE_END("libre_the_end", 0, 100, 0),
-    RESSOURCE("ressource", 0, 100, 0),
-    RESSOURCE_NETHER("ressource_nether", 0, 100, 0),
-    RESSOURCE_END("ressource_the_end", 0, 100, 0);
+    NORMAL("world", 0, 100, 0),
+    NETHER("world_nether", 0, 100, 0),
+    END("world_the_end", 0, 100, 0);
 
     private Location location;
 
@@ -27,13 +24,9 @@ public enum Spawn {
         return world;
     }
 
-    public static void updateLocation() {
-        for (Spawn spawn : values()) {
-            spawn.location = new Location(Bukkit.getWorld(spawn.world), spawn.x, spawn.y, spawn.z);
-        }
-    }
-
     public Location getLocation() {
+        if (location == null || !location.isWorldLoaded())
+            location = new Location(Bukkit.getWorld(world), x, y, z);
         return location;
     }
 }

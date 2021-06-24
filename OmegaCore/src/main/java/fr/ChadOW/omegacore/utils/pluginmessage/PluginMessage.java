@@ -29,4 +29,13 @@ public class PluginMessage {
 
         P.getInstance().getServer().sendPluginMessage(P.getInstance(), "omega:pipe", out.toByteArray());
     }
+
+    public static void sendPlayerToServer(Player player, String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        out.writeUTF("SendToServer");
+        out.writeUTF(server);
+
+        player.sendPluginMessage(P.getInstance(), "omega:pipe", out.toByteArray());
+    }
 }

@@ -12,7 +12,8 @@ public class CommandMonde implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length > 0) {
-                switch(args[0]) {
+                //TODO Reflechir pour les commandes
+                /*switch(args[0]) {
                     case "libre":
                         player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde libre§f.");
                         player.teleport(Spawn.LIBRE.getLocation());
@@ -40,7 +41,7 @@ public class CommandMonde implements CommandExecutor {
                     default:
                         WorldManager.getWorldGUI().open(player);
                         break;
-                }
+                }*/
             } else
                 WorldManager.getWorldGUI().open(player);
         }

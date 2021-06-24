@@ -4,6 +4,8 @@ import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.utils.ServerType;
+import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import fr.ChadOW.omegacore.world.commands.CommandMonde;
 import fr.ChadOW.omegacore.world.commands.CommandRTP;
 import org.bukkit.*;
@@ -18,7 +20,6 @@ public class WorldManager {
 
     public static void init(P i) {
         //createWorlds(i);
-        Spawn.updateLocation();
         createWorldGUI();
 
         i.getCommand("monde").setExecutor(new CommandMonde());
@@ -26,9 +27,79 @@ public class WorldManager {
     }
 
     private static void createWorldGUI() {
-        worldGUI = new CInventory(27, "§eMenu mondes");
+        worldGUI = new CInventory(45, "§eServeur actuel: " + ServerType.getServerType());
 
-        CItem item = new CItem(
+        worldGUI.addElement(new CItem(new ItemCreator(Material.COMPASS, 0)
+                .setName("§6Serveur libre")
+                .setLores(Arrays.asList(
+                        "§7",
+                        "§fCliquez pour vous connecter au serveur"
+                )))
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                    inventoryRepresentation.close(player);
+                    player.sendMessage(prefix + "Connexion vers §aserveur libre§f.");
+                    PluginMessage.sendPlayerToServer(player, "claims");
+                }).setSlot(11));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.DIAMOND_PICKAXE, 0)
+                .setName("§6Serveur ressources")
+                .setLores(Arrays.asList(
+                        "§7",
+                        "§fCliquez pour vous connecter au serveur"
+                )))
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                    inventoryRepresentation.close(player);
+                    player.sendMessage(prefix + "Connexion vers §aserveur ressources§f.");
+                    PluginMessage.sendPlayerToServer(player, "ressources");
+                }).setSlot(13));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.GOLDEN_AXE, 0)
+                .setName("§6Serveur mondes personnels")
+                .setLores(Arrays.asList(
+                        "§7",
+                        "§fCliquez pour vous connecter au serveur"
+                )))
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                    inventoryRepresentation.close(player);
+                    player.sendMessage(prefix + "Connexion vers §aserveur mondes personnels§f.");
+                    PluginMessage.sendPlayerToServer(player, "worlds");
+                }).setSlot(15));
+
+        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESSOURCES)) {
+            worldGUI.addElement(new CItem(new ItemCreator(Material.GRASS_BLOCK, 0)
+                    .setName("§6OverWorld")
+                    .setLores(Arrays.asList(
+                            "§7",
+                            "§fCliquez pour vous téléporter au spawn du monde normal"
+                    )))
+                    .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                        inventoryRepresentation.close(player);
+                        player.sendMessage(prefix + "Téléportation vers §amonde normal§f.");
+                        player.teleport(Spawn.NORMAL.getLocation());
+                    }).setSlot(29));
+            worldGUI.addElement(new CItem(new ItemCreator(Material.NETHERRACK, 0)
+                    .setName("§6Nether")
+                    .setLores(Arrays.asList(
+                            "§7",
+                            "§fCliquez pour vous téléporter au spawn du monde nether"
+                    )))
+                    .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                        inventoryRepresentation.close(player);
+                        player.sendMessage(prefix + "Téléportation vers §amonde nether§f.");
+                        player.teleport(Spawn.NETHER.getLocation());
+                    }).setSlot(31));
+            worldGUI.addElement(new CItem(new ItemCreator(Material.END_STONE, 0)
+                    .setName("§6Ender")
+                    .setLores(Arrays.asList(
+                            "§7",
+                            "§fCliquez pour vous téléporter au spawn du monde end"
+                    )))
+                    .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
+                        inventoryRepresentation.close(player);
+                        player.sendMessage(prefix + "Téléportation vers §amonde ender§f.");
+                        player.teleport(Spawn.END.getLocation());
+                    }).setSlot(33));
+        } else
+            worldGUI.addElement(new CItem(new ItemCreator(Material.BARRIER, 0).setName("§cIndisponible").setLores(Arrays.asList("§7", "§7cVous êtes sur un serveur spécial ne permettant", "§7pas de se téléporter entre les mondes"))));
+        /*item = new CItem(
                 new ItemCreator(Material.DIRT, (byte) 0)
                         .setName("§6Mondes libres")
                         .setLores(Arrays.asList(
@@ -155,7 +226,43 @@ public class WorldManager {
         wc.type(WorldType.NORMAL);
         server.createWorld(wc);
 
-        P.sender.sendMessage(prefix + "World generated !");
+        P.sender.sendMessage(prefix + "World generated !");*/
+
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(0));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(1));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(2));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(3));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(4));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(5));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(6));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(7));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(8));
+
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(9));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(17));
+
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(18));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(19));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(20));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(21));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(22));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(23));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(24));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(25));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(26));
+
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(27));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(35));
+
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(36));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(37));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(38));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(39));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(40));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(41));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(42));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(43));
+        worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(44));
     }
 
     public static CInventory getWorldGUI() {

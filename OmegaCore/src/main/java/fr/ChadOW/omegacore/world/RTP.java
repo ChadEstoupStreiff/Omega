@@ -27,11 +27,12 @@ public class RTP {
     public static final HashMap<Player, Long> timer1 = new HashMap<>();
 
     public static void tryRandomTeleportation(Player player) {
+        //TODO A refaire complétement
         Location loc = player.getLocation();
 
         World world = loc.getWorld();
         String worldName = world.getName();
-        if (worldName.equals(Spawn.LIBRE.getWorldName()) || worldName.equals(Spawn.LIBRE_NETHER.getWorldName()) || worldName.equals(Spawn.LIBRE_END.getWorldName())) {
+        if (worldName.equals(Spawn.NORMAL.getWorldName()) || worldName.equals(Spawn.NETHER.getWorldName()) || worldName.equals(Spawn.END.getWorldName())) {
             if (!timer10.containsKey(player) || System.currentTimeMillis() - timer10.get(player) >= 600000) {
                 player.sendMessage(WorldManager.prefix + "Recherche d'une localisation ...");
                 randomTeleportation(player);
@@ -41,7 +42,7 @@ public class RTP {
                 player.sendMessage(WorldManager.prefix + "§cDésolé §fIl vous reste §c" + NbrReader.getTimeInString(600 - (System.currentTimeMillis() - timer10.get(player))/1000) + "§f à attendre avant de pouvoir vous retéléporter.");
             }
         }
-        else if (worldName.equals(Spawn.RESSOURCE.getWorldName()) || worldName.equals(Spawn.RESSOURCE_NETHER.getWorldName()) || worldName.equals(Spawn.RESSOURCE_NETHER.getWorldName())) {
+        else if (worldName.equals(Spawn.NORMAL.getWorldName()) || worldName.equals(Spawn.NETHER.getWorldName()) || worldName.equals(Spawn.NETHER.getWorldName())) {
             if (!timer1.containsKey(player) || System.currentTimeMillis() - timer1.get(player) >= 60000) {
                 player.sendMessage(WorldManager.prefix + "Recherche d'une localisation ...");
                 randomTeleportation(player);
