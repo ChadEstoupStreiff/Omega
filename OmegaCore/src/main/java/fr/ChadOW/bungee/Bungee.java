@@ -18,10 +18,12 @@ public class Bungee extends Plugin {
     public void onEnable() {
         instance = this;
 
-        Taxes.init(this);
         getProxy().registerChannel("omega:pipe");
         getProxy().getPluginManager().registerListener(this, new BungeeListener());
         getProxy().getPluginManager().registerCommand(this, new StopCommand());
+        getProxy().getScheduler().schedule(this, () -> {
+            Taxes.init(this);
+        }, 1, TimeUnit.SECONDS);
     }
 
     public static void stop(int i) {
