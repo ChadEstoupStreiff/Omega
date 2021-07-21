@@ -23,7 +23,8 @@ public class WorldManager {
         createWorldGUI();
 
         i.getCommand("monde").setExecutor(new CommandMonde());
-        i.getCommand("rtp").setExecutor(new CommandRTP());
+        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESSOURCES))
+            i.getCommand("rtp").setExecutor(new CommandRTP());
     }
 
     private static void createWorldGUI() {
