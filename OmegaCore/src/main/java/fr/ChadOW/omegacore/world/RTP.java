@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -67,24 +68,27 @@ public class RTP {
         Location loc = player.getLocation();
         World world = loc.getWorld();
 
-        int x, y;
+        if (world == null) return;
+
         Location newLoc;
         Material type;
 
+        //Angle aléatoire dans [0, 2PI]
+        double angle = P.random.nextFloat()*2*Math.PI;
+
+        //Distance aléatoire entre 1 000 et 10 000
+        int distance = P.random.nextInt(9001) + 1000;
+
+        //Recherche de la coordonnée en fonction de l'angle
+        int x = (int) Math.cos(angle) * distance;
+        int z = (int) Math.sin(angle) * distance;
+
+        //On va chercher le block le plus haut sur lequel on peut se poser
+        newLoc = world.getHighestBlockAt(x,z).getLocation();
         do {
-            //Trouve une coordonné à 1000 blocks du 0 0
-            x = P.random.nextInt(20000) - 10000;
-            y = P.random.nextInt(20000) - 10000;
-
-            //On va chercher le block le plus haut sur lequel on peut se poser
-            newLoc = new Location(world, x, 257, y);
-            do {
-                newLoc.add(0, -1, 0);
-                type = world.getBlockAt(newLoc).getType();
-            } while (newLoc.getY() > 50 && toIgnore.contains(type));
-
+            newLoc.add(0, -1, 0);
             type = world.getBlockAt(newLoc).getType();
-        } while (newLoc.getY() == 50 || toIgnore.contains(type));
+        } while (newLoc.getY() > 50 && toIgnore.contains(type));
 
         player.teleport(newLoc.add(0.5, 1, 0.5));
         playersCooldown.put(player, System.currentTimeMillis());
