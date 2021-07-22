@@ -74,7 +74,7 @@ public class RTP {
         Material type;
 
         //Angle aléatoire dans [0, 2PI]
-        double angle = P.random.nextFloat()*2*Math.PI;
+        double angle = Math.toRadians(Math.random() * 360);
 
         //Distance aléatoire entre 1 000 et 10 000
         int distance = P.random.nextInt(9001) + 1000;
