@@ -10,16 +10,16 @@
 
     <repositories>
         <repository>
+            <id>Cinventory-repo</id>
+            <url>https://raw.githubusercontent.com/ChadOWGit/Dependencies/Plugin/</url>
+        </repository>
+        <repository>
             <id>bungee-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>Files</id>
-            <url>https://raw.github.com/ChadOWGit/Dependencies/Plugin/</url>
         </repository>
         <repository>
             <id>Files</id>
