@@ -7,6 +7,7 @@ import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
+import fr.ChadOW.omegacore.shop.ShopManager;
 import fr.ChadOW.omegacore.utils.ServerType;
 import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
@@ -47,6 +48,7 @@ public class P extends JavaPlugin {
             Claim.init(this);
         GroupManager.init(this);
         Hologram.init(this);
+        ShopManager.init(this);
 
         System.out.println(name + ver + " Launched");
     }
