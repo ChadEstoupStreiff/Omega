@@ -1,5 +1,6 @@
 package fr.ChadOW.omegacore.world.commands;
 
+import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.world.Spawn;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.Command;
@@ -43,7 +44,7 @@ public class CommandMonde implements CommandExecutor {
                         break;
                 }*/
             } else
-                WorldManager.getWorldGUI().open(player);
+                P.getInstance().getWorldManager().getWorldGUI().open(player);
         }
         return true;
     }

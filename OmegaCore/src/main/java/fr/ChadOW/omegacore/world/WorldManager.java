@@ -18,7 +18,7 @@ public class WorldManager {
 
     public static final String prefix = "§6[Worlds] §f";
 
-    public static void init(P i) {
+    public WorldManager(P i) {
         //createWorlds(i);
         createWorldGUI();
 
@@ -27,7 +27,7 @@ public class WorldManager {
             i.getCommand("rtp").setExecutor(new CommandRTP());
     }
 
-    private static void createWorldGUI() {
+    private void createWorldGUI() {
         worldGUI = new CInventory(45, "§eServeur actuel: " + ServerType.getServerType());
 
         worldGUI.addElement(new CItem(new ItemCreator(Material.COMPASS, 0)
@@ -39,7 +39,7 @@ public class WorldManager {
                 .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
                     inventoryRepresentation.close(player);
                     player.sendMessage(prefix + "Connexion vers §aserveur libre§f.");
-                    PluginMessage.sendPlayerToServer(player, "claims");
+                    P.getInstance().getPluginMessage().sendPlayerToServer(player, "claims");
                 }).setSlot(11));
         worldGUI.addElement(new CItem(new ItemCreator(Material.DIAMOND_PICKAXE, 0)
                 .setName("§6Serveur ressources")
@@ -50,7 +50,7 @@ public class WorldManager {
                 .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
                     inventoryRepresentation.close(player);
                     player.sendMessage(prefix + "Connexion vers §aserveur ressources§f.");
-                    PluginMessage.sendPlayerToServer(player, "ressources");
+                    P.getInstance().getPluginMessage().sendPlayerToServer(player, "ressources");
                 }).setSlot(13));
         worldGUI.addElement(new CItem(new ItemCreator(Material.GOLDEN_AXE, 0)
                 .setName("§6Serveur mondes personnels")
@@ -61,7 +61,7 @@ public class WorldManager {
                 .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> {
                     inventoryRepresentation.close(player);
                     player.sendMessage(prefix + "Connexion vers §aserveur mondes personnels§f.");
-                    PluginMessage.sendPlayerToServer(player, "worlds");
+                    P.getInstance().getPluginMessage().sendPlayerToServer(player, "worlds");
                 }).setSlot(15));
 
         if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESSOURCES)) {
@@ -266,7 +266,7 @@ public class WorldManager {
         worldGUI.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(44));
     }
 
-    public static CInventory getWorldGUI() {
+    public CInventory getWorldGUI() {
         return worldGUI;
     }
 }

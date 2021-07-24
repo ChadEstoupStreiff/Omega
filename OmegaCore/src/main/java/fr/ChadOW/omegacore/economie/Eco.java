@@ -9,7 +9,7 @@ public class Eco {
     public static final String devise = "$";
 
 
-    public static void init(P i) {
+    public Eco(P i) {
         i.getCommand("eco").setExecutor(new CommandEco());
         i.getCommand("money").setExecutor(new CommandMoney());
         i.getCommand("pay").setExecutor(new CommandPay());

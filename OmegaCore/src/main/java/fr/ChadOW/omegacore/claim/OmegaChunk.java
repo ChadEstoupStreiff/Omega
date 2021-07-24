@@ -80,7 +80,7 @@ public class OmegaChunk {
 
 
     public static void getFromDb() {
-        P.getSender().sendMessage("Loading claims ..");
+        P.getInstance().getSender().sendMessage("[Claims] Loading ..");
         SQLManager.getInstance().query("SELECT * FROM " + tableName + " WHERE server='" + ServerType.getServerType() + "'", rs -> {
             try {
                 chunks = new ArrayList<>();
@@ -101,6 +101,7 @@ public class OmegaChunk {
     }
 
     public static void saveToDB() {
+        P.getInstance().getSender().sendMessage("[Claims] Saving ...");
         SQLManager sql = SQLManager.getInstance();
         for (OmegaChunk chunk : chunks) {
             if (chunk.getOwnerID() != null)

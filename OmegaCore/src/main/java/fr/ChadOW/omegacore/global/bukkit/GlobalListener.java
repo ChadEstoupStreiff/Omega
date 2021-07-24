@@ -1,5 +1,6 @@
 package fr.ChadOW.omegacore.global.bukkit;
 
+import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class GlobalListener implements Listener {
 
         if (cmdCooldown.containsKey(player) && System.currentTimeMillis() - cmdCooldown.get(player) < 500) {
             event.setCancelled(true);
-            player.sendMessage(Global.prefix + "Veuillez attendre §c0.5 secondes §fentre chaque commande.");
+            player.sendMessage(P.getInstance().getPrefix() + "Veuillez attendre §c0.5 secondes §fentre chaque commande.");
         } else {
             cmdCooldown.put(player, System.currentTimeMillis());
         }
@@ -30,6 +31,6 @@ public class GlobalListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
-        PluginMessage.sendPlayerChatMessage(event.getPlayer(), event.getMessage());
+        P.getInstance().getPluginMessage().sendPlayerChatMessage(event.getPlayer(), event.getMessage());
     }
 }

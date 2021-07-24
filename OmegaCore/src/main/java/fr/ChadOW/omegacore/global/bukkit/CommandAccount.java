@@ -3,6 +3,7 @@ package fr.ChadOW.omegacore.global.bukkit;
 import fr.ChadOW.api.accounts.BankAccount;
 import fr.ChadOW.api.accounts.JobAccount;
 import fr.ChadOW.api.accounts.UserAccount;
+import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.global.Global;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +19,7 @@ public class CommandAccount implements CommandExecutor {
             final BankAccount bankAccount = userAccount.getBankAccount();
             final JobAccount jobAccount = userAccount.getJobAccount();
 
-            player.sendMessage(Global.prefix + "Vos informations de compte:");
+            player.sendMessage(P.getInstance().getPrefix() + "Vos informations de compte:");
             player.sendMessage("§eUUID Compte: §f" + userAccount.getUUID());
             player.sendMessage("§eCrédits: §f" + userAccount.getCredits());
             player.sendMessage("§eID Bancaire: §f" + userAccount.getBankID());

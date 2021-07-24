@@ -23,7 +23,7 @@ public class JobManager {
     public static final String prefix = "§6[Métier] §f";
     private static HashMap<Job, CInventory> statisticsJobGUI;
 
-    public static void init(P i) {
+    public JobManager(P i) {
         i.getCommand("job").setExecutor(new CommandJob());
         JobRecompenses.init();
         JobPayer.init();
@@ -40,7 +40,7 @@ public class JobManager {
      * @param material
      * @return item
      */
-    private static CItem createItemFromJob(Job job, Material material) {
+    private CItem createItemFromJob(Job job, Material material) {
         CItem item = new CItem(
                 new ItemCreator(material, 0)
                         .setName(job.getName())
@@ -75,7 +75,7 @@ public class JobManager {
         return item;
     }
 
-    public static void openMainGUI(Player player) {
+    public void openMainGUI(Player player) {
 
         CInventory mainGUI = new CInventory(27, prefix + "§8§lMétiers");
 
@@ -174,7 +174,7 @@ public class JobManager {
         mainGUI.open(player);
     }
 
-    private static void initStatistiquesGUI() {
+    private void initStatistiquesGUI() {
         statisticsJobGUI = new HashMap<>();
 
         for (Job job : Job.values()) {
@@ -200,7 +200,7 @@ public class JobManager {
         }
     }
 
-    private static void openStatistiqueGUI(Player player) {
+    private void openStatistiqueGUI(Player player) {
         JobAccount jobAccount = UserAccount.getAccount(player.getUniqueId()).getJobAccount();
         Job job = jobAccount.getJob();
 

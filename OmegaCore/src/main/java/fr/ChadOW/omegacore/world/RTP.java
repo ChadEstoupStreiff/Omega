@@ -77,7 +77,7 @@ public class RTP {
         double angle = Math.toRadians(Math.random() * 360);
 
         //Distance aléatoire entre 1 000 et 10 000
-        int distance = P.random.nextInt(9001) + 1000;
+        int distance = P.getInstance().getRandom().nextInt(9001) + 1000;
 
         //Recherche de la coordonnée en fonction de l'angle
         int x = (int) Math.cos(angle) * distance;

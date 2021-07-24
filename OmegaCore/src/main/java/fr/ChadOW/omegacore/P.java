@@ -19,19 +19,24 @@ import java.util.Random;
 
 public class P extends JavaPlugin {
 
-    public static final String name = "OmegaCore";
-    public static final String ver = "V1.0";
+    private static final String prefix = "§6[Omega] §f";
 
-    public static P INSTANCE;
+    private static P INSTANCE;
 
-    public static ConsoleCommandSender sender;
-    public static Random random;
+    private ConsoleCommandSender sender;
+    private Random random;
 
     private HologramManager hologramManager;
+    private PluginMessage pluginMessage;
+    private Eco eco;
+    private WorldManager worldManager;
+    private JobManager jobManager;
+    private GroupManager groupManager;
+    private ShopManager shopManager;
 
     @Override
     public void onEnable() {
-        System.out.println(name + ver + " Launching ...");
+        System.out.println(getPluginName() + " Launching ...");
 
         saveDefaultConfig();
 
@@ -39,45 +44,75 @@ public class P extends JavaPlugin {
         sender = getServer().getConsoleSender();
         random = new Random();
 
-        PluginMessage.init(this);
-        ServerType.init(this);
         CUtils.init(this);
-        Eco.init(this);
-        WorldManager.init(this);
+        ServerType.init(this);
         Global.init(this);
-        JobManager.init(this);
+        pluginMessage = new PluginMessage(this);
+        eco = new Eco(this);
+        worldManager = new WorldManager(this);
+        jobManager = new JobManager(this);
         if (ServerType.equals(ServerType.NORMAL))
             Claim.init(this);
-        GroupManager.init(this);
+        groupManager = new GroupManager(this);
         hologramManager = new HologramManager(this);
-        ShopManager.init(this);
+        shopManager = new ShopManager(this);
 
-        System.out.println(name + ver + " Launched");
+        System.out.println(getPluginName() + " Successfully launched");
     }
 
     @Override
     public void onDisable() {
-        System.out.println(name + ver + " Disabling ...");
+        System.out.println(getName() + " Disabling ...");
 
         getHologramManager().saveData(this);
         OmegaChunk.saveToDB();
-
-        System.out.println(name + ver + " Disabled");
     }
 
     public static P getInstance() {
         return INSTANCE;
     }
 
-    public static ConsoleCommandSender getSender() {
+    public ConsoleCommandSender getSender() {
         return sender;
     }
 
-    public static Random getRandom() {
+    public Random getRandom() {
         return random;
     }
 
     public HologramManager getHologramManager() {
         return hologramManager;
+    }
+
+    public PluginMessage getPluginMessage() {
+        return pluginMessage;
+    }
+
+    public Eco getEco() {
+        return eco;
+    }
+
+    public WorldManager getWorldManager() {
+        return worldManager;
+    }
+
+    public JobManager getJobManager() {
+        return jobManager;
+    }
+
+    public GroupManager getGroupManager() {
+        return groupManager;
+    }
+
+    public ShopManager getShopManager() {
+        return shopManager;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public final String getPluginName() {
+        return "[" + super.getName() + "]";
     }
 }

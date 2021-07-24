@@ -2,6 +2,7 @@ package fr.ChadOW.omegacore.global.bukkit;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
+import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.global.Global;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,21 +24,21 @@ public class CommandSetRank implements CommandExecutor {
                             account.setRank(rank);
                             target.setPlayerListName(account.getRank().getTab() + target.getDisplayName());
 
-                            sender.sendMessage(Global.prefix + "§fLe grade de §b" + target.getName() + "§f est définit sur " + rank.getTab());
+                            sender.sendMessage(P.getInstance().getPrefix() + "§fLe grade de §b" + target.getName() + "§f est définit sur " + rank.getTab());
                         } else {
-                            sender.sendMessage(Global.prefix + "§fLe grade n'hexite pas.");
+                            sender.sendMessage(P.getInstance().getPrefix() + "§fLe grade n'hexite pas.");
                         }
                     } else {
-                        sender.sendMessage(Global.prefix + "§fPrécisez un grade.");
+                        sender.sendMessage(P.getInstance().getPrefix() + "§fPrécisez un grade.");
                     }
                 } else {
-                    sender.sendMessage(Global.prefix + "§fLe joueur n'est pas connecté.");
+                    sender.sendMessage(P.getInstance().getPrefix() + "§fLe joueur n'est pas connecté.");
                 }
             } else {
-                sender.sendMessage(Global.prefix + "§fPrécisez un joueur.");
+                sender.sendMessage(P.getInstance().getPrefix() + "§fPrécisez un joueur.");
             }
         } else {
-            sender.sendMessage(Global.prefix + "Vous n'avez pas la permission.");
+            sender.sendMessage(P.getInstance().getPrefix() + "Vous n'avez pas la permission.");
         }
         return true;
     }

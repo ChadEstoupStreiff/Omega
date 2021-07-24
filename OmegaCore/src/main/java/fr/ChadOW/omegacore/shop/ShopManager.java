@@ -11,7 +11,7 @@ public class ShopManager {
 
     public static final Map<Horse,Shop> shops = new HashMap<>();
 
-    public static void init(P i) {
+    public ShopManager(P i) {
         i.getCommand("shop").setExecutor(new CommandShop());
         i.getServer().getPluginManager().registerEvents(new ShopListener(),i);
         loadShops();

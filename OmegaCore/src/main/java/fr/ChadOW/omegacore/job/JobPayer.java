@@ -25,7 +25,7 @@ public class JobPayer {
 
     static void init() {
         events = new HashMap<>();
-        Bukkit.getScheduler().runTaskTimer(P.INSTANCE, () -> {
+        Bukkit.getScheduler().runTaskTimer(P.getInstance(), () -> {
             if (events.size() > 0) {
                 for (Player player : events.keySet()) {
                     UserAccount userAccount = UserAccount.getAccount(player.getUniqueId());

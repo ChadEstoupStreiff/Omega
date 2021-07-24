@@ -10,7 +10,7 @@ public enum ServerType {
 
     public static void init(P p) {
         serverType = p.getConfig().getString("server.type");
-        P.getSender().sendMessage("Server type: " + serverType);
+        P.getInstance().getSender().sendMessage("Server type: " + serverType);
     }
 
     private final String type;
