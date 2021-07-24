@@ -1,4 +1,4 @@
-package fr.ChadOW.omegacore.utils.data;
+package fr.ChadOW.omegacore.utils;
 
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;

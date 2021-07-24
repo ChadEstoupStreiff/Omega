@@ -1,7 +1,7 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.data.DataUtils;
+import fr.ChadOW.omegacore.utils.DataUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
