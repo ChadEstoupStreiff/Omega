@@ -12,7 +12,7 @@ public class Global {
     public static void init(P i) {
         i.getCommand("setrank").setExecutor(new CommandSetRank());
         i.getCommand("account").setExecutor(new CommandAccount());
-        i.getCommand("stop").setExecutor(new CommandStop());
+        //i.getCommand("stop").setExecutor(new CommandStop());
         i.getServer().getPluginManager().registerEvents(new GlobalListener(), i);
     }
 }

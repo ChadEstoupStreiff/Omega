@@ -9,7 +9,7 @@ import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
 import fr.ChadOW.omegacore.shop.ShopManager;
 import fr.ChadOW.omegacore.utils.ServerType;
-import fr.ChadOW.omegacore.utils.hologram.Hologram;
+import fr.ChadOW.omegacore.utils.hologram.HologramManager;
 import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.ConsoleCommandSender;
@@ -26,6 +26,8 @@ public class P extends JavaPlugin {
 
     public static ConsoleCommandSender sender;
     public static Random random;
+
+    private HologramManager hologramManager;
 
     @Override
     public void onEnable() {
@@ -47,7 +49,7 @@ public class P extends JavaPlugin {
         if (ServerType.equals(ServerType.NORMAL))
             Claim.init(this);
         GroupManager.init(this);
-        Hologram.init(this);
+        hologramManager = new HologramManager(this);
         ShopManager.init(this);
 
         System.out.println(name + ver + " Launched");
@@ -57,7 +59,7 @@ public class P extends JavaPlugin {
     public void onDisable() {
         System.out.println(name + ver + " Disabling ...");
 
-        Hologram.disable(this);
+        getHologramManager().saveData(this);
         OmegaChunk.saveToDB();
 
         System.out.println(name + ver + " Disabled");
@@ -73,5 +75,9 @@ public class P extends JavaPlugin {
 
     public static Random getRandom() {
         return random;
+    }
+
+    public HologramManager getHologramManager() {
+        return hologramManager;
     }
 }

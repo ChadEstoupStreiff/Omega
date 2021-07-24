@@ -39,7 +39,5 @@ commands:
   rank:
     description: ""
     aliases: [grade, ranks, grades]
-  stop:
-    description: ""
   shop:
     description: ""

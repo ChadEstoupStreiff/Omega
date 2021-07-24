@@ -6,6 +6,7 @@ import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.cinventory.events.clickContent.Action;
 import fr.ChadOW.cinventory.events.clickContent.ClickType;
+import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -91,7 +92,7 @@ public class Shop {
         if (hologram != null) hologram.setLineAtIndex(String.format("Stock: %s", amount),0)
                 .setLineAtIndex(String.format(ChatColor.YELLOW + "Achat: %s", buyPrice),1)
                 .setLineAtIndex(String.format(ChatColor.GREEN + "Vente: %s", sellPrice),2);
-        else hologram = new Hologram("Shop", location,
+        else hologram = P.getInstance().getHologramManager().createHologram("Shop", location,
                 Arrays.asList(String.format("Stock: %s", amount),
                         String.format(ChatColor.YELLOW + "Achat: %s", buyPrice),
                         String.format(ChatColor.GREEN + "Vente: %s", sellPrice)));

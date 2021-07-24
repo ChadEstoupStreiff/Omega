@@ -1,6 +1,5 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
-import com.google.gson.JsonElement;
 import fr.ChadOW.api.managers.JedisManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,11 +20,6 @@ public class HologramData {
         y = hologram.getLocation().getY();
         z = hologram.getLocation().getZ();
         lines = hologram.getLinesAsStrings();
-    }
-
-    public HologramData fixGSON() {
-        lines = JedisManager.getGson().fromJson((JsonElement) lines, List.class);
-        return this;
     }
 
     public Hologram createHologram() {
