@@ -1,13 +1,10 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
-import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.DataUtils;
+import fr.ChadOW.omegacore.utils.data.DataUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,8 +50,8 @@ public class HologramManager {
 
     private void loadData(P p) {
         P.getInstance().getSender().sendMessage("[Hologram] Loading ...");
-        List<HologramData> hologramData = new DataUtils<HologramData>().readData(dataPath);
-        hologramData.forEach(HologramData::createHologram);
+        List<HologramData> hologramData = new DataUtils<HologramData>().readData(dataPath, HologramData.class);
+        hologramData.forEach(hologram -> hologram.createHologram(this));
     }
 
     public void saveData(P p) {

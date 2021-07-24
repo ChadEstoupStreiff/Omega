@@ -2,10 +2,12 @@ package fr.ChadOW.omegacore.utils.hologram;
 
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.Objects;
 
 public class HologramData {
 
@@ -16,7 +18,7 @@ public class HologramData {
 
     public HologramData(Hologram hologram) {
         name = hologram.getName();
-        world = hologram.getLocation().getWorld().getName();
+        world = Objects.requireNonNull(hologram.getLocation().getWorld()).getName();
         x = hologram.getLocation().getX();
         y = hologram.getLocation().getY();
         z = hologram.getLocation().getZ();
@@ -24,7 +26,35 @@ public class HologramData {
     }
 
     public Hologram createHologram() {
-        return P.getInstance().getHologramManager().createHologram(name, new Location(Bukkit.getWorld(world), x, y, z), lines);
+        return createHologram(P.getInstance().getHologramManager());
+    }
+
+    public Hologram createHologram(HologramManager hologramManager) {
+        return hologramManager.createHologram(name, new Location(Bukkit.getWorld(world), x, y, z), lines);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getWorld() {
+        return world;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public List<String> getLines() {
+        return lines;
     }
 
     @Override

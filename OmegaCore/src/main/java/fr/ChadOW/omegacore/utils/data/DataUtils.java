@@ -1,17 +1,15 @@
-package fr.ChadOW.omegacore.utils;
+package fr.ChadOW.omegacore.utils.data;
 
-import com.google.gson.reflect.TypeToken;
-import com.sun.deploy.ref.AppRef;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.hologram.Hologram;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataUtils<T> {
 
@@ -29,7 +27,7 @@ public class DataUtils<T> {
         }
     }
 
-    public List<T> readData(String URL) {
+    public List<T> readData(String URL, Type type) {
         String file = "";
         try {
             file = readFile(URL);
@@ -39,9 +37,8 @@ public class DataUtils<T> {
 
         List<T> list = new ArrayList<>();
         if (file.length() > 0) {
-            Type collectionType = new TypeToken<DataUtils<T>>(){}.getType();
             for (String str : file.split(";")) {
-                list.add(JedisManager.getGson().fromJson(str, collectionType));
+                list.add(JedisManager.getGson().fromJson(str, type));
             }
         }
         return list;
