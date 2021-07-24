@@ -8,6 +8,7 @@ import fr.ChadOW.cinventory.events.clickContent.Action;
 import fr.ChadOW.cinventory.events.clickContent.ClickType;
 import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -24,7 +25,7 @@ import java.util.UUID;
 public class Shop {
 
     private final Location location;
-    private final ItemStack item;
+    private ItemStack item;
     private int buyPrice;
     private int sellPrice;
     private int amount;
@@ -44,7 +45,7 @@ public class Shop {
         background = new CInventory(6*9, "Shop");
 
         int[] orangePanesIndex = {1,2,3,5,6,7,9,17,36,44,46,47,48,50,51,52};
-        int[] whitePanesIndex = {0,5,8,18,26,27,35,45,49,53};
+        int[] whitePanesIndex = {0,4,8,18,26,27,35,45,49,53};
         for (int i: orangePanesIndex){
             background.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
@@ -64,9 +65,7 @@ public class Shop {
 
     private void spawnDisplayItem() {
         ItemStack i = this.item.clone();
-        final Location placeLocation = this.location.clone();
-        double itemLoc = 0.6;
-        shopDisplayItem = Objects.requireNonNull(placeLocation.getWorld()).dropItem(placeLocation.add(0.5, itemLoc, 0.5), i);
+        shopDisplayItem = Objects.requireNonNull(location.getWorld()).dropItem(location, i);
         shopDisplayItem.setInvulnerable(true);
         shopDisplayItem.setVelocity(new Vector(0, 0, 0));
         shopDisplayItem.setGravity(false);
@@ -90,12 +89,12 @@ public class Shop {
 
     private void updateHologram() {
         if (hologram != null) hologram.setLineAtIndex(String.format("Stock: %s", amount),0)
-                .setLineAtIndex(String.format("Achat: %s", buyPrice),1)
-                .setLineAtIndex(String.format("Vente: %s", sellPrice),2);
+                .setLineAtIndex(String.format(ChatColor.YELLOW + "Achat: %s", buyPrice),1)
+                .setLineAtIndex(String.format(ChatColor.GREEN + "Vente: %s", sellPrice),2);
         else hologram = new Hologram("Shop", location,
                 Arrays.asList(String.format("Stock: %s", amount),
-                        String.format("Achat: %s", buyPrice),
-                        String.format("Vente: %s", sellPrice)));
+                        String.format(ChatColor.YELLOW + "Achat: %s", buyPrice),
+                        String.format(ChatColor.GREEN + "Vente: %s", sellPrice)));
         if (buyPrice == 0) hologram.removeLine(1);
         if (sellPrice == 0) hologram.removeLine(2);
     }
@@ -107,8 +106,9 @@ public class Shop {
                     .setName("Ouvrir le menu d'édition de shop")).setSlot(53)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> openEditorShop(p)));
         }
-        copy.addElement(new CItem(new ItemCreator(item).addLore(String.format("Quantité disponible: %s",amount)))
-                .setSlot(13));
+        copy.addElement(new CItem(new ItemCreator(item)).setSlot(12));
+        copy.addElement(new CItem(new ItemCreator(Material.CHEST,0).setAmount(amount)
+                .addLore(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount))).setSlot(12));
         copy.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
                 .setOwner(Objects.requireNonNull(Bukkit.getPlayer(owner)).getDisplayName())).setSlot(40));
         copy.open(player);
@@ -151,83 +151,93 @@ public class Shop {
     }
 
     private void openEditorShop(Player player){
-        CInventory copy = getShopInventory();
+        CInventory copy = background;
 
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix d'achat de 100$")).setSlot(19)
+                .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 100$")).setSlot(19)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 100 >= 0) buyPrice -= 100;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix d'achat de 10$")).setSlot(20)
+                .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 10$")).setSlot(20)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 10 >= 0) buyPrice -= 10;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix d'achat de 1$")).setSlot(21)
+                .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 1$")).setSlot(21)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 1 >= 0) buyPrice -= 1;
                     updateHologram();
                 }));
+        copy.addElement(new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
+                        .setName(String.format("Prix d'achat actuel: %s$",buyPrice))).setSlot(22));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix d'achat de 1$")).setSlot(23)
+                .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 1$")).setSlot(23)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 1;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix d'achat de 10$")).setSlot(24)
+                .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 10$")).setSlot(24)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 10;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix d'achat de 100$")).setSlot(25)
+                .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 100$")).setSlot(25)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 100;
                     updateHologram();
                 }));
 
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix de vente de 100$")).setSlot(28)
+                .setName(ChatColor.GREEN + "Diminuer le prix de vente de 100$")).setSlot(28)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 100 >= 0) sellPrice -= 100;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix de vente de 10$")).setSlot(29)
+                .setName(ChatColor.GREEN + "Diminuer le prix de vente de 10$")).setSlot(29)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 10 >= 0) sellPrice -= 10;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Diminuer le prix de vente de 1$")).setSlot(30)
+                .setName(ChatColor.GREEN + "Diminuer le prix de vente de 1$")).setSlot(30)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 1 >= 0) sellPrice -= 1;
                     updateHologram();
                 }));
+        copy.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
+                        .setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice))).setSlot(31));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix de vente de 1$")).setSlot(32)
+                .setName(ChatColor.GREEN + "Augmenter le prix de vente de 1$")).setSlot(32)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 1;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix de vente de 10$")).setSlot(33)
+                .setName(ChatColor.GREEN + "Augmenter le prix de vente de 10$")).setSlot(33)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 10;
                     updateHologram();
                 }));
         copy.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
-                .setName("Augmenter le prix de vente de 100$")).setSlot(34)
+                .setName(ChatColor.GREEN + "Augmenter le prix de vente de 100$")).setSlot(34)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 100;
                     updateHologram();
                 }));
 
-        copy.addElement(new CItem(new ItemCreator(item)).setSlot(13));
+        copy.addElement(new CItem(new ItemCreator(item)).setSlot(13)
+                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
+                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
+                        if (amount == 0) {
+                            item = new ItemCreator(p.getItemOnCursor()).setAmount(1).getItem();
+                        }
+                }));
 
         copy.addElement(new CItem(new ItemCreator(Material.CHEST,0).setName(String.format("Quantité: %s",amount))
                 .setAmount(amount)).setSlot(40)
@@ -286,24 +296,24 @@ public class Shop {
         CInventory copy = background;
         if (buyPrice != 0){
             copy.addElement(new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
-                    .setName("Acheter x1")).setSlot(20)
+                    .setName(ChatColor.YELLOW + "Acheter x1")).setSlot(20)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(1, p)));
             copy.addElement(new CItem(new ItemCreator(Material.GOLD_INGOT,0)
-                    .setName("Acheter x16")).setSlot(22)
+                    .setName(ChatColor.YELLOW + "Acheter x16")).setSlot(22)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(-16, p)));
             copy.addElement(new CItem(new ItemCreator(Material.GOLD_BLOCK,0)
-                    .setName("Acheter x64")).setSlot(24)
+                    .setName(ChatColor.YELLOW + "Acheter x64")).setSlot(24)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(-64, p)));
         }
         if (sellPrice != 0){
             copy.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
-                    .setName("Vendre x1")).setSlot(29)
+                    .setName(ChatColor.GREEN + "Vendre x1")).setSlot(29)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(1, p)));
             copy.addElement(new CItem(new ItemCreator(Material.IRON_INGOT,0)
-                    .setName("Vendre x16")).setSlot(31)
+                    .setName(ChatColor.GREEN + "Vendre x16")).setSlot(31)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(16, p)));
             copy.addElement(new CItem(new ItemCreator(Material.IRON_BLOCK,0)
-                    .setName("Vendre x64")).setSlot(33)
+                    .setName(ChatColor.GREEN + "Vendre x64")).setSlot(33)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(64, p)));
         }
 
