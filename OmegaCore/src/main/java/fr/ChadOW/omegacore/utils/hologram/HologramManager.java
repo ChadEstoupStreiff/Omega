@@ -52,35 +52,15 @@ public class HologramManager {
     }
 
     private void loadData(P p) {
-        P.getSender().sendMessage("[Hologram] Loading ...");
-        String fileContent = "";
-        try {
-            fileContent = new DataUtils().readFile(dataPath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (fileContent.length() > 0) {
-            String[] data = fileContent.split(";");
-            if (data.length > 0)
-                for (String hologram : data) {
-                    JedisManager.getGson().fromJson(hologram, HologramData.class).createHologram();
-                }
-        }
+        P.getInstance().getSender().sendMessage("[Hologram] Loading ...");
+        List<HologramData> hologramData = new DataUtils<HologramData>().readData(dataPath);
+        hologramData.forEach(HologramData::createHologram);
     }
 
     public void saveData(P p) {
-        P.getSender().sendMessage("[Hologram] Saving ...");
-        String str = "";
-        for (Hologram hologram : new ArrayList<>(holograms)) {
-            str += new HologramData(hologram).toString() + ';';
-            deleteHologram(hologram);
-        }
-
-        try {
-            new DataUtils().writeFile(dataPath, str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        P.getInstance().getSender().sendMessage("[Hologram] Saving ...");
+        List<HologramData> hologramData = new ArrayList<>();
+        holograms.forEach(hologram -> hologramData.add(new HologramData(hologram)));
+        new DataUtils<HologramData>().saveData(dataPath, hologramData);
     }
 }

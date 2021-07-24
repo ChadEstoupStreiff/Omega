@@ -1,13 +1,52 @@
 package fr.ChadOW.omegacore.utils;
 
+import com.google.gson.reflect.TypeToken;
+import com.sun.deploy.ref.AppRef;
+import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.utils.hologram.Hologram;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
 
-public class DataUtils {
+public class DataUtils<T> {
+
+    public void saveData(String URL, List<T> objects) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object obj : objects) {
+            stringBuilder.append(JedisManager.getGson().toJson(obj));
+            stringBuilder.append(";");
+        }
+
+        try {
+            writeFile(URL, stringBuilder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<T> readData(String URL) {
+        String file = "";
+        try {
+            file = readFile(URL);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        List<T> list = new ArrayList<>();
+        if (file.length() > 0) {
+            Type collectionType = new TypeToken<DataUtils<T>>(){}.getType();
+            for (String str : file.split(";")) {
+                list.add(JedisManager.getGson().fromJson(str, collectionType));
+            }
+        }
+        return list;
+    }
+
     public FileReader getFileReader(String URL) throws FileNotFoundException {
         return new FileReader(P.getInstance().getDataFolder().getPath() + "/data/" + URL);
     }

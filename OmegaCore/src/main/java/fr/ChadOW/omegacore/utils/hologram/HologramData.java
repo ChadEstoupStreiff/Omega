@@ -1,6 +1,7 @@
 package fr.ChadOW.omegacore.utils.hologram;
 
 import fr.ChadOW.api.managers.JedisManager;
+import fr.ChadOW.omegacore.P;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -23,7 +24,7 @@ public class HologramData {
     }
 
     public Hologram createHologram() {
-        return new Hologram(name, new Location(Bukkit.getWorld(world), x, y, z)).addLines(lines);
+        return P.getInstance().getHologramManager().createHologram(name, new Location(Bukkit.getWorld(world), x, y, z), lines);
     }
 
     @Override
