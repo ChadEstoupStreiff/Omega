@@ -3,6 +3,7 @@ package fr.ChadOW.omegacore.shop;
 import fr.ChadOW.api.managers.JedisManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class ShopData {
     private final int buyPrice;
     private final int sellPrice;
     private final int amount;
-    private final ItemStack item;
+    private final String material;
     private final String uuid;
 
 
@@ -28,15 +29,15 @@ public class ShopData {
         z = shop.getLocation().getZ();
         buyPrice = shop.getBuyPrice();
         sellPrice = shop.getSellPrice();
+        material = shop.getItem().getType().name();
         amount = shop.getAmount();
-        item = shop.getItem();
         uuid = shop.getOwner().toString();
     }
 
     public Shop createShop(ShopManager shopManager) {
         return shopManager
-                .createShop(new Location(Bukkit.getWorld(world), x, y, z), item, buyPrice, sellPrice,amount,
-                        UUID.fromString(uuid));
+                .createShop(new Location(Bukkit.getWorld(world), x, y, z), new ItemStack(Material.getMaterial(material)),
+                        buyPrice, sellPrice,amount,UUID.fromString(uuid));
     }
 
     @Override
