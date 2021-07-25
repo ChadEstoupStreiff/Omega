@@ -8,15 +8,13 @@ public class NbrReader {
     public static boolean isTimeFormat(String str) {
         if (str.length() > 1) {
             char car = str.charAt(str.length() -1);
-            if (
-                    isNumber(str.substring(0, str.length() -1))
+            return isNumber(str.substring(0, str.length() - 1))
                     && (
-                            car == 's'
+                    car == 's'
                             || car == 'm'
                             || car == 'h'
                             || car == 'd'
-                    ))
-                return true;
+            );
         }
         return false;
     }

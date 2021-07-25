@@ -5,7 +5,6 @@ import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.utils.ServerType;
-import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import fr.ChadOW.omegacore.world.commands.CommandMonde;
 import fr.ChadOW.omegacore.world.commands.CommandRTP;
 import org.bukkit.*;

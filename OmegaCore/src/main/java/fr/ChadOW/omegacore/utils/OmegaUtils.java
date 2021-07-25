@@ -5,7 +5,6 @@ import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.ItemCreator;
 import fr.ChadOW.cinventory.events.ItemClickEvent;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;

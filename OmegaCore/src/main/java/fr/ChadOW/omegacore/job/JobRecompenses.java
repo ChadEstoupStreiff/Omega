@@ -12,7 +12,7 @@ public class JobRecompenses {
 
     static void init() {
         list = new HashMap<>();
-        Arrays.stream(Job.values()).forEach(job -> new JobRecompenses(job));
+        Arrays.stream(Job.values()).forEach(JobRecompenses::new);
     }
 
     public static JobRecompenses getRecompense(Job job) {
@@ -26,7 +26,7 @@ public class JobRecompenses {
     public JobRecompenses(Job job) {
         this.job = job;
         this.values = createHashMap(job);
-        this.list.put(job, this);
+        list.put(job, this);
     }
 
     private HashMap<Object, JobRecompensesValues> createHashMap(Job job) {

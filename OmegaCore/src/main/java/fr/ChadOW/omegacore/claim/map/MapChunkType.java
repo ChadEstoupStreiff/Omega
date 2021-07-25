@@ -10,8 +10,8 @@ public enum MapChunkType {
     TAKEN("Prise", ChatColor.RED),
     AT("Tu es la", ChatColor.YELLOW);
 
-    private String name;
-    private ChatColor color;
+    private final String name;
+    private final ChatColor color;
 
     MapChunkType(String name, ChatColor color) {
         this.name = name;

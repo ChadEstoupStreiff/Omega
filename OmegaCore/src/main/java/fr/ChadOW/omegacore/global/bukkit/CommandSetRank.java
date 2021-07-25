@@ -3,7 +3,6 @@ package fr.ChadOW.omegacore.global.bukkit;
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.global.Global;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

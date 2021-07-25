@@ -4,7 +4,6 @@ import fr.ChadOW.api.accounts.BankAccount;
 import fr.ChadOW.api.accounts.JobAccount;
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.global.Global;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

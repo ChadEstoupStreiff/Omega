@@ -1,11 +1,6 @@
 package fr.ChadOW.omegacore.shop;
 
-import fr.ChadOW.api.enums.Rank;
-import fr.ChadOW.cinventory.CContent.CInventory;
-import fr.ChadOW.cinventory.CContent.CItem;
-import fr.ChadOW.cinventory.ItemCreator;
-import fr.ChadOW.omegacore.economie.Eco;
-import org.bukkit.Material;
+import fr.ChadOW.omegacore.P;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -15,8 +10,6 @@ import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-
-import java.util.Arrays;
 
 public class ShopListener implements Listener {
 
@@ -51,7 +44,7 @@ public class ShopListener implements Listener {
             if (horse.getCustomName() == null) return;
 
             if (horse.getCustomName().equals("Horse Shop"))
-                ShopManager.shops.get(horse).openShop(event.getPlayer());
+                P.getInstance().getShopManager().getShops().get(horse).openShop(event.getPlayer());
         }
     }
 }

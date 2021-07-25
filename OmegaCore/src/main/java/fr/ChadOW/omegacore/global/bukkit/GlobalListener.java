@@ -1,8 +1,6 @@
 package fr.ChadOW.omegacore.global.bukkit;
 
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.global.Global;
-import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +11,7 @@ import java.util.HashMap;
 
 public class GlobalListener implements Listener {
 
-    private HashMap<Player, Long> cmdCooldown = new HashMap<>();
+    private final HashMap<Player, Long> cmdCooldown = new HashMap<>();
 
 
     @EventHandler

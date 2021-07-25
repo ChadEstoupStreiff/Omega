@@ -1,7 +1,6 @@
 package fr.ChadOW.omegacore.shop.commands;
 
-import fr.ChadOW.omegacore.shop.Shop;
-import fr.ChadOW.omegacore.shop.ShopManager;
+import fr.ChadOW.omegacore.P;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,10 +14,8 @@ public class CommandShop implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args[0].equals("create")) {
-                Shop shop = new Shop(player.getLocation(), new ItemStack(Material.STONE), 0, 0,
+                P.getInstance().getShopManager().createShop(player.getLocation().getBlock().getLocation(), new ItemStack(Material.STONE), 0, 0,
                         0, player.getUniqueId());
-                shop.updateShop();
-                ShopManager.shops.put(shop.getHorse(),shop);
             }
         }
         return true;

@@ -2,7 +2,6 @@ package fr.ChadOW.omegacore.utils.hologram;
 
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -11,9 +10,12 @@ import java.util.Objects;
 
 public class HologramData {
 
-    private String name, world;
-    private double x, y, z;
-    private List<String> lines;
+    private final String name;
+    private final String world;
+    private final double x;
+    private final double y;
+    private final double z;
+    private final List<String> lines;
 
 
     public HologramData(Hologram hologram) {

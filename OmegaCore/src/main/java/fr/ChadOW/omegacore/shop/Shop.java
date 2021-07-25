@@ -320,5 +320,30 @@ public class Shop {
 
         return copy;
     }
+
+    public Item getShopDisplayItem() {
+        return shopDisplayItem;
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public int getBuyPrice() {
+        return buyPrice;
+    }
+
+    public int getSellPrice() {
+        return sellPrice;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
 }
 

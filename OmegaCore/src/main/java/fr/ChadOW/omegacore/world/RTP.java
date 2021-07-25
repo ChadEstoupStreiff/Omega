@@ -1,19 +1,13 @@
 package fr.ChadOW.omegacore.world;
 
 import fr.ChadOW.api.accounts.UserAccount;
-import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.omegacore.P;
-import fr.ChadOW.omegacore.utils.NbrReader;
-import fr.ChadOW.omegacore.utils.OmegaUtils;
 import fr.ChadOW.omegacore.utils.ServerType;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,7 +26,7 @@ public class RTP {
             Material.LAVA
     ));
 
-    private static HashMap<Player, Long> playersCooldown = new HashMap<>();
+    private static final HashMap<Player, Long> playersCooldown = new HashMap<>();
 
     public static void tryRandomTeleportation(Player player) {
         int cooldown = -1;
