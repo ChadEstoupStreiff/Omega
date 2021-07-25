@@ -35,6 +35,7 @@ public class Shop {
     private Item shopDisplayItem;
     private Horse horse;
     private final CInventory background;
+    private int id;
 
     public Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, UUID owner) {
         this.location = location;
@@ -345,5 +346,12 @@ public class Shop {
         return owner;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 
