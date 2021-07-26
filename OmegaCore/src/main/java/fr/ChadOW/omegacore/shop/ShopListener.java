@@ -1,6 +1,7 @@
 package fr.ChadOW.omegacore.shop;
 
 import fr.ChadOW.omegacore.P;
+import org.bukkit.entity.Bee;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -39,12 +40,13 @@ public class ShopListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract (PlayerInteractEntityEvent event){
-        if (event.getRightClicked() instanceof Horse){
-            Horse horse = (Horse) event.getRightClicked();
-            if (horse.getCustomName() == null) return;
-
-            if (horse.getCustomName().equals("Horse Shop"))
-                P.getInstance().getShopManager().getShops().get(horse).openShop(event.getPlayer());
+        if (event.getRightClicked() instanceof Bee){
+            Bee bee = (Bee) event.getRightClicked();
+            if (bee.getCustomName() != null && bee.getCustomName().equals("Horse Shop")){
+                Shop shop = P.getInstance().getShopManager().getShop(bee);
+                if (shop != null)
+                    shop.openShop(event.getPlayer());
+            }
         }
     }
 }

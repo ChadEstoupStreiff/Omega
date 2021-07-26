@@ -64,7 +64,7 @@ public class P extends JavaPlugin {
     public void onDisable() {
         System.out.println(getName() + " Disabling ...");
 
-        shopManager.saveShops();
+        getShopManager().saveShops();
         getHologramManager().saveHolograms();
         OmegaChunk.saveToDB();
     }

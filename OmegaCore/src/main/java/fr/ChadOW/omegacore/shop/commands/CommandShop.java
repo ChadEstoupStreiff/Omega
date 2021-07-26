@@ -14,7 +14,7 @@ public class CommandShop implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args[0].equals("create")) {
-                P.getInstance().getShopManager().createShop(player.getLocation().getBlock().getLocation(), new ItemStack(Material.STONE), 0, 0,
+                P.getInstance().getShopManager().createShop(player.getLocation().getBlock().getLocation().add(0.5, 0.1, 0.5), new ItemStack(Material.STONE), 0, 0,
                         0, player.getUniqueId());
             }
         }
