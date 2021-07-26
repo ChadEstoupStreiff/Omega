@@ -26,11 +26,10 @@ public class Hologram {
     }
 
     public Hologram removeLine(int i) {
-        if (i > 0 && i < lines.size()) {
+        if (i >= 0 && i < lines.size()) {
             lines.get(i).remove();
             lines.remove(i);
         }
-        updateLocation();
         return this;
     }
 
@@ -50,7 +49,6 @@ public class Hologram {
             if (i < lines.size()) {
                 ArmorStand armorStand = initArmorStand(line);
                 lines.add(i, armorStand);
-                updateLocation();
             } else {
                 addLine(line);
             }
@@ -62,7 +60,6 @@ public class Hologram {
         if (i >= lines.size()) {
             ArmorStand armorStand = initArmorStand(line);
             lines.add(armorStand);
-            updateLocation();
         } else if (i >= 0)
             lines.get(i).setCustomName(line);
         return this;
@@ -94,6 +91,7 @@ public class Hologram {
     }
 
     public void update() {
+        updateLocation();
         //TODO placeholders
     }
 
@@ -104,7 +102,6 @@ public class Hologram {
 
     public void setLocation(Location location) {
         this.location = location;
-        updateLocation();
     }
 
     public String getName() {
@@ -135,7 +132,7 @@ public class Hologram {
         this.permanent = permanent;
     }
 
-    public void destroy() {
+    void destroy() {
         for (ArmorStand armorStand : lines) {
             armorStand.remove();
         }
