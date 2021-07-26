@@ -8,7 +8,7 @@ import org.bukkit.Location;
 import java.util.List;
 import java.util.Objects;
 
-public class HologramData {
+public class SerializableHologram {
 
     private final String name;
     private final String world;
@@ -18,7 +18,7 @@ public class HologramData {
     private final List<String> lines;
 
 
-    public HologramData(Hologram hologram) {
+    public SerializableHologram(Hologram hologram) {
         name = hologram.getName();
         world = Objects.requireNonNull(hologram.getLocation().getWorld()).getName();
         x = hologram.getLocation().getX();

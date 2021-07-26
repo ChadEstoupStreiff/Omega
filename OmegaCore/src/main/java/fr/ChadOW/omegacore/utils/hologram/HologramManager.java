@@ -14,7 +14,7 @@ public class HologramManager {
     private final List<Hologram> holograms = new ArrayList<>();
 
     public HologramManager(P p) {
-        loadData(p);
+        loadHolograms();
 
         p.getCommand("hologram").setExecutor(new CommandHologram());
         Bukkit.getScheduler().runTaskTimer(P.getInstance(), () -> {
@@ -48,16 +48,19 @@ public class HologramManager {
         return null;
     }
 
-    private void loadData(P p) {
+    private void loadHolograms() {
         P.getInstance().getSender().sendMessage("[Hologram] Loading ...");
-        List<HologramData> hologramData = new DataUtils<HologramData>().readData(dataPath, HologramData.class);
+        List<SerializableHologram> hologramData = new DataUtils<SerializableHologram>().readData(dataPath, SerializableHologram.class);
         hologramData.forEach(hologram -> hologram.createHologram(this));
     }
 
-    public void saveData(P p) {
+    public void saveHolograms() {
         P.getInstance().getSender().sendMessage("[Hologram] Saving ...");
-        List<HologramData> hologramData = new ArrayList<>();
-        holograms.forEach(hologram -> hologramData.add(new HologramData(hologram)));
-        new DataUtils<HologramData>().saveData(dataPath, hologramData);
+        List<SerializableHologram> hologramData = new ArrayList<>();
+        new ArrayList<>(holograms).forEach(hologram -> {
+            hologramData.add(new SerializableHologram(hologram));
+            deleteHologram(hologram);
+        });
+        new DataUtils<SerializableHologram>().saveData(dataPath, hologramData);
     }
 }
