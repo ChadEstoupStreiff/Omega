@@ -27,11 +27,7 @@ public class DataUtils<T> {
 
     public List<T> readData(String URL, Type type) {
         String file = "";
-        try {
-            file = readFile(URL);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        file = readFile(URL);
 
         List<T> list = new ArrayList<>();
         if (file.length() > 0) {
@@ -54,26 +50,32 @@ public class DataUtils<T> {
         return null;
     }
 
-    public String readFile(String URL) throws FileNotFoundException {
+    public String readFile(String URL) {
         return readFile(getFileReader(URL));
     }
 
     public String readFile(InputStreamReader file) {
         StringBuilder result = new StringBuilder();
-        try {
-            int r = file.read();
-            while(r != -1) {
-                result.append((char) r);
-                r = file.read();
+        if (file != null)
+            try {
+                int r = file.read();
+                while(r != -1) {
+                    result.append((char) r);
+                    r = file.read();
+                }
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return result.toString();
     }
-    public OutputStreamWriter getFileWriter(String URL) throws IOException {
-        return new OutputStreamWriter(new FileOutputStream(P.getInstance().getDataFolder().getPath() + "/data/" + URL), StandardCharsets.UTF_8);
+    public OutputStreamWriter getFileWriter(String URL)  {
+        try {
+            return new OutputStreamWriter(new FileOutputStream(P.getInstance().getDataFolder().getPath() + "/data/" + URL), StandardCharsets.UTF_8);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void writeFile(String URL, String data) throws IOException {

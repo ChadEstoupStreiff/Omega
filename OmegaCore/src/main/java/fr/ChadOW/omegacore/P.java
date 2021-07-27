@@ -1,8 +1,7 @@
 package fr.ChadOW.omegacore;
 
 import fr.ChadOW.cinventory.CContent.CUtils;
-import fr.ChadOW.omegacore.claim.Claim;
-import fr.ChadOW.omegacore.claim.OmegaChunk;
+import fr.ChadOW.omegacore.claim.ClaimManager;
 import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.group.GroupManager;
@@ -33,6 +32,7 @@ public class P extends JavaPlugin {
     private JobManager jobManager;
     private GroupManager groupManager;
     private ShopManager shopManager;
+    private ClaimManager claimManager;
 
     @Override
     public void onEnable() {
@@ -52,7 +52,7 @@ public class P extends JavaPlugin {
         worldManager = new WorldManager(this);
         jobManager = new JobManager(this);
         if (ServerType.equals(ServerType.NORMAL))
-            Claim.init(this);
+            claimManager = new ClaimManager(this);
         groupManager = new GroupManager(this);
         hologramManager = new HologramManager(this);
         shopManager = new ShopManager(this);
@@ -66,7 +66,9 @@ public class P extends JavaPlugin {
 
         getShopManager().saveShops();
         getHologramManager().saveHolograms();
-        OmegaChunk.saveToDB();
+
+        if (ServerType.equals(ServerType.NORMAL))
+            getClaimManager().save();
     }
 
     public static P getInstance() {
@@ -115,5 +117,9 @@ public class P extends JavaPlugin {
 
     public final String getPluginName() {
         return "[" + super.getName() + "]";
+    }
+
+    public ClaimManager getClaimManager() {
+        return claimManager;
     }
 }
