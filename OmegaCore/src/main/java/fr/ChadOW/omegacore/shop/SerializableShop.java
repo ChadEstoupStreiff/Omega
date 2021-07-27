@@ -30,13 +30,9 @@ public class SerializableShop {
         uuid = shop.getOwner().toString();
     }
 
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
     public Shop createShop(ShopManager shopManager) {
         return shopManager
-                .createShop(new Location(Bukkit.getWorld(world), x, y, z), getItemStack(),
+                .createShop(new Location(Bukkit.getWorld(world), x, y, z), itemStack,
                         buyPrice, sellPrice,quantity, UUID.fromString(uuid));
     }
 }

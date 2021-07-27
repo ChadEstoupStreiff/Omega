@@ -46,7 +46,7 @@ public class Shop {
 
         initInventories();
         spawnDisplayItem();
-        spawnHorse();
+        spawnBee();
         spawnHolograms();
     }
 
@@ -221,16 +221,18 @@ public class Shop {
         shopDisplayItem.setGravity(false);
         shopDisplayItem.setPickupDelay(Integer.MAX_VALUE);
         shopDisplayItem.setOwner(owner);
-        shopDisplayItem.setCustomName("Shop display item");
+        shopDisplayItem.setCustomName("§6Shop display item");
         shopDisplayItem.setCustomNameVisible(false);
         shopDisplayItem.setPersistent(true);
     }
 
-    private void spawnHorse() {
+    private void spawnBee() {
         bee = (Bee) Objects.requireNonNull(location.getWorld()).spawnEntity(location, EntityType.BEE);
         bee.setInvisible(true);
         bee.setInvulnerable(true);
-        bee.setCustomName("Horse Shop");
+        bee.setPersistent(true);
+        bee.setCollidable(false);
+        bee.setCustomName("§6Bee Shop");
         bee.setCustomNameVisible(false);
         bee.setAI(false);
         bee.setAdult();
@@ -243,11 +245,12 @@ public class Shop {
     }
 
     private void updateHologram() {
-        hologram.setLineAtIndex(String.format(ChatColor.GOLD + "Stock: %s", amount),0)
-                .setLineAtIndex(String.format(ChatColor.YELLOW + "Achat: %s", buyPrice),1)
-                .setLineAtIndex(String.format(ChatColor.GREEN + "Vente: %s", sellPrice),2);
-        if (buyPrice == 0) hologram.removeLine(1);
-        if (sellPrice == 0) hologram.removeLine(2);
+        hologram.setLineAtIndex("§6Magasin de " + item.getType().toString().toLowerCase(), 0)
+                .setLineAtIndex("§fStock: §6" + amount,1)
+                .setLineAtIndex("§fAchat: §e" + buyPrice + "$",2)
+                .setLineAtIndex("§fVente: §b" + sellPrice + "$",3);
+        if (buyPrice == 0) hologram.removeLine(2);
+        if (sellPrice == 0) hologram.removeLine(3);
     }
 
     public void openShop(Player player) {
