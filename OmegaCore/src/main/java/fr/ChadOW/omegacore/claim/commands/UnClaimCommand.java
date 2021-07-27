@@ -1,6 +1,7 @@
 package fr.ChadOW.omegacore.claim.commands;
 
-import fr.ChadOW.omegacore.claim.Claim;
+import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.claim.ClaimManager;
 import fr.ChadOW.omegacore.claim.OmegaChunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,12 +14,12 @@ public class UnClaimCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            OmegaChunk chunk = OmegaChunk.getChunk(player.getLocation());
+            OmegaChunk chunk = P.getInstance().getClaimManager().getChunk(player.getLocation());
             if (chunk.getOwnerID() != null && chunk.getOwnerID().equalsIgnoreCase(player.getUniqueId().toString())) {
                 chunk.setOwnerID(null);
-                player.sendMessage(Claim.prefix + "§cVous n'êtes plus propriétaire de cette terre.");
+                player.sendMessage(P.getInstance().getClaimManager().prefix + "§cVous n'êtes plus propriétaire de cette terre.");
             } else {
-                player.sendMessage(Claim.prefix + "§cCette portion de terre ne vous appartient pas.");
+                player.sendMessage(P.getInstance().getClaimManager().prefix + "§cCette portion de terre ne vous appartient pas.");
             }
         }
         return true;

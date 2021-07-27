@@ -1,5 +1,6 @@
 package fr.ChadOW.omegacore.claim;
 
+import fr.ChadOW.omegacore.P;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ public class ClaimListener implements Listener {
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent event) {
-        Claim.setShowOff(event.getPlayer());
+        P.getInstance().getClaimManager().setShowOff(event.getPlayer());
     }
 
     @EventHandler
@@ -21,9 +22,9 @@ public class ClaimListener implements Listener {
         Player player = event.getPlayer();
         Location location = event.getBlock().getLocation();
 
-        if (Claim.checkPermission(player, location)) {
+        if (P.getInstance().getClaimManager().checkPermission(player, location)) {
             event.setCancelled(true);
-            player.sendMessage(Claim.prefix + "§cCette portion de terre ne vous appartient pas !");
+            player.sendMessage(P.getInstance().getClaimManager().prefix + "§cCette portion de terre ne vous appartient pas !");
         }
     }
 
@@ -32,9 +33,9 @@ public class ClaimListener implements Listener {
         Player player = event.getPlayer();
         Location location = event.getBlock().getLocation();
 
-        if (Claim.checkPermission(player, location)) {
+        if (P.getInstance().getClaimManager().checkPermission(player, location)) {
             event.setCancelled(true);
-            player.sendMessage(Claim.prefix + "§cCette portion de terre ne vous appartient pas !");
+            player.sendMessage(P.getInstance().getClaimManager().prefix + "§cCette portion de terre ne vous appartient pas !");
         }
     }
 
@@ -44,9 +45,9 @@ public class ClaimListener implements Listener {
             Player player = event.getPlayer();
             Location location = event.getClickedBlock().getLocation();
 
-            if (Claim.checkPermission(player, location)) {
+            if (P.getInstance().getClaimManager().checkPermission(player, location)) {
                 event.setCancelled(true);
-                player.sendMessage(Claim.prefix + "§cCette portion de terre ne vous appartient pas !");
+                player.sendMessage(P.getInstance().getClaimManager().prefix + "§cCette portion de terre ne vous appartient pas !");
             }
         }
     }
