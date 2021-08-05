@@ -5,9 +5,9 @@ import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
-import fr.ChadOW.cinventory.ItemCreator;
-import fr.ChadOW.cinventory.events.clickContent.Action;
-import fr.ChadOW.cinventory.events.clickContent.ClickType;
+import fr.ChadOW.cinventory.interfaces.ItemCreator;
+import fr.ChadOW.cinventory.interfaces.events.clickContent.Action;
+import fr.ChadOW.cinventory.interfaces.events.clickContent.ClickType;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.ChatColor;
@@ -51,8 +51,8 @@ public class Shop {
     }
 
     private void initInventories() {
-        menu = new CInventory(6*9, "§eMagasin de " + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
-        configuration = new CInventory(6*9, "§eEdition du magasin");
+        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+        configuration = new CInventory(6*9, "§§8§lEdition du magasin");
 
         int[] orangePanesIndex = {1,2,3,5,6,7,9,17,36,44,46,47,48,50,51,52};
         int[] whitePanesIndex = {0,4,8,18,26,27,35,45,49,53};

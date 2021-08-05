@@ -5,7 +5,7 @@ import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Job;
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
-import fr.ChadOW.cinventory.ItemCreator;
+import fr.ChadOW.cinventory.interfaces.ItemCreator;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.job.bukkit.CommandJob;
@@ -77,7 +77,7 @@ public class JobManager {
 
     public void openMainGUI(Player player) {
 
-        CInventory mainGUI = new CInventory(27, prefix + "§8§lMétiers");
+        CInventory mainGUI = new CInventory(27, "§8§lMétiers");
 
         mainGUI.addElement(createItemFromJob(Job.MINOR, Material.IRON_PICKAXE).setSlot(0));
         mainGUI.addElement(createItemFromJob(Job.LUMBERJACK, Material.WOODEN_AXE).setSlot(1));
@@ -179,7 +179,7 @@ public class JobManager {
 
         for (Job job : Job.values()) {
             Set<Object> list = JobRecompenses.getRecompense(job).getValues().keySet();
-            CInventory inv = new CInventory((list.size()-1)/9*9 +9, prefix + job.getName() + "§f.");
+            CInventory inv = new CInventory((list.size()-1)/9*9 +9, "§8§lMétier §e§l" + job.getName());
             statisticsJobGUI.put(job, inv);
 
             int counter = 0;
@@ -205,7 +205,7 @@ public class JobManager {
         Job job = jobAccount.getJob();
 
         Set<Object> list = JobRecompenses.getRecompense(job).getValues().keySet();
-        CInventory inv = new CInventory((list.size()-1)/9*9 +9, prefix + "Vos récompenses.");
+        CInventory inv = new CInventory((list.size()-1)/9*9 +9, "§8§lVos récompenses: " + job.getName());
         statisticsJobGUI.put(job, inv);
 
         int counter = 0;

@@ -5,8 +5,8 @@ import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
-import fr.ChadOW.cinventory.ItemCreator;
-import fr.ChadOW.cinventory.events.clickContent.ClickContext;
+import fr.ChadOW.cinventory.interfaces.ItemCreator;
+import fr.ChadOW.cinventory.interfaces.events.clickContent.ClickContext;
 import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.utils.OmegaUtils;
 import org.bukkit.Material;
@@ -21,7 +21,7 @@ public class CommandRank implements CommandExecutor {
     private final CInventory rankInv;
 
     public CommandRank() {
-        rankInv = new CInventory(27, "§6Grades");
+        rankInv = new CInventory(27, "§8§lGrades");
 
         rankInv.addElement(new CItem(new ItemCreator(Material.BLAZE_ROD, 0)
                 .setName(Rank.OLD.getPrefix())

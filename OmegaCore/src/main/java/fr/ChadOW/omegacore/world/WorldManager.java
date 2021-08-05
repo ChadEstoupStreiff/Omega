@@ -2,7 +2,7 @@ package fr.ChadOW.omegacore.world;
 
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
-import fr.ChadOW.cinventory.ItemCreator;
+import fr.ChadOW.cinventory.interfaces.ItemCreator;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.utils.ServerType;
 import fr.ChadOW.omegacore.world.commands.CommandMonde;
@@ -27,7 +27,7 @@ public class WorldManager {
     }
 
     private void createWorldGUI() {
-        worldGUI = new CInventory(45, "§eServeur actuel: " + ServerType.getServerType());
+        worldGUI = new CInventory(45, "§8§lServeur actuel: " + ServerType.getServerType());
 
         worldGUI.addElement(new CItem(new ItemCreator(Material.COMPASS, 0)
                 .setName("§6Serveur libre")

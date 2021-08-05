@@ -41,3 +41,5 @@ commands:
     aliases: [grade, ranks, grades]
   shop:
     description: ""
+  help:
+    aliases: menu

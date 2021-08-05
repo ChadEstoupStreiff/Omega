@@ -1,4 +1,4 @@
-package fr.ChadOW.omegacore.global.bukkit;
+package fr.ChadOW.omegacore.global;
 
 import fr.ChadOW.omegacore.P;
 import org.bukkit.entity.Player;

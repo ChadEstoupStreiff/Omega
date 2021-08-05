@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class RTP {
 
-    private static final ArrayList<Material> toIgnore = new ArrayList(Arrays.asList(
+    private static final ArrayList<Material> toIgnore = new ArrayList<>(Arrays.asList(
             Material.AIR,
             Material.ACACIA_LEAVES,
             Material.BIRCH_LEAVES,

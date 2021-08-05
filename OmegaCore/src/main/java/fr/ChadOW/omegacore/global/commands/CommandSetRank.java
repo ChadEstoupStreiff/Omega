@@ -1,4 +1,4 @@
-package fr.ChadOW.omegacore.global.bukkit;
+package fr.ChadOW.omegacore.global.commands;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
