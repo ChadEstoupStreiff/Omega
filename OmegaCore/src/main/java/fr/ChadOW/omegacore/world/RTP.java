@@ -40,7 +40,7 @@ public class RTP {
                 cooldown = 300;
             else
                 cooldown = 600;
-        } else if (ServerType.equals(ServerType.RESSOURCES)) {
+        } else if (ServerType.equals(ServerType.RESOURCE)) {
             UserAccount userAccount = UserAccount.getAccount(player.getUniqueId());
             if (userAccount.getRank().getPower() > 2)
                 cooldown = 5;

@@ -4,8 +4,8 @@ import fr.ChadOW.omegacore.P;
 
 public enum ServerType {
     NORMAL("free"),
-    RESSOURCES("ressources"),
-    WORLDS("worlds"),
+    RESOURCE("resource"),
+    WORLD("world"),
     EVENT("event");
 
     public static void init(P p) {

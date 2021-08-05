@@ -22,7 +22,7 @@ public class WorldManager {
         createWorldGUI();
 
         i.getCommand("monde").setExecutor(new CommandMonde());
-        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESSOURCES))
+        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESOURCE))
             i.getCommand("rtp").setExecutor(new CommandRTP());
     }
 
@@ -63,7 +63,7 @@ public class WorldManager {
                     P.getInstance().getPluginMessage().sendPlayerToServer(player, "worlds");
                 }).setSlot(15));
 
-        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESSOURCES)) {
+        if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESOURCE)) {
             worldGUI.addElement(new CItem(new ItemCreator(Material.GRASS_BLOCK, 0)
                     .setName("§6OverWorld")
                     .setLores(Arrays.asList(
