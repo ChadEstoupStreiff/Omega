@@ -5,7 +5,6 @@ import fr.ChadOW.omegacore.shop.commands.CommandShop;
 import fr.ChadOW.omegacore.utils.DataUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Bee;
-import org.bukkit.entity.Horse;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ public class ShopManager {
 
     public Shop createShop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, UUID owner){
         Shop shop = new Shop(location, item, buyPrice, sellPrice, amount, owner);
-        shop.setId(shops.indexOf(shop));
         shops.add(shop);
         return shop;
     }

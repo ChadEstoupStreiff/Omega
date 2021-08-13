@@ -2,7 +2,6 @@ package fr.ChadOW.omegacore.shop;
 
 import fr.ChadOW.omegacore.P;
 import org.bukkit.entity.Bee;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

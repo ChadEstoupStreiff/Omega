@@ -2,7 +2,6 @@ package fr.ChadOW.omegacore.shop;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
-import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.interfaces.ItemCreator;
@@ -13,11 +12,13 @@ import fr.ChadOW.omegacore.utils.hologram.Hologram;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Bee;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -34,7 +35,8 @@ public class Shop {
     private Bee bee;
     private CInventory menu;
     private CInventory configuration;
-    private int id;
+    private final CItem quantity_available = new CItem(new ItemCreator(Material.CHEST,0));
+    private final CItem quantity_item = new CItem(new ItemCreator(Material.CHEST,0));
 
     Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, UUID owner) {
         this.location = location;
@@ -43,7 +45,6 @@ public class Shop {
         this.sellPrice = sellPrice;
         this.amount = amount;
         this.owner = owner;
-
         initInventories();
         spawnDisplayItem();
         spawnBee();
@@ -51,8 +52,16 @@ public class Shop {
     }
 
     private void initInventories() {
-        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+//        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+        menu = new CInventory(6*9, "§8§lMagasin de §6§l test");
         configuration = new CInventory(6*9, "§§8§lEdition du magasin");
+
+        for (int i=0;i<53;i++){
+            menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                    .setName("§f")).setSlot(i));
+            configuration.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                    .setName("§f")).setSlot(i));
+        }
 
         int[] orangePanesIndex = {1,2,3,5,6,7,9,17,36,44,46,47,48,50,51,52};
         int[] whitePanesIndex = {0,4,8,18,26,27,35,45,49,53};
@@ -70,146 +79,194 @@ public class Shop {
                     .setName("§f")).setSlot(i));
         }
 
+        CItem buy_price = new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
+                .setName(String.format("Prix d'achat actuel: %s$",buyPrice))).setSlot(22);
+        CItem sell_price = new CItem(new ItemCreator(Material.IRON_NUGGET,0)
+                .setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice))).setSlot(31);
+        CItem shop_item = new CItem(new ItemCreator(item)).setSlot(13);
 
-        menu.addElement(new CItem(new ItemCreator(item)).setSlot(12));
-        menu.addElement(new CItem(new ItemCreator(Material.CHEST,0).setAmount(amount)
-                .addLore(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount))).setSlot(12));
+        menu.addElement(quantity_available
+                .setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount)).setSlot(13));
         menu.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
-                .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString())))).setSlot(40));
+                .setOwner("test")
+//                .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))
+                )
+                .setSlot(40));
 
-        configuration.addElement(new CItem(new ItemCreator(Material.REPEATER,0)
-                .setName("§eOuvrir le menu d'édition de shop")).setSlot(53)
-                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> menu.open(player)));
+        configuration.addElement(shop_item
+                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
+                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
+                        if (amount == 0) {
+                            item = new ItemCreator(p.getItemOnCursor()).setAmount(1).getItem();
+                            shop_item.setItemCreator(new ItemCreator(p.getItemOnCursor()).setAmount(1));
+                            shop_item.updateDisplay();
+                            updateMenus();
+                            updateHologram();
+                        }
+                }));
+
+        configuration.addElement(new CItem(new ItemCreator(Material.ARROW,0)
+                .setName("§eRevenir au shop")).setSlot(53)
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> openShopMenu(player)));
 
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 100$")).setSlot(19)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 100 >= 0) buyPrice -= 100;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 10$")).setSlot(20)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 10 >= 0) buyPrice -= 10;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 1$")).setSlot(21)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 1 >= 0) buyPrice -= 1;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
-                .setName(String.format("Prix d'achat actuel: %s$",buyPrice))).setSlot(22));
+        configuration.addElement(buy_price);
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 1$")).setSlot(23)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 1;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 10$")).setSlot(24)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 10;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 100$")).setSlot(25)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 100;
+                    buy_price.setName(String.format("Prix d'achat actuel: %s$",buyPrice));
+                    buy_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
 
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 100$")).setSlot(28)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 100 >= 0) sellPrice -= 100;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 10$")).setSlot(29)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 10 >= 0) sellPrice -= 10;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 1$")).setSlot(30)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 1 >= 0) sellPrice -= 1;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
-                .setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice))).setSlot(31));
+        configuration.addElement(sell_price);
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 1$")).setSlot(32)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 1;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 10$")).setSlot(33)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 10;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
         configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 100$")).setSlot(34)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 100;
+                    sell_price.setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice));
+                    sell_price.updateDisplay();
                     updateHologram();
+                    updateMenus();
                 }));
 
-        configuration.addElement(new CItem(new ItemCreator(item)).setSlot(13)
+        configuration.addElement(quantity_item.setName(String.format("Quantité: %s",amount))
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
-                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
-                        if (amount == 0) {
-                            item = new ItemCreator(p.getItemOnCursor()).setAmount(1).getItem();
-                        }
-                }));
-
-        configuration.addElement(new CItem(new ItemCreator(Material.CHEST,0).setName(String.format("Quantité: %s",amount))
-                .setAmount(amount)).setSlot(40)
-                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
-                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
-                        if (p.getItemOnCursor().isSimilar(item)){
+                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR)) {
+                        if (p.getItemOnCursor().isSimilar(item)) {
                             amount += p.getItemOnCursor().getAmount();
-                            p.getInventory().remove(p.getItemOnCursor());
+                            p.setItemOnCursor(new ItemStack(Material.AIR));
                         }
-                        else if (clickContext.getClickType().equals(ClickType.LEFT)){
-                            if (p.getInventory().containsAtLeast(item,64)){
-                                p.getInventory().remove(new ItemCreator(item).setAmount(64).getItem());
-                                amount += 64;
+                    }
+                    else if (clickContext.getClickType().equals(ClickType.LEFT)) {
+                        if (p.getInventory().containsAtLeast(item, item.getMaxStackSize())) {
+                            p.getInventory().removeItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
+                            amount += item.getMaxStackSize();
+                        }
+                    }
+                    else if (clickContext.getClickType().equals(ClickType.SHIFT_LEFT)) {
+                        for (ItemStack itemStack : p.getInventory().getStorageContents()){
+                            if (itemStack != null)
+                                if (itemStack.isSimilar(item)) {
+                                    amount += itemStack.getAmount();
+                                    p.getInventory().removeItem(itemStack);
+                                }
+                        }
+                    }
+                    else if (clickContext.getClickType().equals(ClickType.SHIFT_RIGHT)){
+                        for (ItemStack itemStack : p.getInventory().getStorageContents()) {
+                            if (itemStack == null) {
+                                if (amount - item.getMaxStackSize() >= 0) {
+                                    amount -= item.getMaxStackSize();
+                                    p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
+                                } else {
+                                    p.getInventory().addItem(new ItemCreator(item).setAmount(amount).getItem());
+                                    amount = 0;
+                                }
+                            }
+                            else if (itemStack.isSimilar(item)) {
+                                if (amount - item.getMaxStackSize() - itemStack.getAmount() >= 0) {
+                                    amount -= item.getMaxStackSize() - itemStack.getAmount();
+                                    p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize() + 1 - itemStack.getAmount()).getItem());
+                                }
                             }
                         }
-                        else if (clickContext.getClickType().equals(ClickType.SHIFT_LEFT)){
-                            Arrays.stream(p.getInventory().getStorageContents())
-                                    .filter(itemStack -> itemStack.isSimilar(item))
-                                    .forEach(itemStack -> amount += itemStack.getAmount());
-                            p.getInventory().remove(item);
-                        }
-                        else if (clickContext.getClickType().equals(ClickType.SHIFT_RIGHT)){
-                            Arrays.stream(p.getInventory().getStorageContents())
-                                    .filter(itemStack -> itemStack.isSimilar(item) || itemStack.getType().equals(Material.AIR)).forEach(itemStack -> {
-                                if (itemStack.getType().equals(Material.AIR)) {
-                                    if (amount - item.getMaxStackSize() >= 0) {
-                                        amount -= item.getMaxStackSize();
-                                        p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
-                                    }
-                                    else {
-                                        amount -= amount;
-                                        p.getInventory().addItem(new ItemCreator(item).setAmount(amount).getItem());
-                                    }
-                                }
-                                else {
-                                    if (amount - item.getMaxStackSize()+1 - itemStack.getAmount() >= 0) {
-                                        amount -= item.getMaxStackSize()+1 - itemStack.getAmount();
-                                        p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize()+1 - itemStack.getAmount()).getItem());
-                                    }
-                                }
-                            });
-                        }
-                }));
-
+                    }
+                    updateHologram();
+                    updateMenus();
+                })
+                .setSlot(40));
         updateMenus();
     }
 
@@ -246,18 +303,19 @@ public class Shop {
 
     private void updateHologram() {
         hologram.setLineAtIndex("§6Magasin de " + item.getType().toString().toLowerCase(), 0)
-                .setLineAtIndex("§fStock: §6" + amount,1)
-                .setLineAtIndex("§fAchat: §e" + buyPrice + "$",2)
-                .setLineAtIndex("§fVente: §b" + sellPrice + "$",3);
+                .setLineAtIndex("§fStock: §6" + amount,1);
         if (buyPrice == 0) hologram.removeLine(2);
+        else hologram.setLineAtIndex("§fAchat: §e" + buyPrice + "$",2);
         if (sellPrice == 0) hologram.removeLine(3);
+        else hologram.setLineAtIndex("§fVente: §b" + sellPrice + "$",3);
+        if (sellPrice == 0 && buyPrice == 0) hologram.removeLine(2);
     }
 
     public void openShop(Player player) {
         if (owner.equals(player.getUniqueId()) || UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower())
             configuration.open(player);
         else
-            menu.open(player);
+            openShopMenu(player);
     }
 
     private void sellItem(int i, Player player) {
@@ -266,17 +324,18 @@ public class Shop {
                 player.getInventory().removeItem(item);
             }
             amount += i;
+            updateMenus();
+            updateHologram();
             //pay the player and withdraw the owner
             UserAccount sellerAccount = UserAccount.getAccount(player.getUniqueId());
             sellerAccount.getBankAccount().addAmount(sellPrice);
             UserAccount shopperAccount = UserAccount.getAccount(owner);
             shopperAccount.getBankAccount().removeAmount(sellPrice);
         }
-        openShop(player);
     }
 
     private void buyItem(int quantity, Player player){
-        if (quantity > amount) return;
+        if (quantity < amount) return;
         int available = 0;
         for (ItemStack itemStack : player.getInventory().getStorageContents()){
             if (itemStack.getType().equals(Material.AIR)) available += item.getMaxStackSize();
@@ -287,13 +346,14 @@ public class Shop {
                 player.getInventory().addItem(item);
             }
             amount -= quantity;
+            updateMenus();
+            updateHologram();
             //pay the owner and withdraw the player
             UserAccount buyerAccount = UserAccount.getAccount(player.getUniqueId());
             buyerAccount.getBankAccount().removeAmount(buyPrice);
             UserAccount shopperAccount = UserAccount.getAccount(owner);
             shopperAccount.getBankAccount().addAmount(buyPrice);
         }
-        openShop(player);
     }
 
     public Location getLocation() {
@@ -316,6 +376,13 @@ public class Shop {
                     .setName(ChatColor.YELLOW + "Acheter x64")).setSlot(24)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(-64, p)));
         }
+        else {
+            for (int i=20;i<=24;i+=2) {
+                menu.removeElement(menu.getElement(i));
+                menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                        .setName("§f")).setSlot(i));
+            }
+        }
         if (sellPrice != 0){
             menu.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
                     .setName(ChatColor.GREEN + "Vendre x1")).setSlot(29)
@@ -327,16 +394,23 @@ public class Shop {
                     .setName(ChatColor.GREEN + "Vendre x64")).setSlot(33)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(64, p)));
         }
+        else {
+            for (int i=29;i<=33;i+=2) {
+                menu.removeElement(menu.getElement(i));
+                menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                        .setName("§f")).setSlot(i));
+            }
+        }
+        quantity_item.setName(String.format("Quantité: %s",amount));
+        quantity_item.updateDisplay();
+        quantity_available.setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount));
+        quantity_item.updateDisplay();
     }
 
     void delete() {
         bee.remove();
         shopDisplayItem.remove();
         P.getInstance().getHologramManager().deleteHologram(hologram);
-    }
-
-    public Item getShopDisplayItem() {
-        return shopDisplayItem;
     }
 
     public ItemStack getItem() {
@@ -359,12 +433,15 @@ public class Shop {
         return owner;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    private void openShopMenu (Player player){
+        if (!(owner.equals(player.getUniqueId()) ||
+                UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower()))
+            menu.open(player);
+        CInventory clone = menu;
+        clone.addElement(new CItem(new ItemCreator(Material.REPEATER,0)
+                .setName("§eOuvrir le menu d'édition de shop")).setSlot(53)
+                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> configuration.open(p)));
+        clone.open(player);
     }
 }
 
