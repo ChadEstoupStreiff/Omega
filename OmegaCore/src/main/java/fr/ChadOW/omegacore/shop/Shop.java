@@ -2,6 +2,7 @@ package fr.ChadOW.omegacore.shop;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
+import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.cinventory.CContent.CInventory;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.interfaces.ItemCreator;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 public class Shop {
 
+    private boolean adminShop;
     private final Location location;
     private ItemStack item;
     private int buyPrice;
@@ -38,13 +40,14 @@ public class Shop {
     private final CItem quantity_available = new CItem(new ItemCreator(Material.CHEST,0));
     private final CItem quantity_item = new CItem(new ItemCreator(Material.CHEST,0));
 
-    Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, UUID owner) {
+    Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount,boolean adminShop, UUID owner) {
         this.location = location;
         this.item = item;
         this.buyPrice = buyPrice;
         this.sellPrice = sellPrice;
         this.amount = amount;
         this.owner = owner;
+        this.adminShop = adminShop;
         initInventories();
         spawnDisplayItem();
         spawnBee();
@@ -52,8 +55,7 @@ public class Shop {
     }
 
     private void initInventories() {
-//        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
-        menu = new CInventory(6*9, "§8§lMagasin de §6§l test");
+        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
         configuration = new CInventory(6*9, "§§8§lEdition du magasin");
 
         for (int i=0;i<53;i++){
@@ -88,9 +90,7 @@ public class Shop {
         menu.addElement(quantity_available
                 .setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount)).setSlot(13));
         menu.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
-                .setOwner("test")
-//                .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))
-                )
+                .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))))
                 .setSlot(40));
 
         configuration.addElement(shop_item
@@ -225,22 +225,28 @@ public class Shop {
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR)) {
                         if (p.getItemOnCursor().isSimilar(item)) {
-                            amount += p.getItemOnCursor().getAmount();
-                            p.setItemOnCursor(new ItemStack(Material.AIR));
+                            if (canStockMore(p.getItemOnCursor().getAmount())) {
+                                amount += p.getItemOnCursor().getAmount();
+                                p.setItemOnCursor(new ItemStack(Material.AIR));
+                            }
                         }
                     }
                     else if (clickContext.getClickType().equals(ClickType.LEFT)) {
                         if (p.getInventory().containsAtLeast(item, item.getMaxStackSize())) {
-                            p.getInventory().removeItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
-                            amount += item.getMaxStackSize();
+                            if (canStockMore(item.getMaxStackSize())) {
+                                p.getInventory().removeItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
+                                amount += item.getMaxStackSize();
+                            }
                         }
                     }
                     else if (clickContext.getClickType().equals(ClickType.SHIFT_LEFT)) {
                         for (ItemStack itemStack : p.getInventory().getStorageContents()){
                             if (itemStack != null)
                                 if (itemStack.isSimilar(item)) {
-                                    amount += itemStack.getAmount();
-                                    p.getInventory().removeItem(itemStack);
+                                    if (canStockMore(itemStack.getAmount())) {
+                                        amount += itemStack.getAmount();
+                                        p.getInventory().removeItem(itemStack);
+                                    }
                                 }
                         }
                     }
@@ -302,8 +308,9 @@ public class Shop {
     }
 
     private void updateHologram() {
-        hologram.setLineAtIndex("§6Magasin de " + item.getType().toString().toLowerCase(), 0)
-                .setLineAtIndex("§fStock: §6" + amount,1);
+        hologram.setLineAtIndex("§6Magasin de " + item.getType().toString().toLowerCase(), 0);
+        if (adminShop) hologram.setLineAtIndex("§fOmegaShop",1);
+        else hologram.setLineAtIndex("§fStock: §6" + amount,1);
         if (buyPrice == 0) hologram.removeLine(2);
         else hologram.setLineAtIndex("§fAchat: §e" + buyPrice + "$",2);
         if (sellPrice == 0) hologram.removeLine(3);
@@ -312,25 +319,41 @@ public class Shop {
     }
 
     public void openShop(Player player) {
-        if (owner.equals(player.getUniqueId()) || UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower())
+        if (UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower()) {
+            CInventory clone = menu;
+            if (adminShop) {
+                clone.addElement(new CItem(new ItemCreator(Material.GREEN_WOOL, 0)
+                        .setName(ChatColor.RED + "Désactiver l'admin shop")).setSlot(45)
+                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> adminShop = false));
+            }
+            else {
+                clone.addElement(new CItem(new ItemCreator(Material.RED_WOOL, 0)
+                        .setName(ChatColor.GREEN + "Activer l'admin shop")).setSlot(45)
+                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> adminShop = true));
+            }
+            clone.open(player);
+        }
+        else if (owner.equals(player.getUniqueId()))
             configuration.open(player);
         else
             openShopMenu(player);
     }
 
-    private void sellItem(int i, Player player) {
-        if (player.getInventory().containsAtLeast(item,i)){
-            for (int index = 0; index < i; index++) {
+    private void sellItem(int quantity, Player player) {
+        if (player.getInventory().containsAtLeast(item,quantity)){
+            for (int i = 0; i < quantity; i++) {
                 player.getInventory().removeItem(item);
             }
-            amount += i;
-            updateMenus();
-            updateHologram();
-            //pay the player and withdraw the owner
-            UserAccount sellerAccount = UserAccount.getAccount(player.getUniqueId());
-            sellerAccount.getBankAccount().addAmount(sellPrice);
-            UserAccount shopperAccount = UserAccount.getAccount(owner);
-            shopperAccount.getBankAccount().removeAmount(sellPrice);
+            if (canStockMore(quantity)) {
+                amount += quantity;
+                updateMenus();
+                updateHologram();
+                //pay the player and withdraw the owner
+                UserAccount sellerAccount = UserAccount.getAccount(player.getUniqueId());
+                sellerAccount.getBankAccount().addAmount(sellPrice * quantity);
+                UserAccount shopperAccount = UserAccount.getAccount(owner);
+                shopperAccount.getBankAccount().removeAmount(sellPrice * quantity);
+            }
         }
     }
 
@@ -350,9 +373,9 @@ public class Shop {
             updateHologram();
             //pay the owner and withdraw the player
             UserAccount buyerAccount = UserAccount.getAccount(player.getUniqueId());
-            buyerAccount.getBankAccount().removeAmount(buyPrice);
+            buyerAccount.getBankAccount().removeAmount(buyPrice * quantity);
             UserAccount shopperAccount = UserAccount.getAccount(owner);
-            shopperAccount.getBankAccount().addAmount(buyPrice);
+            shopperAccount.getBankAccount().addAmount(buyPrice * quantity);
         }
     }
 
@@ -442,6 +465,46 @@ public class Shop {
                 .setName("§eOuvrir le menu d'édition de shop")).setSlot(53)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> configuration.open(p)));
         clone.open(player);
+    }
+
+    public boolean isAdminShop() {
+        return adminShop;
+    }
+
+    private boolean canStockMore(int quantity){
+        Rank rank = UserAccount.getAccount(owner).getRank();
+        int maxStock = 0;
+        if (rank.equals(Rank.DEFAULT)){
+
+        }
+        else if (rank.equals(Rank.OLD)){
+
+        }
+        else if (rank.equals(Rank.LEGEND)){
+
+        }
+        else if (rank.equals(Rank.MYTH)){
+
+        }
+        else if (rank.equals(Rank.HELPER)){
+
+        }
+        else if (rank.equals(Rank.MOD)){
+
+        }
+        else if (rank.equals(Rank.BUILDER)){
+
+        }
+        else if (rank.equals(Rank.DEV)){
+
+        }
+        else if (rank.equals(Rank.ADMIN)){
+
+        }
+        else if (rank.equals(Rank.YTB)){
+
+        }
+        return amount + quantity <= maxStock;
     }
 }
 

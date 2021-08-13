@@ -39,19 +39,14 @@ public class ShopManager {
         new DataUtils<SerializableShop>().saveData(dataPath, shopsData);
     }
 
-    public Shop createShop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, UUID owner){
-        Shop shop = new Shop(location, item, buyPrice, sellPrice, amount, owner);
+    public void createShop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, boolean adminShop, UUID owner){
+        Shop shop = new Shop(location, item, buyPrice, sellPrice, amount,adminShop,owner);
         shops.add(shop);
-        return shop;
     }
 
     public void destroyShop(Shop shop){
         shop.delete();
         shops.remove(shop);
-    }
-
-    public ArrayList<Shop> getShops() {
-        return shops;
     }
 
     public Shop getShop(Bee entity) {

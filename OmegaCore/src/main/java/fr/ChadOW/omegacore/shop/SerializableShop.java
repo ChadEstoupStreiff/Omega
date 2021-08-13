@@ -19,9 +19,11 @@ public class SerializableShop {
     public final int sellPrice;
     public final int quantity;
     public final String uuid;
+    public final boolean adminShop;
    
     public SerializableShop(Shop shop) {
         itemStackSerialized = shop.getItem().serialize();
+        adminShop = shop.isAdminShop();
         world = Objects.requireNonNull(shop.getLocation().getWorld()).getName();
         x = shop.getLocation().getX();
         y = shop.getLocation().getY();
@@ -36,6 +38,6 @@ public class SerializableShop {
         shopManager
                 .createShop(new Location(Bukkit.getWorld(world), x, y, z),
                         ItemStack.deserialize(itemStackSerialized),
-                        buyPrice, sellPrice, quantity, UUID.fromString(uuid));
+                        buyPrice, sellPrice, quantity, adminShop, UUID.fromString(uuid));
     }
 }
