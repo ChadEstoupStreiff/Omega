@@ -475,34 +475,19 @@ public class Shop {
         Rank rank = UserAccount.getAccount(owner).getRank();
         int maxStock = 0;
         if (rank.equals(Rank.DEFAULT)){
-
+            maxStock = item.getMaxStackSize() * 9;
         }
         else if (rank.equals(Rank.OLD)){
-
+            maxStock = item.getMaxStackSize() * 18;
         }
         else if (rank.equals(Rank.LEGEND)){
-
+            maxStock = item.getMaxStackSize() * 27;
         }
         else if (rank.equals(Rank.MYTH)){
-
+            maxStock = item.getMaxStackSize() * 36;
         }
-        else if (rank.equals(Rank.HELPER)){
-
-        }
-        else if (rank.equals(Rank.MOD)){
-
-        }
-        else if (rank.equals(Rank.BUILDER)){
-
-        }
-        else if (rank.equals(Rank.DEV)){
-
-        }
-        else if (rank.equals(Rank.ADMIN)){
-
-        }
-        else if (rank.equals(Rank.YTB)){
-
+        else if (adminShop){
+            return true;
         }
         return amount + quantity <= maxStock;
     }
