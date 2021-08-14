@@ -89,9 +89,6 @@ public class Shop {
 
         menu.addElement(quantity_available
                 .setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount)).setSlot(13));
-        menu.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
-                .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))))
-                .setSlot(40));
 
         configuration.addElement(shop_item
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
@@ -324,12 +321,20 @@ public class Shop {
             if (adminShop) {
                 clone.addElement(new CItem(new ItemCreator(Material.GREEN_WOOL, 0)
                         .setName(ChatColor.RED + "Désactiver l'admin shop")).setSlot(45)
-                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> adminShop = false));
+                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) ->{
+                            adminShop = false;
+                            updateHologram();
+                            updateMenus();
+                        }));
             }
             else {
                 clone.addElement(new CItem(new ItemCreator(Material.RED_WOOL, 0)
                         .setName(ChatColor.GREEN + "Activer l'admin shop")).setSlot(45)
-                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> adminShop = true));
+                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
+                            adminShop = true;
+                            updateHologram();
+                            updateMenus();
+                        }));
             }
             clone.open(player);
         }
@@ -424,10 +429,22 @@ public class Shop {
                         .setName("§f")).setSlot(i));
             }
         }
-        quantity_item.setName(String.format("Quantité: %s",amount));
-        quantity_item.updateDisplay();
-        quantity_available.setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount));
-        quantity_item.updateDisplay();
+        if (adminShop){
+            quantity_available.setName(Objects.requireNonNull(item.getItemMeta()).getDisplayName());
+            menu.removeElement(menu.getElement(40));
+            menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                    .setName("§f")).setSlot(40));
+            menu.setName("§8§lOmegaShop");
+        }
+        else {
+            quantity_item.setName(String.format("Quantité: %s", amount));
+            quantity_item.updateDisplay();
+            quantity_available.setName(String.format("Quantité disponible: %s%s", ChatColor.YELLOW, amount));
+            menu.setName("§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+            menu.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
+                    .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))))
+                    .setSlot(40));
+        }
     }
 
     void delete() {
