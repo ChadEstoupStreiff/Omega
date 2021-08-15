@@ -491,7 +491,11 @@ public class Shop {
     private boolean canStockMore(int quantity){
         if (adminShop) return true;
         int power = UserAccount.getAccount(owner).getRank().getPower();
-        int maxStock = (power+1)*9 * item.getMaxStackSize();
+        int maxStock;
+        if (power >= Rank.MYTH.getPower()) maxStock = 36 * item.getMaxStackSize();
+        else if (power >= Rank.LEGEND.getPower()) maxStock = 27 * item.getMaxStackSize();
+        else if (power >= Rank.OLD.getPower()) maxStock = 18 * item.getMaxStackSize();
+        else maxStock = 9 * item.getMaxStackSize();
         return amount + quantity <= maxStock;
     }
 }
