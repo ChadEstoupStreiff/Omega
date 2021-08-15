@@ -45,7 +45,7 @@ public class ShopListener implements Listener {
             if (bee.getCustomName() != null && bee.getCustomName().equals("§6Bee Shop")){
                 Shop shop = P.getInstance().getShopManager().getShop(bee);
                 if (shop != null)
-                    shop.openShop(event.getPlayer());
+                    shop.openShopMenu(event.getPlayer());
             }
         }
     }

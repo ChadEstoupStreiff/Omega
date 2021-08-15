@@ -35,12 +35,12 @@ public class Shop {
     private Hologram hologram;
     private Item shopDisplayItem;
     private Bee bee;
-    private CInventory menu;
-    private CInventory configuration;
+    private CInventory menuInventory;
+    private CInventory configurationInventory;
+    private CInventory adminInventory;
     private final CItem quantity_available = new CItem(new ItemCreator(Material.CHEST,0));
-    private final CItem quantity_item = new CItem(new ItemCreator(Material.CHEST,0));
 
-    Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount,boolean adminShop, UUID owner) {
+    Shop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, boolean adminShop, UUID owner) {
         this.location = location;
         this.item = item;
         this.buyPrice = buyPrice;
@@ -55,29 +55,25 @@ public class Shop {
     }
 
     private void initInventories() {
-        menu = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
-        configuration = new CInventory(6*9, "§§8§lEdition du magasin");
+        menuInventory = new CInventory(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+        configurationInventory = new CInventory(6*9, "§§8§lEdition du magasin");
+        adminInventory = new CInventory(6*9, "§§8§lAdministration du magasin");
 
-        for (int i=0;i<53;i++){
-            menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+        for (int i = 0; i <= 53; i++){
+            menuInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
-            configuration.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+            configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                    .setName("§f")).setSlot(i));
+            adminInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
         }
-
         int[] orangePanesIndex = {1,2,3,5,6,7,9,17,36,44,46,47,48,50,51,52};
-        int[] whitePanesIndex = {0,4,8,18,26,27,35,45,49,53};
-
         for (int i: orangePanesIndex){
-            menu.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
-            configuration.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
+            configurationInventory.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
-        }
-        for (int i: whitePanesIndex){
-            menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
-                    .setName("§f")).setSlot(i));
-            configuration.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+            adminInventory.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(i));
         }
 
@@ -87,10 +83,10 @@ public class Shop {
                 .setName(String.format(ChatColor.GREEN + "Prix de vente actuel: %s$",sellPrice))).setSlot(31);
         CItem shop_item = new CItem(new ItemCreator(item)).setSlot(13);
 
-        menu.addElement(quantity_available
+        menuInventory.addElement(quantity_available
                 .setName(String.format("Quantité disponible: %s%s",ChatColor.YELLOW,amount)).setSlot(13));
 
-        configuration.addElement(shop_item
+        configurationInventory.addElement(shop_item
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
                         if (amount == 0) {
@@ -102,11 +98,11 @@ public class Shop {
                         }
                 }));
 
-        configuration.addElement(new CItem(new ItemCreator(Material.ARROW,0)
-                .setName("§eRevenir au shop")).setSlot(53)
-                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> openShopMenu(player)));
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.REPEATER,0)
+                .setName("§eRevenir au magasin")).setSlot(53)
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> menuInventory.open(player)));
 
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 100$")).setSlot(19)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 100 >= 0) buyPrice -= 100;
@@ -115,7 +111,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 10$")).setSlot(20)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 10 >= 0) buyPrice -= 10;
@@ -124,7 +120,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Diminuer le prix d'achat de 1$")).setSlot(21)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (buyPrice - 1 >= 0) buyPrice -= 1;
@@ -133,8 +129,8 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(buy_price);
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(buy_price);
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 1$")).setSlot(23)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 1;
@@ -143,7 +139,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 10$")).setSlot(24)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 10;
@@ -152,7 +148,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.YELLOW +"Augmenter le prix d'achat de 100$")).setSlot(25)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     buyPrice += 100;
@@ -162,7 +158,7 @@ public class Shop {
                     updateMenus();
                 }));
 
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 100$")).setSlot(28)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 100 >= 0) sellPrice -= 100;
@@ -171,7 +167,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 10$")).setSlot(29)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 10 >= 0) sellPrice -= 10;
@@ -180,7 +176,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Diminuer le prix de vente de 1$")).setSlot(30)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (sellPrice - 1 >= 0) sellPrice -= 1;
@@ -189,8 +185,8 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(sell_price);
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(sell_price);
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 1$")).setSlot(32)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 1;
@@ -199,7 +195,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 10$")).setSlot(33)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 10;
@@ -208,7 +204,7 @@ public class Shop {
                     updateHologram();
                     updateMenus();
                 }));
-        configuration.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
+        configurationInventory.addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)
                 .setName(ChatColor.GREEN + "Augmenter le prix de vente de 100$")).setSlot(34)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     sellPrice += 100;
@@ -218,7 +214,7 @@ public class Shop {
                     updateMenus();
                 }));
 
-        configuration.addElement(quantity_item.setName(String.format("Quantité: %s",amount))
+        configurationInventory.addElement(quantity_available.setName(String.format("Quantité: %s",amount))
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
                     if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR)) {
                         if (p.getItemOnCursor().isSimilar(item)) {
@@ -270,6 +266,21 @@ public class Shop {
                     updateMenus();
                 })
                 .setSlot(40));
+
+        adminInventory.addElement(new CItem(new ItemCreator(Material.REPEATER, 0).setName("§cMenu édition")).addEvent((inventory, item1, player, clickContext) -> configurationInventory.open(player)).setSlot(53));
+        adminInventory.addElement(new CItem(new ItemCreator(Material.GRAY_DYE, 0).setName("§fMode administrateur: §cDésactivé"))
+                .addEvent((inventory, item1, player, clickContext) -> {
+                    adminShop = !adminShop;
+                    if (adminShop)
+                        ((CItem)item1).setMaterial(Material.LIME_DYE).setName("§fMode administrateur: §aActivé");
+                    else
+                        ((CItem)item1).setMaterial(Material.GRAY_DYE).setName("§fMode administrateur: §cDésactivé");
+                    ((CItem) item1).updateDisplay();
+                    updateMenus();
+                    updateHologram();
+                })
+                .setSlot(22));
+
         updateMenus();
     }
 
@@ -305,43 +316,18 @@ public class Shop {
     }
 
     private void updateHologram() {
-        hologram.setLineAtIndex("§6Magasin de " + item.getType().toString().toLowerCase(), 0);
-        if (adminShop) hologram.setLineAtIndex("§fOmegaShop",1);
-        else hologram.setLineAtIndex("§fStock: §6" + amount,1);
-        if (buyPrice == 0) hologram.removeLine(2);
-        else hologram.setLineAtIndex("§fAchat: §e" + buyPrice + "$",2);
-        if (sellPrice == 0) hologram.removeLine(3);
-        else hologram.setLineAtIndex("§fVente: §b" + sellPrice + "$",3);
-        if (sellPrice == 0 && buyPrice == 0) hologram.removeLine(2);
-    }
-
-    public void openShop(Player player) {
-        if (UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower()) {
-            CInventory clone = menu;
-            if (adminShop) {
-                clone.addElement(new CItem(new ItemCreator(Material.GREEN_WOOL, 0)
-                        .setName(ChatColor.RED + "Désactiver l'admin shop")).setSlot(45)
-                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) ->{
-                            adminShop = false;
-                            updateHologram();
-                            updateMenus();
-                        }));
-            }
-            else {
-                clone.addElement(new CItem(new ItemCreator(Material.RED_WOOL, 0)
-                        .setName(ChatColor.GREEN + "Activer l'admin shop")).setSlot(45)
-                        .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
-                            adminShop = true;
-                            updateHologram();
-                            updateMenus();
-                        }));
-            }
-            clone.open(player);
+        hologram.clear();
+        if (adminShop)
+            hologram.addLine("§6OmegaShop");
+        else {
+            hologram.addLine("§6Magasin de " + item.getType().toString().toLowerCase());
+            hologram.addLine("§fQuantité: §6" + amount);
         }
-        else if (owner.equals(player.getUniqueId()))
-            configuration.open(player);
-        else
-            openShopMenu(player);
+        if (buyPrice > 0)
+            hologram.addLine("§fAchat: §e" + buyPrice + "$");
+        if (sellPrice > 0)
+            hologram.addLine("§fVente: §b" + sellPrice + "$");
+        shopDisplayItem.setItemStack(new ItemStack(item.getType()));
     }
 
     private void sellItem(int quantity, Player player) {
@@ -394,54 +380,50 @@ public class Shop {
 
     public void updateMenus() {
         if (buyPrice != 0){
-            menu.addElement(new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.GOLD_NUGGET,0)
                     .setName(ChatColor.YELLOW + "Acheter x1")).setSlot(20)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(1, p)));
-            menu.addElement(new CItem(new ItemCreator(Material.GOLD_INGOT,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.GOLD_INGOT,0)
                     .setName(ChatColor.YELLOW + "Acheter x16")).setSlot(22)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(-16, p)));
-            menu.addElement(new CItem(new ItemCreator(Material.GOLD_BLOCK,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.GOLD_BLOCK,0)
                     .setName(ChatColor.YELLOW + "Acheter x64")).setSlot(24)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> buyItem(-64, p)));
         }
         else {
             for (int i=20;i<=24;i+=2) {
-                menu.removeElement(menu.getElement(i));
-                menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                menuInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
                         .setName("§f")).setSlot(i));
             }
         }
         if (sellPrice != 0){
-            menu.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.IRON_NUGGET,0)
                     .setName(ChatColor.GREEN + "Vendre x1")).setSlot(29)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(1, p)));
-            menu.addElement(new CItem(new ItemCreator(Material.IRON_INGOT,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.IRON_INGOT,0)
                     .setName(ChatColor.GREEN + "Vendre x16")).setSlot(31)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(16, p)));
-            menu.addElement(new CItem(new ItemCreator(Material.IRON_BLOCK,0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.IRON_BLOCK,0)
                     .setName(ChatColor.GREEN + "Vendre x64")).setSlot(33)
                     .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> sellItem(64, p)));
         }
         else {
             for (int i=29;i<=33;i+=2) {
-                menu.removeElement(menu.getElement(i));
-                menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+                menuInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
                         .setName("§f")).setSlot(i));
             }
         }
         if (adminShop){
             quantity_available.setName(Objects.requireNonNull(item.getItemMeta()).getDisplayName());
-            menu.removeElement(menu.getElement(40));
-            menu.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
+            menuInventory.addElement(new CItem(new ItemCreator(Material.WHITE_STAINED_GLASS_PANE, 0)
                     .setName("§f")).setSlot(40));
-            menu.setName("§8§lOmegaShop");
+            menuInventory.setName("§8§lOmegaShop");
         }
         else {
-            quantity_item.setName(String.format("Quantité: %s", amount));
-            quantity_item.updateDisplay();
-            quantity_available.setName(String.format("Quantité disponible: %s%s", ChatColor.YELLOW, amount));
-            menu.setName("§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
-            menu.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
+            quantity_available.setName(String.format("§fQuantité disponible: §6%s", amount));
+            quantity_available.updateDisplay();
+            menuInventory.setName("§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()));
+            menuInventory.addElement(new CItem(new ItemCreator(Material.PLAYER_HEAD,0)
                     .setOwner(Objects.requireNonNull(OmegaAPIUtils.tryToConvertIDToStringByUserAccount(owner.toString()))))
                     .setSlot(40));
         }
@@ -473,15 +455,13 @@ public class Shop {
         return owner;
     }
 
-    private void openShopMenu (Player player){
-        if (!(owner.equals(player.getUniqueId()) ||
-                UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower()))
-            menu.open(player);
-        CInventory clone = menu;
-        clone.addElement(new CItem(new ItemCreator(Material.REPEATER,0)
-                .setName("§eOuvrir le menu d'édition de shop")).setSlot(53)
-                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> configuration.open(p)));
-        clone.open(player);
+    public void openShopMenu(Player player){
+        if (UserAccount.getAccount(player.getUniqueId()).getRank().getStaffPower() >= Rank.DEV.getStaffPower())
+            adminInventory.open(player);
+        else if (owner.equals(player.getUniqueId()))
+            configurationInventory.open(player);
+        else
+            menuInventory.open(player);
     }
 
     public boolean isAdminShop() {
