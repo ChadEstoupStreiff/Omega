@@ -1,6 +1,9 @@
 package fr.ChadOW.omegacore.world.commands;
 
 import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.utils.ServerType;
+import fr.ChadOW.omegacore.world.Spawn;
+import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,8 +44,42 @@ public class CommandMonde implements CommandExecutor {
                         WorldManager.getWorldGUI().open(player);
                         break;
                 }*/
-            } else
-                P.getInstance().getWorldManager().getWorldGUI().open(player);
+                switch(args[0]) {
+                    case "libre":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde libre§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.NORMAL.toString());
+                        player.teleport(Spawn.NORMAL.getLocation());
+                        break;
+                    case "nether":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde nether§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.NORMAL.toString());
+                        player.teleport(Spawn.NETHER.getLocation());
+                        break;
+                    case "end":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde end§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.NORMAL.toString());
+                        player.teleport(Spawn.END.getLocation());
+                        break;
+                    case "r":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde ressource§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.RESOURCE.toString());
+                        player.teleport(Spawn.NORMAL.getLocation());
+                        break;
+                    case "rnether":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde ressource nether§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.RESOURCE.toString());
+                        player.teleport(Spawn.NETHER.getLocation());
+                        break;
+                    case "rend":
+                        player.sendMessage(WorldManager.prefix + "Téléportation vers le §amonde ressource end§f.");
+                        P.getInstance().getPluginMessage().sendPlayerToServer(player, ServerType.RESOURCE.toString());
+                        player.teleport(Spawn.END.getLocation());
+                        break;
+                    default:
+                        P.getInstance().getWorldManager().getWorldGUI().open(player);
+                        break;
+                }
+            } else P.getInstance().getWorldManager().getWorldGUI().open(player);
         }
         return true;
     }

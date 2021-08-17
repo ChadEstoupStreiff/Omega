@@ -5,6 +5,7 @@ import fr.ChadOW.api.accounts.group.Group;
 import fr.ChadOW.api.accounts.group.Member;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.omegacore.group.GroupManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +39,7 @@ public class GroupCommand implements CommandExecutor {
                         player.sendMessage(GroupManager.prefix + "Préciser un nom de groupe");
                     }
                 } else {
-                    //TODO DOC
+                    player.sendMessage(GroupManager.prefix + ChatColor.GOLD + "Pour créer un groupe faites /" + cmd.getName() + " create");
                 }
             } else {
                 Group group = UserAccount.getAccount(player.getUniqueId()).getGroup();
