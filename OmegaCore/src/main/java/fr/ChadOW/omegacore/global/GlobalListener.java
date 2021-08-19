@@ -1,11 +1,13 @@
 package fr.ChadOW.omegacore.global;
 
+import fr.ChadOW.api.bukkit.BukkitAPI;
 import fr.ChadOW.omegacore.P;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.HashMap;
 
@@ -13,6 +15,11 @@ public class GlobalListener implements Listener {
 
     private final HashMap<Player, Long> cmdCooldown = new HashMap<>();
 
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        BukkitAPI.resetDisplay(event.getPlayer());
+    }
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {

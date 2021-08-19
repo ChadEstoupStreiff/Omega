@@ -1,2 +1,12 @@
 server:
   type: "special"
+mysql:
+  hostname: 192.168.1.0
+  port: 3306
+  user: user
+  password: password
+  database: mc_omega
+redis:
+  hostname: 192.168.1.0
+  port: 6379
+  password: password

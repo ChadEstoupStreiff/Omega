@@ -1,13 +1,12 @@
-package fr.ChadOW.api.bungee.listeners;
+package fr.ChadOW.bungee.listeners;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.SqlDateTypeAdapter;
 import fr.ChadOW.api.accounts.BankAccount;
 import fr.ChadOW.api.accounts.JobAccount;
 import fr.ChadOW.api.accounts.UserAccount;
-import fr.ChadOW.api.bungee.BungeeAPI;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.SQLManager;
+import fr.ChadOW.bungee.Bungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;
@@ -15,21 +14,19 @@ import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import redis.clients.jedis.Jedis;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 
 
-public class PlayerJoinQuit implements Listener {
-    private final BungeeAPI plugin;
+public class APIListener implements Listener {
+    private final Bungee plugin;
 
-    public PlayerJoinQuit(BungeeAPI plugin) {
+    public APIListener(Bungee plugin) {
         this.plugin = plugin;
     }
 
