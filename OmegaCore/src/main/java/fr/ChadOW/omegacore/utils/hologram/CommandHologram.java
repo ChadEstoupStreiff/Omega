@@ -25,6 +25,18 @@ public class CommandHologram implements CommandExecutor {
                                     hologram.addLine(line);
                         player.sendMessage(ChatColor.GREEN + "Hologram créé à votre position!");
                     }
+                    else if (args[0].equalsIgnoreCase("remove")){
+                        if (args.length == 2){
+                            String name = args[1];
+                            HologramManager hm = P.getInstance().getHologramManager();
+                            Hologram hologram = hm.getHologram(name);
+                            if (hologram != null) {
+                                hm.deleteHologram(hologram);
+                                player.sendMessage(ChatColor.GREEN + "L'Hologram " + name + " a été supprimé");
+                            }
+                            else player.sendMessage(ChatColor.RED + "Cet hologram n'existe pas!");
+                        }
+                    }
                 }
                 else player.sendMessage(ChatColor.GOLD + "Pour créer un hologram faites /" + cmd.getName() +" create <nom> <ligne1> <ligne2> ...");
             }
