@@ -1,8 +1,9 @@
-package fr.ChadOW.bungee;
+package fr.ChadOW.bungee.listeners;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import fr.ChadOW.api.accounts.UserAccount;
+import fr.ChadOW.bungee.Bungee;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

@@ -137,4 +137,11 @@ public class Hologram {
             armorStand.remove();
         }
     }
+
+    public void clear() {
+        for (ArmorStand armorStand : lines) {
+            armorStand.remove();
+        }
+        lines.clear();
+    }
 }

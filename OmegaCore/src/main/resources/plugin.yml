@@ -2,8 +2,6 @@ name: OmegaCore
 version: 1.0
 main: fr.ChadOW.omegacore.P
 author: ChadOW
-depend: [OmegaAPI,]
-softdepend: [OmegaAPI]
 api-version: 1.13
 commands:
   money:

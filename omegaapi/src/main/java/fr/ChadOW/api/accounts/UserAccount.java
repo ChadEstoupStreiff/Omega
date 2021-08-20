@@ -2,7 +2,6 @@ package fr.ChadOW.api.accounts;
 
 import fr.ChadOW.api.accounts.group.Group;
 import fr.ChadOW.api.accounts.group.Member;
-import fr.ChadOW.api.bukkit.BukkitAPI;
 import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
@@ -72,8 +71,6 @@ public class UserAccount {
 
     public void setRank(Rank rank) {
         this.rank = rank;
-        if (BukkitAPI.getInstance().isEnabled())
-            BukkitAPI.resetDisplay(Objects.requireNonNull(Bukkit.getPlayer(uuid)));
         sendToRedis();
     }
 
