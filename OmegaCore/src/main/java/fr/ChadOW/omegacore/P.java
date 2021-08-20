@@ -52,8 +52,8 @@ public class P extends JavaPlugin {
 
         initMySQL();
         initRedis();
+        getServer().getScheduler().runTaskTimer(this, OmegaAPIUtils::getData, 6000, 6000);
 
-        initGlobal();
 
         CUtils.init(this);
         ServerType.init(this);
@@ -83,11 +83,6 @@ public class P extends JavaPlugin {
 
         JedisManager.getInstance().poolJedis.close();
         SQLManager.getInstance().closePool();
-    }
-
-    private void initGlobal() {
-        getServer().getPluginManager().registerEvents(new GlobalListener(), this);
-        getServer().getScheduler().runTaskTimer(this, OmegaAPIUtils::getData, 6000, 6000);
     }
 
     public static void resetDisplay(Player player) {
