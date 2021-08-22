@@ -53,7 +53,6 @@ public class Shop {
         this.owner = owner;
         this.adminShop = adminShop;
         initInventories();
-        spawnDisplayItem();
         spawnBee();
         spawnHolograms();
     }
@@ -62,71 +61,6 @@ public class Shop {
         menuInventory = new MenuInventory(this);
         configurationInventory = new ConfigurationInventory(this);
         adminInventory = new AdminInventory(this);
-
-        /*configurationInventory.addElement(shop_item
-                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
-                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR))
-                        if (amount == 0) {
-                            item = new ItemCreator(p.getItemOnCursor()).setAmount(1).getItem();
-                            shop_item.setItemCreator(new ItemCreator(p.getItemOnCursor()).setAmount(1));
-                            shop_item.updateDisplay();
-                            updateMenus();
-                            updateHologram();
-                        }
-                }));
-
-        configurationInventory.addElement(quantity_available.setName(String.format("Quantité: %s",amount))
-                .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> {
-                    if (clickContext.getInventoryAction().equals(Action.SWAP_WITH_CURSOR)) {
-                        if (p.getItemOnCursor().isSimilar(item)) {
-                            if (canStockMore(p.getItemOnCursor().getAmount())) {
-                                amount += p.getItemOnCursor().getAmount();
-                                p.setItemOnCursor(new ItemStack(Material.AIR));
-                            }
-                        }
-                    }
-                    else if (clickContext.getClickType().equals(ClickType.LEFT)) {
-                        if (p.getInventory().containsAtLeast(item, item.getMaxStackSize())) {
-                            if (canStockMore(item.getMaxStackSize())) {
-                                p.getInventory().removeItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
-                                amount += item.getMaxStackSize();
-                            }
-                        }
-                    }
-                    else if (clickContext.getClickType().equals(ClickType.SHIFT_LEFT)) {
-                        for (ItemStack itemStack : p.getInventory().getStorageContents()){
-                            if (itemStack != null)
-                                if (itemStack.isSimilar(item)) {
-                                    if (canStockMore(itemStack.getAmount())) {
-                                        amount += itemStack.getAmount();
-                                        p.getInventory().removeItem(itemStack);
-                                    }
-                                }
-                        }
-                    }
-                    else if (clickContext.getClickType().equals(ClickType.SHIFT_RIGHT)){
-                        for (ItemStack itemStack : p.getInventory().getStorageContents()) {
-                            if (itemStack == null) {
-                                if (amount - item.getMaxStackSize() >= 0) {
-                                    amount -= item.getMaxStackSize();
-                                    p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize()).getItem());
-                                } else {
-                                    p.getInventory().addItem(new ItemCreator(item).setAmount(amount).getItem());
-                                    amount = 0;
-                                }
-                            }
-                            else if (itemStack.isSimilar(item)) {
-                                if (amount - item.getMaxStackSize() - itemStack.getAmount() >= 0) {
-                                    amount -= item.getMaxStackSize() - itemStack.getAmount();
-                                    p.getInventory().addItem(new ItemCreator(item).setAmount(item.getMaxStackSize() + 1 - itemStack.getAmount()).getItem());
-                                }
-                            }
-                        }
-                    }
-                    updateHologram();
-                    updateMenus();
-                })
-                .setSlot(40));*/
     }
 
     private void spawnDisplayItem() {
@@ -157,6 +91,7 @@ public class Shop {
 
     private void spawnHolograms() {
         hologram = P.getInstance().getHologramManager().createHologram("Shop", location);
+        spawnDisplayItem();
         updateHologram();
     }
 
@@ -167,7 +102,7 @@ public class Shop {
             }
             if (canStockMore(quantity)) {
                 amount += quantity;
-                updateMenus();
+                getMenuInventory().update();
                 updateHologram();
                 //pay the player and withdraw the owner
                 UserAccount sellerAccount = UserAccount.getAccount(player.getUniqueId());
@@ -190,7 +125,7 @@ public class Shop {
                 player.getInventory().addItem(item);
             }
             amount -= quantity;
-            updateMenus();
+            getMenuInventory().update();
             updateHologram();
             //pay the owner and withdraw the player
             UserAccount buyerAccount = UserAccount.getAccount(player.getUniqueId());
@@ -210,21 +145,14 @@ public class Shop {
 
     private void updateHologram() {
         hologram.clear();
-        if (adminShop)
-            hologram.addLine("§6OmegaShop");
-        else {
-            hologram.addLine("§6Magasin de " + item.getType().toString().toLowerCase());
+        hologram.addLine("§6Magasin de §r" + ( (item.getItemMeta() != null && item.getItemMeta().getDisplayName().length() > 0) ? item.getItemMeta().getDisplayName() : item.getType().toString().toLowerCase()));
+        if (!adminShop)
             hologram.addLine("§fQuantité: §6" + amount);
-        }
         if (buyPrice > 0)
             hologram.addLine("§fAchat: §e" + buyPrice + "$");
         if (sellPrice > 0)
             hologram.addLine("§fVente: §b" + sellPrice + "$");
-        shopDisplayItem.setItemStack(new ItemStack(item.getType()));
-    }
-
-    public void updateMenus() {
-        getMenuInventory().update();
+        shopDisplayItem.setItemStack(new ItemStack(item));
     }
 
     void delete() {
@@ -268,7 +196,7 @@ public class Shop {
     public void setBuyPrice(int buyPrice) {
         if (buyPrice >= 0 || this.buyPrice != 0) {
             this.buyPrice = Math.max(buyPrice, 0);
-            updateMenus();
+            getMenuInventory().update();
             getMenuInventory().updateBuyLore();
             updateHologram();
         }
@@ -277,7 +205,7 @@ public class Shop {
     public void setSellPrice(int sellPrice) {
         if (sellPrice >= 0 || this.sellPrice != 0) {
             this.sellPrice = Math.max(sellPrice, 0);
-            updateMenus();
+            getMenuInventory().update();
             getMenuInventory().updateSellLore();
             updateHologram();
         }
@@ -285,18 +213,20 @@ public class Shop {
 
     public void setAmount(int amount) {
         this.amount = amount;
-        updateMenus();
+        getMenuInventory().update();
+        updateHologram();
     }
 
     public void setItem(ItemStack item) {
         this.item = item;
-        updateMenus();
+        getMenuInventory().update();
+        getConfigurationInventory().update();
         updateHologram();
     }
 
     public void setAdminShop(boolean adminShop) {
         this.adminShop = adminShop;
-        updateMenus();
+        getMenuInventory().update();
         updateHologram();
     }
 
@@ -315,13 +245,15 @@ public class Shop {
 
     private boolean canStockMore(int quantity){
         if (adminShop) return true;
+        return amount + quantity <= getMaxAmount();
+    }
+
+    public int getMaxAmount() {
         int power = UserAccount.getAccount(owner).getRank().getPower();
-        int maxStock;
-        if (power >= Rank.MYTH.getPower()) maxStock = 36 * item.getMaxStackSize();
-        else if (power >= Rank.LEGEND.getPower()) maxStock = 27 * item.getMaxStackSize();
-        else if (power >= Rank.OLD.getPower()) maxStock = 18 * item.getMaxStackSize();
-        else maxStock = 9 * item.getMaxStackSize();
-        return amount + quantity <= maxStock;
+        if (power >= Rank.MYTH.getPower()) return 36 * item.getMaxStackSize();
+        else if (power >= Rank.LEGEND.getPower()) return 27 * item.getMaxStackSize();
+        else if (power >= Rank.OLD.getPower()) return 18 * item.getMaxStackSize();
+        else return 9 * item.getMaxStackSize();
     }
 }
 

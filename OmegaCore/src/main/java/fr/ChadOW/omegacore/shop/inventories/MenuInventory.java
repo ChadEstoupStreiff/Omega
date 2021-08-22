@@ -10,13 +10,13 @@ import java.util.Arrays;
 
 public class MenuInventory extends ShopInventory {
     private final Shop shop;
-    private final CItem buyItem, sellItem, shopItem, quantityAvailable, bookSell1, bookSell10, bookSell32, bookSell64, bookBuy1, bookBuy10, bookBuy32, bookBuy64;
+    private final CItem buyItem, sellItem, quantityAvailable, bookSell1, bookSell10, bookSell32, bookSell64, bookBuy1, bookBuy10, bookBuy32, bookBuy64;
 
     public MenuInventory(Shop shop) {
         super(6*9, "§8§lMagasin de §6§l" + OmegaAPIUtils.tryToConvertIDToStringByUserAccount(shop.getOwner().toString()));
         this.shop = shop;
 
-        shopItem = new CItem(new ItemCreator(shop.getItem())).setSlot(13);
+        addElement(new CItem(new ItemCreator(shop.getItem())).setSlot(13));
         buyItem = new CItem(new ItemCreator(Material.GOLD_NUGGET,0)).setSlot(22);
         sellItem = new CItem(new ItemCreator(Material.IRON_NUGGET,0)).setSlot(31);
         quantityAvailable = new CItem(new ItemCreator(Material.CHEST,0)).setSlot(40);
@@ -35,11 +35,14 @@ public class MenuInventory extends ShopInventory {
         addElement(quantityAvailable);
         addElement(buyItem);
         addElement(sellItem);
-        addElement(shopItem);
     }
 
     public void update() {
         quantityAvailable.setName("§fQuantité disponible: §e" + shop.getAmount());
+        quantityAvailable.setDescription(Arrays.asList(
+                "§f",
+                "§fQuantité maximum: §e" + shop.getMaxAmount()
+        ));
         buyItem.setName("§fPrix d'achat actuel: §e" + shop.getBuyPrice() + "$");
         sellItem.setName("§fPrix de vente actuel: §a" + shop.getSellPrice() + "$");
 
@@ -73,6 +76,7 @@ public class MenuInventory extends ShopInventory {
             removeElement(bookSell32);
             removeElement(bookSell64);
         }
+        addElement(new CItem(new ItemCreator(shop.getItem())).setSlot(13));
 
 
         quantityAvailable.updateDisplay();
@@ -126,10 +130,6 @@ public class MenuInventory extends ShopInventory {
 
     public CItem getSellItem() {
         return sellItem;
-    }
-
-    public CItem getShopItem() {
-        return shopItem;
     }
 
     public CItem getQuantityAvailable() {
