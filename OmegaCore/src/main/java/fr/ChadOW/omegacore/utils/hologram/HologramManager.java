@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class HologramManager {
     private final String dataPath = "holograms.dat";
@@ -16,7 +17,7 @@ public class HologramManager {
     public HologramManager(P p) {
         loadHolograms();
 
-        p.getCommand("hologram").setExecutor(new CommandHologram());
+        Objects.requireNonNull(p.getCommand("hologram")).setExecutor(new CommandHologram());
         Bukkit.getScheduler().runTaskTimer(P.getInstance(), () -> {
             for (Hologram hologram : holograms)
                 hologram.update();
@@ -46,6 +47,10 @@ public class HologramManager {
                 return hologram;
         }
         return null;
+    }
+
+    public List<Hologram> getHolograms() {
+        return holograms;
     }
 
     private void loadHolograms() {
