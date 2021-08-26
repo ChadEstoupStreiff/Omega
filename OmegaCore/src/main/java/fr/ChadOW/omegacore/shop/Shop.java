@@ -145,7 +145,7 @@ public class Shop {
 
     private void updateHologram() {
         hologram.clear();
-        hologram.addLine("§6Magasin de §r" + ( (item.getItemMeta() != null && item.getItemMeta().getDisplayName().length() > 0) ? item.getItemMeta().getDisplayName() : item.getType().toString().toLowerCase()));
+        hologram.addLine("§6Magasin de §r" + getItemName());
         if (!adminShop)
             hologram.addLine("§fQuantité: §6" + amount);
         if (buyPrice > 0)
@@ -254,6 +254,10 @@ public class Shop {
         else if (power >= Rank.LEGEND.getPower()) return 27 * item.getMaxStackSize();
         else if (power >= Rank.OLD.getPower()) return 18 * item.getMaxStackSize();
         else return 9 * item.getMaxStackSize();
+    }
+
+    public String getItemName() {
+        return (item.getItemMeta() != null && item.getItemMeta().getDisplayName().length() > 0) ? item.getItemMeta().getDisplayName() : item.getType().toString().toLowerCase();
     }
 }
 
