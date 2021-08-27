@@ -35,6 +35,9 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de personnes max dans un claim : §d6",
                         "§b- §fNombre de personnes max dans un groupe : §d6",
                         "§f",
+                        "§b- §fNombre maximum de shop: §d10 stacks",
+                        "§b- §fStock maximum dans un shop: §d18 stacks",
+                        "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."
         ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.OLD, 500, 100000, clickContext)).setSlot(11));
@@ -51,6 +54,8 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de personnes max dans un claim : §d11",
                         "§b- §fNombre de personnes max dans un groupe : §d11",
                         "§f",
+                        "§b- §fStock maximum dans un shop: §d27 stacks",
+                        "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."
                 ))).addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> buyGrade(player, Rank.LEGEND, 1000, 500000, clickContext)).setSlot(13));
@@ -66,6 +71,8 @@ public class CommandRank implements CommandExecutor {
                         "§b- §fNombre de claims : §d50",
                         "§b- §fNombre de personnes max dans un claim : §d26",
                         "§b- §fNombre de personnes max dans un groupe : §d26",
+                        "§f",
+                        "§b- §fStock maximum dans un shop: §d36 stacks",
                         "§f",
                         "§e§o► Clic gauche pour acheter le grade avec des crédits.",
                         "§e§o► Clic droit pour acheter le grade avec des " + Eco.devise + "."

@@ -9,6 +9,7 @@ import fr.ChadOW.cinventory.interfaces.ItemCreator;
 import fr.ChadOW.cinventory.interfaces.events.clickContent.Action;
 import fr.ChadOW.cinventory.interfaces.events.clickContent.ClickType;
 import fr.ChadOW.omegacore.P;
+import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.shop.inventories.AdminInventory;
 import fr.ChadOW.omegacore.shop.inventories.ConfigurationInventory;
 import fr.ChadOW.omegacore.shop.inventories.MenuInventory;
@@ -149,9 +150,9 @@ public class Shop {
         if (!adminShop)
             hologram.addLine("§fQuantité: §6" + amount);
         if (buyPrice > 0)
-            hologram.addLine("§fAchat: §e" + buyPrice + "$");
+            hologram.addLine("§fAchat: §e" + buyPrice + Eco.devise);
         if (sellPrice > 0)
-            hologram.addLine("§fVente: §b" + sellPrice + "$");
+            hologram.addLine("§fVente: §b" + sellPrice + Eco.devise);
         shopDisplayItem.setItemStack(new ItemStack(item));
     }
 

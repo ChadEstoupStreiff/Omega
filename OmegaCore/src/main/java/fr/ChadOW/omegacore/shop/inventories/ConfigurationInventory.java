@@ -3,6 +3,7 @@ package fr.ChadOW.omegacore.shop.inventories;
 import fr.ChadOW.cinventory.CContent.CItem;
 import fr.ChadOW.cinventory.interfaces.ItemCreator;
 import fr.ChadOW.cinventory.interfaces.events.clickContent.ClickType;
+import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.shop.Shop;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,41 +25,41 @@ public class ConfigurationInventory extends ShopInventory {
         addElement(shop.getMenuInventory().getQuantityAvailable());
 
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e100$")).setSlot(19)
+                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e100" + Eco.devise)).setSlot(19)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() - 100)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e10$")).setSlot(20)
+                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e10" + Eco.devise)).setSlot(20)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() - 10)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e1$")).setSlot(21)
+                .setName(ChatColor.YELLOW +"§cDiminuer§f le prix d'achat de §e1" + Eco.devise)).setSlot(21)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() - 1)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e1$")).setSlot(23)
+                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e1" + Eco.devise)).setSlot(23)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() + 1)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e10$")).setSlot(24)
+                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e10" + Eco.devise)).setSlot(24)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() + 10)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e100$")).setSlot(25)
+                .setName(ChatColor.YELLOW +"§aAugmenter§f le prix d'achat de §e100" + Eco.devise)).setSlot(25)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setBuyPrice(shop.getBuyPrice() + 100)));
 
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e100$")).setSlot(28)
+                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e100" + Eco.devise)).setSlot(28)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() - 100)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e10$")).setSlot(29)
+                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e10" + Eco.devise)).setSlot(29)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() - 10)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.moin, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e1$")).setSlot(30)
+                .setName(ChatColor.GREEN + "§cDiminuer§f le prix de vente de §e1" + Eco.devise)).setSlot(30)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() - 1)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e1$")).setSlot(32)
+                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e1" + Eco.devise)).setSlot(32)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() + 1)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e10$")).setSlot(33)
+                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e10" + Eco.devise)).setSlot(33)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() + 10)));
         addElement(new CItem(new ItemCreator(Material.WHITE_BANNER,0)//.addBannerPreset(ItemCreator.BannerPreset.plus, DyeColor.BLACK)
-                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e100$")).setSlot(34)
+                .setName(ChatColor.GREEN + "§aAugmenter§f le prix de vente de §e100" + Eco.devise)).setSlot(34)
                 .addEvent((inventoryRepresentation, itemRepresentation, p, clickContext) -> shop.setSellPrice(shop.getSellPrice() + 100)));
 
         update();
