@@ -27,13 +27,6 @@ public class CommandHelp implements CommandExecutor {
         for (int i : orange)
             inv.addElement(new CItem(new ItemCreator(Material.ORANGE_STAINED_GLASS_PANE, 0).setName("§f")).setSlot(i));
 
-        inv.addElement(new CItem(new ItemCreator(Material.DIAMOND_PICKAXE, 0).setName("§6Métiers").setLores(Arrays.asList(
-                "§f",
-                "§fPour voir le menu des métiers, faites la commande:",
-                "§b   /job",
-                "§f",
-                "§7Clique moi pour en savoir plus"
-        ))).addEvent((inventory, item, player, clickContext) -> Bukkit.dispatchCommand(player, "job")).setSlot(22));
 
         inv.addElement(new CItem(new ItemCreator(Material.GRASS_BLOCK, 0).setName("§6Mondes").setLores(Arrays.asList(
                 "§f",
@@ -41,7 +34,37 @@ public class CommandHelp implements CommandExecutor {
                 "§b   /monde",
                 "§f",
                 "§7Clique moi pour en savoir plus"
-        ))).addEvent((inventory, item, player, clickContext) -> Bukkit.dispatchCommand(player, "monde")).setSlot(20));
+        ))).addEvent((inventory, item, player, clickContext) ->
+                Bukkit.dispatchCommand(player, "monde")).setSlot(20));
+        inv.addElement(new CItem(new ItemCreator(Material.SAND, 0).setName("§6Villes").setLores(Arrays.asList(
+                "§f",
+                "§fPour voir les villes, faites la commande:",
+                "§c   EN DEV",
+                "§f",
+                "§7Clique moi pour en savoir plus"
+        ))).addEvent((inventory, item, player, clickContext) ->
+                player.sendMessage("§cEn développement ... coming soon ;)")).setSlot(20));
+
+
+        inv.addElement(new CItem(new ItemCreator(Material.DIAMOND_PICKAXE, 0).setName("§6Métiers").setLores(Arrays.asList(
+                "§f",
+                "§fPour voir le menu des métiers, faites la commande:",
+                "§b   /job",
+                "§f",
+                "§7Clique moi pour en savoir plus"
+        ))).addEvent((inventory, item, player, clickContext) ->
+                Bukkit.dispatchCommand(player, "job")).setSlot(22));
+        inv.addElement(new CItem(new ItemCreator(Material.CHEST, 0).setName("§6Magasins").setLores(Arrays.asList(
+                "§f",
+                "§fPour voir la documentation des magasins, faites la commande:",
+                "§b   /shop",
+                "§f",
+                "§7Clique moi pour en savoir plus"
+        ))).addEvent((inventory, item, player, clickContext) -> {
+            player.closeInventory();
+            Bukkit.dispatchCommand(player, "shop");
+        }).setSlot(31));
+
 
         inv.addElement(new CItem(new ItemCreator(Material.GOLD_INGOT, 0).setName("§6Grades").setLores(Arrays.asList(
                 "§f",
@@ -49,7 +72,18 @@ public class CommandHelp implements CommandExecutor {
                 "§b   /grade",
                 "§f",
                 "§7Clique moi pour en savoir plus"
-        ))).addEvent((inventory, item, player, clickContext) -> Bukkit.dispatchCommand(player, "grade")).setSlot(24));
+        ))).addEvent((inventory, item, player, clickContext) ->
+                Bukkit.dispatchCommand(player, "grade")).setSlot(24));
+        inv.addElement(new CItem(new ItemCreator(Material.BOOK, 0).setName("§6Compte").setLores(Arrays.asList(
+                "§f",
+                "§fPour voir votre compte, faites la commande:",
+                "§b   /account",
+                "§f",
+                "§7Clique moi pour en savoir plus"
+        ))).addEvent((inventory, item, player, clickContext) -> {
+            player.closeInventory();
+            Bukkit.dispatchCommand(player, "account");
+        }).setSlot(33));
     }
 
     @Override

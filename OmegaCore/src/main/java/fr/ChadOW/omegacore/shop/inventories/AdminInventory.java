@@ -23,5 +23,9 @@ public class AdminInventory extends ShopInventory {
                     ((CItem) item).updateDisplay();
                 })
                 .setSlot(22));
+
+        addElement(new CItem(new ItemCreator(Material.CHEST,0)
+                .setName("§eAller au magasin")).setSlot(45)
+                .addEvent((inventoryRepresentation, itemRepresentation, player, clickContext) -> shop.getMenuInventory().open(player)));
     }
 }
