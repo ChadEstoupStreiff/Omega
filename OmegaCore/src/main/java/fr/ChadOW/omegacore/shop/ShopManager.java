@@ -18,7 +18,7 @@ public class ShopManager {
     private final String dataPath = "shops.dat";
 
     public ShopManager(P i) {
-        Objects.requireNonNull(i.getCommand("shop")).setExecutor(new CommandShop());
+        i.getCommand("shop").setExecutor(new CommandShop());
         i.getServer().getPluginManager().registerEvents(new ShopListener(),i);
         loadShops();
     }
@@ -40,7 +40,7 @@ public class ShopManager {
     }
 
     public void createShop(Location location, ItemStack item, int buyPrice, int sellPrice, int amount, boolean adminShop, UUID owner){
-        Shop shop = new Shop(location, item, buyPrice, sellPrice, amount,adminShop,owner);
+        Shop shop = new Shop(location, item, buyPrice, sellPrice, amount, adminShop, owner);
         shops.add(shop);
     }
 

@@ -8,6 +8,7 @@ import fr.ChadOW.cinventory.interfaces.ItemCreator;
 import fr.ChadOW.omegacore.shop.Shop;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
@@ -68,8 +69,20 @@ public class MenuInventory extends ShopInventory {
             if (shopBank.getAmount() >= shop.getSellPrice() * n) {
 
                 BankAccount sellerBank = UserAccount.getAccount(player.getUniqueId()).getBankAccount();
-                for (int i = 0; i < n; i++)
-                    player.getInventory().remove(shop.getItem());
+                ItemStack itemCopy = new ItemStack(shop.getItem());
+
+                int count = n;
+                for (ItemStack itemLoop : player.getInventory().getContents()) {
+                    if (count > 0 && itemLoop != null && itemLoop.getType().equals(itemCopy.getType())) {
+                        itemCopy.setAmount(itemLoop.getAmount());
+                        if (itemLoop.equals(itemCopy)) {
+                            int r = Math.min(0, itemLoop.getAmount() - count);
+                            count-= itemLoop.getAmount();
+                            itemLoop.setAmount(r);
+                        }
+                    }
+                }
+
                 shop.setAmount(shop.getAmount() +n);
                 shopBank.payAccount(n * shop.getSellPrice(), sellerBank);
 

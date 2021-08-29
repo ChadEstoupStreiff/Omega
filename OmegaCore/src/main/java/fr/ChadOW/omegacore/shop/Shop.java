@@ -96,46 +96,6 @@ public class Shop {
         updateHologram();
     }
 
-    private void sellItem(int quantity, Player player) {
-        if (player.getInventory().containsAtLeast(item,quantity)){
-            for (int i = 0; i < quantity; i++) {
-                player.getInventory().removeItem(item);
-            }
-            if (canStockMore(quantity)) {
-                amount += quantity;
-                getMenuInventory().update();
-                updateHologram();
-                //pay the player and withdraw the owner
-                UserAccount sellerAccount = UserAccount.getAccount(player.getUniqueId());
-                sellerAccount.getBankAccount().addAmount(sellPrice * quantity);
-                UserAccount shopperAccount = UserAccount.getAccount(owner);
-                shopperAccount.getBankAccount().removeAmount(sellPrice * quantity);
-            }
-        }
-    }
-
-    private void buyItem(int quantity, Player player){
-        if (quantity < amount) return;
-        int available = 0;
-        for (ItemStack itemStack : player.getInventory().getStorageContents()){
-            if (itemStack.getType().equals(Material.AIR)) available += item.getMaxStackSize();
-            else if (itemStack.isSimilar(item)) available += item.getMaxStackSize() - itemStack.getAmount();
-        }
-        if (available >= quantity){
-            for (int i = 0; i < quantity; i++) {
-                player.getInventory().addItem(item);
-            }
-            amount -= quantity;
-            getMenuInventory().update();
-            updateHologram();
-            //pay the owner and withdraw the player
-            UserAccount buyerAccount = UserAccount.getAccount(player.getUniqueId());
-            buyerAccount.getBankAccount().removeAmount(buyPrice * quantity);
-            UserAccount shopperAccount = UserAccount.getAccount(owner);
-            shopperAccount.getBankAccount().addAmount(buyPrice * quantity);
-        }
-    }
-
     public Location getLocation() {
         return location;
     }

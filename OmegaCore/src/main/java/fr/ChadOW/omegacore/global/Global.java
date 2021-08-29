@@ -11,7 +11,6 @@ public class Global {
         i.getCommand("setrank").setExecutor(new CommandSetRank());
         i.getCommand("account").setExecutor(new CommandAccount());
         i.getCommand("help").setExecutor(new CommandHelp());
-        //i.getCommand("stop").setExecutor(new CommandStop());
         i.getServer().getPluginManager().registerEvents(new GlobalListener(), i);
     }
 }

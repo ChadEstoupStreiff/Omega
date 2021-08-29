@@ -43,7 +43,7 @@ public class CommandHelp implements CommandExecutor {
                 "§f",
                 "§7Clique moi pour en savoir plus"
         ))).addEvent((inventory, item, player, clickContext) ->
-                player.sendMessage("§cEn développement ... coming soon ;)")).setSlot(20));
+                player.sendMessage("§cEn développement ... coming soon ;)")).setSlot(29));
 
 
         inv.addElement(new CItem(new ItemCreator(Material.DIAMOND_PICKAXE, 0).setName("§6Métiers").setLores(Arrays.asList(

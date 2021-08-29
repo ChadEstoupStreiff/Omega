@@ -9,7 +9,7 @@ import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.api.managers.SQLManager;
-import fr.ChadOW.bungee.commands.StopCommand;
+import fr.ChadOW.bungee.commands.StopAllCommand;
 import fr.ChadOW.bungee.eco.Taxes;
 import fr.ChadOW.bungee.listeners.APIListener;
 import fr.ChadOW.bungee.listeners.BungeeListener;
@@ -58,7 +58,7 @@ public class Bungee extends Plugin {
 
         getProxy().registerChannel("omega:pipe");
         getProxy().getPluginManager().registerListener(this, new BungeeListener());
-        getProxy().getPluginManager().registerCommand(this, new StopCommand());
+        getProxy().getPluginManager().registerCommand(this, new StopAllCommand());
         getProxy().getScheduler().schedule(this, () -> Taxes.init(this), 1, TimeUnit.SECONDS);
     }
 

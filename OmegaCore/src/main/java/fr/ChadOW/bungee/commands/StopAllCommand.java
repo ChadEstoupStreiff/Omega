@@ -8,9 +8,9 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-public class StopCommand extends Command {
-    public StopCommand() {
-        super("stop");
+public class StopAllCommand extends Command {
+    public StopAllCommand() {
+        super("stopall");
     }
 
     @Override
