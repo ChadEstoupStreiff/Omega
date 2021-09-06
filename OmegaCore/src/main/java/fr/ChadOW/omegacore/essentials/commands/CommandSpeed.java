@@ -18,6 +18,7 @@ public class CommandSpeed implements CommandExecutor {
                 if (args.length == 1) {
                     if (NumberUtils.isNumber(args[0])) {
                         player.setWalkSpeed(Float.parseFloat(args[0]));
+                        player.setFlySpeed(Float.parseFloat(args[1]));
                     }
                 }
                 else if (args.length == 2){
@@ -25,6 +26,7 @@ public class CommandSpeed implements CommandExecutor {
                     if (target != null){
                         if (NumberUtils.isNumber(args[1])) {
                             target.setWalkSpeed(Float.parseFloat(args[1]));
+                            target.setFlySpeed(Float.parseFloat(args[1]));
                         }
                     }
                     else {

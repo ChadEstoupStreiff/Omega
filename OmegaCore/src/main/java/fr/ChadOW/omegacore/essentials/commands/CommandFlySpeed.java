@@ -18,6 +18,7 @@ public class CommandFlySpeed implements CommandExecutor {
                 if (args.length == 1) {
                     if (NumberUtils.isNumber(args[0])) {
                         player.setFlySpeed(Float.parseFloat(args[0]));
+
                     }
                 }
                 else if (args.length == 2){
