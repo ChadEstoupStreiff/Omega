@@ -6,6 +6,7 @@ import org.bukkit.entity.ArmorStand;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Hologram {
 
@@ -66,7 +67,7 @@ public class Hologram {
     }
 
     private ArmorStand initArmorStand(String line) {
-        final ArmorStand armorStand = location.getWorld().spawn(new Location(location.getWorld(), location.getX(), location.getY() - lines.size()*.25, location.getZ()), ArmorStand.class);
+        final ArmorStand armorStand = Objects.requireNonNull(location.getWorld()).spawn(new Location(location.getWorld(), location.getX(), location.getY() - lines.size()*.25, location.getZ()), ArmorStand.class);
 
         armorStand.setCustomName(line);
         armorStand.setCustomNameVisible(true);

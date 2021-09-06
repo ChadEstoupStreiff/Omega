@@ -88,7 +88,6 @@ public class ConfigurationInventory extends ShopInventory {
                         shop.setAmount(shop.getAmount() + nbr);
                     }
                 } else if (shop.getAmount() == 0) {
-
                     ItemStack newItem = new ItemStack(itemInCursor);
                     newItem.setAmount(1);
                     shop.setItem(newItem);

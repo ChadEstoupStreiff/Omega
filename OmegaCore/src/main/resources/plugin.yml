@@ -41,3 +41,53 @@ commands:
     description: ""
   help:
     aliases: menu
+  back:
+    description: ""
+  enchant:
+    description: ""
+  feed:
+    description: ""
+  fly:
+    description: ""
+  flyspeed:
+    description: ""
+  gamemode:
+    description: ""
+    aliases: [gm]
+  getpos:
+    description: ""
+    aliases: [coords]
+  god:
+    description: ""
+    aliases: [godmode,tgm]
+  heal:
+    description: ""
+  kill:
+    description: ""
+  list:
+    description: ""
+  mail:
+    description: ""
+  nick:
+    description: ""
+  powertool:
+    description: ""
+    aliases: [pt]
+  repair:
+    description: ""
+    aliases: [fix]
+  sky:
+    description: ""
+  speed:
+    description: ""
+  storm:
+    description: ""
+  suicide:
+    description: ""
+  sun:
+    description: ""
+  top:
+    description: ""
+
+
+

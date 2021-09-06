@@ -7,6 +7,7 @@ import fr.ChadOW.api.managers.SQLManager;
 import fr.ChadOW.cinventory.CContent.CUtils;
 import fr.ChadOW.omegacore.claim.ClaimManager;
 import fr.ChadOW.omegacore.economie.Eco;
+import fr.ChadOW.omegacore.essentials.CommandRegister;
 import fr.ChadOW.omegacore.global.Global;
 import fr.ChadOW.omegacore.global.GlobalListener;
 import fr.ChadOW.omegacore.group.GroupManager;
@@ -39,6 +40,7 @@ public class P extends JavaPlugin {
     private GroupManager groupManager;
     private ShopManager shopManager;
     private ClaimManager claimManager;
+    private CommandRegister commandRegister;
 
     @Override
     public void onEnable() {
@@ -67,6 +69,7 @@ public class P extends JavaPlugin {
         groupManager = new GroupManager(this);
         hologramManager = new HologramManager(this);
         shopManager = new ShopManager(this);
+        commandRegister = new CommandRegister(this);
 
         System.out.println(getPluginName() + " Successfully launched");
     }

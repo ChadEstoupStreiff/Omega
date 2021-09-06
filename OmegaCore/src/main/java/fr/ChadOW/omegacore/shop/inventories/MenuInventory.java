@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MenuInventory extends ShopInventory {
     public static final String prefix = "§6[§eShop§6] §r";
@@ -50,7 +51,7 @@ public class MenuInventory extends ShopInventory {
 
                 BankAccount shopBank = UserAccount.getAccount(shop.getOwner()).getBankAccount();
                 for (int i = 0; i < n; i++)
-                    player.getLocation().getWorld().dropItem(player.getLocation(), shop.getItem());
+                    Objects.requireNonNull(player.getLocation().getWorld()).dropItem(player.getLocation(), shop.getItem());
                 shop.setAmount(shop.getAmount() -n);
                 buyerBank.payAccount(n * shop.getBuyPrice(), shopBank);
 

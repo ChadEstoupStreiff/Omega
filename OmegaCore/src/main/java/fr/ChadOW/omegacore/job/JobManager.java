@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 public class JobManager {
@@ -24,7 +25,7 @@ public class JobManager {
     private static HashMap<Job, CInventory> statisticsJobGUI;
 
     public JobManager(P i) {
-        i.getCommand("job").setExecutor(new CommandJob());
+        Objects.requireNonNull(i.getCommand("job")).setExecutor(new CommandJob());
         JobRecompenses.init();
         JobPayer.init();
         initStatistiquesGUI();

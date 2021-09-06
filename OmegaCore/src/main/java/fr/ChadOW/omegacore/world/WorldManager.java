@@ -10,6 +10,7 @@ import fr.ChadOW.omegacore.world.commands.CommandRTP;
 import org.bukkit.*;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class WorldManager {
 
@@ -21,9 +22,9 @@ public class WorldManager {
         //createWorlds(i);
         createWorldGUI();
 
-        i.getCommand("monde").setExecutor(new CommandMonde());
+        Objects.requireNonNull(i.getCommand("monde")).setExecutor(new CommandMonde());
         if (ServerType.equals(ServerType.NORMAL) || ServerType.equals(ServerType.RESOURCE))
-            i.getCommand("rtp").setExecutor(new CommandRTP());
+            Objects.requireNonNull(i.getCommand("rtp")).setExecutor(new CommandRTP());
     }
 
     private void createWorldGUI() {

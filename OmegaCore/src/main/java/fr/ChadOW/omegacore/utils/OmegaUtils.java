@@ -52,9 +52,7 @@ public class OmegaUtils {
     private static void confirmBeforeExecuteItem(Player player, List<String> cancelLore, ItemClickEvent cancelEvent, CInventory inv, CItem item) {
         if (cancelLore != null)
             item.setDescription(cancelLore);
-        item.addEvent((cInventory, cItem, player1, clickContext) -> {
-            inv.close(player);
-        });
+        item.addEvent((cInventory, cItem, player1, clickContext) -> inv.close(player));
         if (cancelEvent != null)
             item.addEvent(cancelEvent);
         inv.addElement(item);
