@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +23,21 @@ public class CommandRepair implements CommandExecutor {
             if (UserAccount.getAccount(player.getUniqueId()).getRank().getPower() >= Rank.LEGEND.getPower()){
                 if (args.length == 1) {
                     if (args[0].equals("hand")) {
-                        final ItemCreator itemCreator = new ItemCreator(player.getInventory().getItemInMainHand());
-                        itemCreator.setDurability(0);
-                        player.getInventory().setItemInMainHand(itemCreator.getItem());
+                        ItemStack itemStack = player.getInventory().getItemInMainHand();
+                        if (itemStack instanceof Damageable) {
+                            itemStack.setDurability((short) 0);
+                        }
+                        player.getInventory().setItemInMainHand(itemStack);
                         player.updateInventory();
                     }
                     if (args[0].equals("all")){
                         ItemStack[] contents = player.getInventory().getContents();
                         for (int i = 0; i < contents.length; i++){
-                            final ItemCreator itemCreator = new ItemCreator(contents[i]);
-                            itemCreator.setDurability(0);
-                            contents[i] = itemCreator.getItem();
+                            ItemStack itemStack = contents[i];
+                            if (itemStack instanceof Damageable) {
+                                itemStack.setDurability((short) 0);
+                                contents[i] = itemStack;
+                            }
                         }
                         player.getInventory().setContents(contents);
                         player.updateInventory();
