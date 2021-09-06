@@ -17,7 +17,7 @@ public class CommandFeed implements CommandExecutor {
                 if (args.length == 0){
                     player.setFoodLevel(20);
                 }
-                else if (args.length == 1){
+                else if (args.length == 1 && UserAccount.getAccount(player.getUniqueId()).getRank().getPower() >= Rank.ADMIN.getPower()){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null){
                         target.setFoodLevel(20);
