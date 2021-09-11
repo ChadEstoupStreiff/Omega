@@ -38,7 +38,7 @@ public class CommandGamemode implements CommandExecutor {
                             player.setGameMode(GameMode.valueOf(args[0].toUpperCase()));
                         }
                         else {
-                            // TODO: 06/09/2021 print doc
+                            player.sendMessage("Le mode de jeu " + args[0] + " n'existe pas.");
                         }
                     }
                 }
@@ -53,18 +53,21 @@ public class CommandGamemode implements CommandExecutor {
                         else if (Arrays.stream(GameMode.values()).anyMatch(gm -> gm.toString().toLowerCase().equals(args[1]))){
                             target.setGameMode(GameMode.valueOf(args[1].toUpperCase()));
                         }
+                        else {
+                            player.sendMessage("Le gamemode spécifié n'existe pas.");
+                        }
                     }
                     else {
-                        // TODO: 06/09/2021 print doc
+                        player.sendMessage("Le joueur n'existe pas ou est hors-ligne.");
                     }
                 }
             }
             else {
-                //todo print doc
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande.");
             }
         }
         else {
-            //todo print doc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
         }
         return true;
     }

@@ -23,16 +23,16 @@ public class CommandHeal implements CommandExecutor {
                         target.setHealth(20);
                     }
                     else {
-                        //todo print doc
+                        player.sendMessage("Le joueur n'existe pas ou est hors-ligne.");
                     }
                 }
             }
             else {
-                //todo print doc
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande");
             }
         }
         else {
-            //todo print doc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande");
         }
         return true;
     }
