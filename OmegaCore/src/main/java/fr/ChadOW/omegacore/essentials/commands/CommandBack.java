@@ -2,6 +2,7 @@ package fr.ChadOW.omegacore.essentials.commands;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
+import fr.ChadOW.omegacore.P;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,15 +12,17 @@ public class CommandBack implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
-            if (args.length == 0 && UserAccount.getAccount(((Player) sender).getUniqueId()).getRank().getPower() >= Rank.LEGEND.getPower()) {
-                //todo tp
+            if (UserAccount.getAccount(((Player) sender).getUniqueId()).getRank().getPower() >= Rank.LEGEND.getPower()) {
+                if (P.getInstance().getOmegaPlayerManager().getOmegaPlayer((Player) sender).getLastDeathLocation() != null)
+                ((Player) sender).teleport(P.getInstance().getOmegaPlayerManager().getOmegaPlayer((Player) sender).getLastDeathLocation());
+                sender.sendMessage("Vous avez été téléporté avec succès.");
             }
             else {
-                //todo printdoc
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande.");
             }
         }
         else {
-            //todo printdoc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
         }
         return true;
     }

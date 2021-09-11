@@ -34,19 +34,19 @@ public class CommandKill implements CommandExecutor {
                         }
                         ede.getEntity().setLastDamageCause(ede);
                         target.setHealth(0);
-                        player.sendMessage(target.getName()+" a été tué"); // TODO: 06/09/2021 couleurs
+                        player.sendMessage("§b"+target.getName()+" a été tué");
                     }
                     else {
-                        //todo print doc
+                        player.sendMessage("Le joueur n'existe pas ou est hors-ligne.");
                     }
                 }
             }
             else {
-                //todo print doc
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande.");
             }
         }
         else {
-            //todo print doc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
         }
         return true;
     }

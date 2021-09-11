@@ -14,6 +14,8 @@ import fr.ChadOW.omegacore.job.JobManager;
 import fr.ChadOW.omegacore.shop.ShopManager;
 import fr.ChadOW.omegacore.utils.ServerType;
 import fr.ChadOW.omegacore.utils.hologram.HologramManager;
+import fr.ChadOW.omegacore.utils.omegaplayer.OmegaPlayer;
+import fr.ChadOW.omegacore.utils.omegaplayer.OmegaPlayerManager;
 import fr.ChadOW.omegacore.utils.pluginmessage.PluginMessage;
 import fr.ChadOW.omegacore.world.WorldManager;
 import org.bukkit.command.ConsoleCommandSender;
@@ -39,6 +41,7 @@ public class P extends JavaPlugin {
     private GroupManager groupManager;
     private ShopManager shopManager;
     private ClaimManager claimManager;
+    private OmegaPlayerManager omegaPlayerManager;
 
     @Override
     public void onEnable() {
@@ -67,6 +70,7 @@ public class P extends JavaPlugin {
         groupManager = new GroupManager(this);
         hologramManager = new HologramManager(this);
         shopManager = new ShopManager(this);
+        omegaPlayerManager = new OmegaPlayerManager(this);
 
         System.out.println(getPluginName() + " Successfully launched");
     }
@@ -149,5 +153,9 @@ public class P extends JavaPlugin {
 
     public ClaimManager getClaimManager() {
         return claimManager;
+    }
+
+    public OmegaPlayerManager getOmegaPlayerManager() {
+        return omegaPlayerManager;
     }
 }

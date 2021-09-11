@@ -20,8 +20,8 @@ public class CommandEnchant implements CommandExecutor {
             Player player = (Player) sender;
 
             if (UserAccount.getAccount(player.getUniqueId()).getRank().getPower() <= Rank.ADMIN.getPower()){
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande.");
                 return true;
-                //todo print doc
             }
 
             final ItemStack stack = player.getInventory().getItemInMainHand();
@@ -40,8 +40,8 @@ public class CommandEnchant implements CommandExecutor {
                 final Enchantment enchantment = Enchantment.getByName(args[0]);
 
                 if(enchantment == null){
+                    player.sendMessage("L'enchantement spécifié est invalide.");
                     return true;
-                    //todo print doc
                 }
 
                 item.addEnchantment(enchantment, level);
@@ -51,11 +51,11 @@ public class CommandEnchant implements CommandExecutor {
                 player.sendMessage("Enchantement " + enchantName + " appliqué!"); //todo faire les couleurs
             }
             else {
-                //todo print doc
+                player.sendMessage("Vous n'avez aucun item dans la main.");
             }
         }
         else {
-            //todo print doc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
         }
         return true;
     }

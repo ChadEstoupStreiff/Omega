@@ -9,6 +9,7 @@ public class CommandRegister {
 
     public CommandRegister(P i) {
         Objects.requireNonNull(i.getCommand("back")).setExecutor(new CommandBack());
+        Objects.requireNonNull(i.getCommand("backtp")).setExecutor(new CommandBackTp());
         Objects.requireNonNull(i.getCommand("enchant")).setExecutor(new CommandEnchant());
         Objects.requireNonNull(i.getCommand("feed")).setExecutor(new CommandFeed());
         Objects.requireNonNull(i.getCommand("fly")).setExecutor(new CommandFly());

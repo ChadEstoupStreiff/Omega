@@ -29,7 +29,7 @@ public class OmegaPlayerManager implements Listener {
         omegaPlayers.remove(getOmegaPlayer(player));
     }
 
-    private OmegaPlayer getOmegaPlayer(Player player) {
+    public OmegaPlayer getOmegaPlayer(Player player) {
         for (OmegaPlayer omegaPlayer : omegaPlayers) {
             if (omegaPlayer.getPlayer().equals(player))
                 return omegaPlayer;

@@ -16,11 +16,11 @@ public class CommandStorm implements CommandExecutor {
                 player.getWorld().setStorm(true);
             }
             else {
-                // TODO: 06/09/2021 print doc
+                sender.sendMessage("Vous n'avez pas la permission suffisante pour exécuter cette commande.");
             }
         }
         else {
-            // TODO: 06/09/2021 print doc
+            sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");
         }
         return true;
     }

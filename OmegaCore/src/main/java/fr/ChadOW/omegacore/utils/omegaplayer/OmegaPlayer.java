@@ -12,10 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.Objects;
+
 public class OmegaPlayer implements Listener {
     private Player player;
     private Location lastDeath;
-    private Location lastLoc;
+    private Location lastTp;
+    private String nickName;
 
     OmegaPlayer(Player player) {
         this.player = player;
@@ -32,22 +35,32 @@ public class OmegaPlayer implements Listener {
 
     @EventHandler
     public void onTp (PlayerTeleportEvent event){
+        if (Objects.equals(event.getTo(), lastDeath)) return;
+
         if (event.getPlayer().equals(getPlayer())){
             Location location = event.getFrom();
-            setLastLoc(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()));
+            setLastTp(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ()));
         }
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     private void setLastDeath(Location lastDeath) {
         this.lastDeath = lastDeath;
     }
 
-    public void setLastLoc(Location lastLoc) {
-        this.lastLoc = lastLoc;
+    private void setLastTp(Location lastTp) {
+        this.lastTp = lastTp;
     }
 
-    public Location getLastLoc() {
-        return lastLoc;
+    public Location getLastTp() {
+        return lastTp;
     }
 
     public Player getPlayer() {
