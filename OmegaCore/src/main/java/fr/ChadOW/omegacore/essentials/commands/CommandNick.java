@@ -22,7 +22,7 @@ public class CommandNick implements CommandExecutor {
                             if (args[0].length() <= 16){
                                 OmegaPlayer omegaPlayer = P.getInstance().getOmegaPlayerManager().getOmegaPlayer(((Player) sender));
                                 omegaPlayer.setNickName(args[0]);
-                                Bungee.getInstance().getProxy().getPlayer(((Player) sender).getUniqueId()).setDisplayName(args[0]);
+                                //todo request to change nickname
                             }
                             else {
                                 sender.sendMessage("Le pseudo est trop long");
