@@ -6,11 +6,6 @@ import fr.ChadOW.omegacore.P;
 import org.bukkit.entity.Player;
 
 public class PluginMessage {
-    public PluginMessage(P p) {
-        p.getServer().getMessenger().registerOutgoingPluginChannel(p, "omega:pipe");
-        p.getServer().getMessenger().registerIncomingPluginChannel(p, "omega:pipe", new MessageListener());
-    }
-
     public void sendPlayerChatMessage(Player player, String message) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
 

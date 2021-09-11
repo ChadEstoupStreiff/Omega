@@ -9,6 +9,7 @@ import fr.ChadOW.api.enums.Rank;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.api.managers.SQLManager;
+import fr.ChadOW.bridge.Bridge;
 import fr.ChadOW.bungee.commands.StopAllCommand;
 import fr.ChadOW.bungee.eco.Taxes;
 import fr.ChadOW.bungee.listeners.APIListener;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class Bungee extends Plugin {
     private SQLManager mysql;
     private JedisManager jedisManager;
+    private Bridge bridge;
     private static Bungee instance;
 
     public static Bungee getInstance() {
@@ -56,7 +58,7 @@ public class Bungee extends Plugin {
         sendAllDbDataInRedis();
         initGlobal();
 
-        getProxy().registerChannel("omega:pipe");
+        bridge = new Bridge(this);
         getProxy().getPluginManager().registerListener(this, new BungeeListener());
         getProxy().getPluginManager().registerCommand(this, new StopAllCommand());
         getProxy().getScheduler().schedule(this, () -> Taxes.init(this), 1, TimeUnit.SECONDS);
@@ -240,5 +242,17 @@ public class Bungee extends Plugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public SQLManager getMysql() {
+        return mysql;
+    }
+
+    public JedisManager getJedisManager() {
+        return jedisManager;
+    }
+
+    public Bridge getBridge() {
+        return bridge;
     }
 }

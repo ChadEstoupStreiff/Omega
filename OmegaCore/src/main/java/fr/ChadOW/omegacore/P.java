@@ -4,11 +4,11 @@ import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.managers.JedisManager;
 import fr.ChadOW.api.managers.OmegaAPIUtils;
 import fr.ChadOW.api.managers.SQLManager;
+import fr.ChadOW.bridge.Bridge;
 import fr.ChadOW.cinventory.CContent.CUtils;
 import fr.ChadOW.omegacore.claim.ClaimManager;
 import fr.ChadOW.omegacore.economie.Eco;
 import fr.ChadOW.omegacore.global.Global;
-import fr.ChadOW.omegacore.global.GlobalListener;
 import fr.ChadOW.omegacore.group.GroupManager;
 import fr.ChadOW.omegacore.job.JobManager;
 import fr.ChadOW.omegacore.shop.ShopManager;
@@ -39,6 +39,7 @@ public class P extends JavaPlugin {
     private GroupManager groupManager;
     private ShopManager shopManager;
     private ClaimManager claimManager;
+    private Bridge bridge;
 
     @Override
     public void onEnable() {
@@ -58,7 +59,7 @@ public class P extends JavaPlugin {
         CUtils.init(this);
         ServerType.init(this);
         Global.init(this);
-        pluginMessage = new PluginMessage(this);
+        bridge = new Bridge(this);
         eco = new Eco(this);
         worldManager = new WorldManager(this);
         jobManager = new JobManager(this);
