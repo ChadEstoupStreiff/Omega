@@ -12,7 +12,7 @@ public class CommandGetPos implements CommandExecutor {
         if (sender instanceof Player){
             Player player = ((Player) sender);
             Location loc = player.getLocation();
-            player.sendMessage(String.format("Vos coordonnées actuelles sont %s %s %s, yaw: %s, pitch: %s",loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch())); // TODO: 06/09/2021 couleurs
+            player.sendMessage(String.format("Vos coordonnées actuelles sont §b%s§r §b%s§r §b%s§r, yaw: §b%s§r, pitch: §b%s§r",loc.getX(),loc.getY(),loc.getZ(),loc.getYaw(),loc.getPitch()));
         }
         else {
             sender.sendMessage("Vous devez être un joueur pour exécuter cette commande.");

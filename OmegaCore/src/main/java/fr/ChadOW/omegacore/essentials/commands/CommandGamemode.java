@@ -20,8 +20,7 @@ public class CommandGamemode implements CommandExecutor {
             Player player = ((Player) sender);
             if (UserAccount.getAccount(player.getUniqueId()).getRank().getPower() >= Rank.ADMIN.getPower()){
                 if (args.length == 0) {
-                    player.sendMessage("Votre gamemode actuel est " + player.getGameMode());
-                    //todo couleurs
+                    player.sendMessage("Votre gamemode actuel est §b" + player.getGameMode());
                 }
                 else if (args.length == 1){
                     Player target = Bukkit.getPlayer(args[0]);

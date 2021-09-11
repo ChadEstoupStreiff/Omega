@@ -31,7 +31,7 @@ public class CommandEnchant implements CommandExecutor {
                     try {
                         level = Integer.parseInt(args[1]);
                     } catch (final NumberFormatException exception) {
-                        //todo print doc
+                        player.sendMessage("L'enchantement n'est pas un nombre");
                         return true;
                     }
                 }
@@ -48,7 +48,7 @@ public class CommandEnchant implements CommandExecutor {
                 player.getInventory().setItemInMainHand(item.getItem());
                 player.updateInventory();
                 final String enchantName = enchantment.getName().toLowerCase(Locale.ENGLISH).replace('_', ' ');
-                player.sendMessage("Enchantement " + enchantName + " appliqué!"); //todo faire les couleurs
+                player.sendMessage("Enchantement §b" + enchantName + " appliqué!");
             }
             else {
                 player.sendMessage("Vous n'avez aucun item dans la main.");

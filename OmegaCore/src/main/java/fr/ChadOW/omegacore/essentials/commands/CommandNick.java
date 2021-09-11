@@ -2,6 +2,7 @@ package fr.ChadOW.omegacore.essentials.commands;
 
 import fr.ChadOW.api.accounts.UserAccount;
 import fr.ChadOW.api.enums.Rank;
+import fr.ChadOW.bungee.Bungee;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.utils.omegaplayer.OmegaPlayer;
 import org.apache.commons.lang.math.NumberUtils;
@@ -21,6 +22,7 @@ public class CommandNick implements CommandExecutor {
                             if (args[0].length() <= 16){
                                 OmegaPlayer omegaPlayer = P.getInstance().getOmegaPlayerManager().getOmegaPlayer(((Player) sender));
                                 omegaPlayer.setNickName(args[0]);
+                                Bungee.getInstance().getProxy().getPlayer(((Player) sender).getUniqueId()).setDisplayName(args[0]);
                             }
                             else {
                                 sender.sendMessage("Le pseudo est trop long");

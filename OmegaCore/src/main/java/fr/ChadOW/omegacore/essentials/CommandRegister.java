@@ -1,5 +1,6 @@
 package fr.ChadOW.omegacore.essentials;
 
+import fr.ChadOW.bungee.Bungee;
 import fr.ChadOW.omegacore.P;
 import fr.ChadOW.omegacore.essentials.commands.*;
 
@@ -30,7 +31,6 @@ public class CommandRegister {
         Objects.requireNonNull(i.getCommand("suicide")).setExecutor(new CommandSuicide());
         Objects.requireNonNull(i.getCommand("sun")).setExecutor(new CommandSun());
         Objects.requireNonNull(i.getCommand("top")).setExecutor(new CommandTop());
-
     }
 
 }
